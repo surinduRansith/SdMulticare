@@ -152,10 +152,11 @@ return $result;
 
 
 
-function reloadBill($startDate,$endDate,$conn){
+function reloadBill($startDate,$endDate,$reportType,$conn){
 
 
-    $sql = "SELECT * FROM `reload` WHERE timestamp BETWEEN '".$startDate."' AND '".$endDate."' AND billtype = 0;";
+    $sql = "SELECT accessoriesbill.billNo, reload.ItemName, reload.itemAmount,accessoriesbill.billtype,accessoriesbill.date 
+    FROM reload,accessoriesbill WHERE  accessoriesbill.billNo = reload.billNo AND accessoriesbill.date BETWEEN '".$startDate."' AND '".$endDate."' AND accessoriesbill.billtype = ".$reportType."";
     $result = mysqli_query($conn,$sql);
 
     return $result;

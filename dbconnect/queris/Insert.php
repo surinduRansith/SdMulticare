@@ -28,7 +28,7 @@ function addStockItem($itemNo, $itemName, $type, $unitCost, $sellingPrice, $qty,
 function reloadDataAdd($billId,$reloadType, $amount, $itemType, $conn)
 {
 
-  $sql = "INSERT INTO reload(`billNo`, `Item Name`, `itemType`, `itemAmount`) VALUES ('$billId','$reloadType','$itemType','$amount')";
+  $sql = "INSERT INTO reload(`billNo`, `ItemName`, `itemType`, `itemAmount`) VALUES ('$billId','$reloadType','$itemType','$amount')";
 
   $result = mysqli_query($conn, $sql);
 

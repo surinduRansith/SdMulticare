@@ -47,7 +47,8 @@ if($billresult->num_rows > 0){
 }elseif($_POST['reportType']==0){
   $startDate = $_POST['startDate'];
   $endDate = $_POST['endDate'];
-  $reloadbillresult = reloadBill($startDate,$endDate,$conn);
+  $reportType=$_POST['reportType'];
+  $reloadbillresult = reloadBill($startDate,$endDate,$reportType,$conn);
 
 if($reloadbillresult->num_rows>0){
   
@@ -55,7 +56,7 @@ if($reloadbillresult->num_rows>0){
 
     $reloadBillArray[]  = array(
       'billNo' => $row['billNo'],
-      'itemName' => $row['Item Name'],
+      'itemName' => $row['ItemName'],
       'itemAmount' => $row['itemAmount'],
       
       
@@ -230,7 +231,7 @@ foreach($billNOArray as $index =>$value){
       </div>";   
  }elseif($_POST['reportType']==0){
 
-  echo "<P class='fs-1'>".$_POST['reportType']." <P>";
+  echo "<P class='fs-1'>Reload <P>";
   
     echo "<table id='myTablerelod' class='table table-striped table-dark'>
     <thead>
@@ -254,7 +255,7 @@ foreach($billNOArray as $index =>$value){
     echo "<tr>
           <td>".$value['billNo']."</td>
           <td>".$value['itemName']."</td>
-          <td>".$value['itemAmount']."</td>
+          <td>Rs. ".$value['itemAmount']."</td>
           </tr>
 
        
@@ -267,6 +268,11 @@ foreach($billNOArray as $index =>$value){
         echo " <div class='alert alert-warning ' role='alert'>
         Total :- ".$reloadTotal."
       </div>";
+      echo " <div >
+      <button type='submit' name='reloadbillreportprint' class='btn btn-warning'>
+      Print Bill Report
+      </button>
+    </div>";
        
 
    }elseif($_POST['reportType']=="Reload & Accesoriess Bill"){
