@@ -54,8 +54,8 @@ $stockdata = insertStockData($conn);
         <td>".$row['itemNo']."</td>
         <td>".$row['ItemName']."</td>
         <td>".$row['Type']."</td>
-        <td>".$row['Cost']."</td>
-        <td>".$row['SellingPrice']."</td>
+        <td>Rs. ".$row['Cost']."</td>
+        <td>Rs. ".$row['SellingPrice']."</td>
         <td>".$row['qty']."</td>
         <td> 
 

@@ -255,7 +255,7 @@ echo "<tbody>";
         <td>".$value['itemNo']."</td>
         <td>".$value['ItemName']."</td>
         <td>".$value['Type']."</td>
-        <td>".$value['SellingPrice']."</td>
+        <td>Rs. ".$value['SellingPrice']."</td>
         <td>".$value['qty']."</td>
         <td> 
         <button type='submit' name='item' class='btn btn-warning' value='".$index1."'>
