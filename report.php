@@ -12,20 +12,34 @@ if(isset($_POST['printinvoice'])){
  
 }
 
+if(isset($_POST['reloadbillreportprint'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/reloadgeneratereport.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
+
+
+
+
+
 $billNOArray = array();
 $reloadBillArray = array();
-$reportType ="";
+$reportType;
 $submited = "";
 $inValid = "";
 $errorEvent = "";
 
 if(isset($_POST['search'])){
- 
+  $reportType=$_POST['reportType'];
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+ if(!empty($reportType)||!empty( $startDate)||!empty($endDate)){
     if($_POST['reportType']==1){
-      $reportType=$_POST['reportType'];
-      $startDate = $_POST['startDate'];
-      $endDate = $_POST['endDate']; 
-  
   $billresult =accessoriesbill($startDate,$endDate,$reportType,$conn);
 
   if($billresult->num_rows > 0){
@@ -40,9 +54,7 @@ if(isset($_POST['search'])){
     }
   }
   }elseif($_POST['reportType']==0){
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
-    $reportType=$_POST['reportType'];
+  
     $reloadbillresult = reloadBill($startDate,$endDate,$reportType,$conn);
   if($reloadbillresult->num_rows>0){
     while($row = mysqli_fetch_array($reloadbillresult,MYSQLI_ASSOC)){
@@ -55,7 +67,7 @@ if(isset($_POST['search'])){
     }
   }
   }
-  else{
+}else{
     $submited = true;
       $inValid = true;
       $errorEvent = "Please Select Report type";
@@ -76,7 +88,7 @@ if(isset($_POST['search'])){
 </head>
 <body class="bg-secondary">
     <div>
-        <?php
+    <?php
     include("header.php");
     ?>
     </div>
@@ -97,18 +109,14 @@ if(isset($_POST['search'])){
 </div>
 </div>
 <div class="col-4">
-<input class="form-check-input" type="radio" name="reportType" value="Reload & Accesoriess Bill">
-  <label class="form-check-label" for="reportType1">
-    All 
-  </label>
-  <input class="form-check-input" type="radio" name="reportType" value="0">
-  <label class="form-check-label" for="reportType1">
-    Reload
-  </label>
-  <input class="form-check-input" type="radio" name="reportType" value="1">
-  <label class="form-check-label" for="reportType1">
-   Accesoriess
-  </label>
+<select class="form-select form-select mb-3" name="reportType" aria-label="Large select example">
+  <option selected>Select Report Types</option>
+  <option value="0">Reload</option>
+  <option value="1">Accesoriess Bill</option>
+  <option value="2">Reload and Accesoriess Bill</option>
+  <option value="3">Accesoriess Items</option>
+
+</select>
 </div>
 <div class="col-2">
 <button type="submit" class="btn btn-primary" name="search" >search</button>
@@ -120,6 +128,8 @@ $fullTotal=0;
 $discountValue = 0;
 $rangeTotal=0;
 if(isset($_POST['search'])){
+ if(!empty($reportType)||!empty( $startDate)||!empty($endDate)){
+
   if($_POST['reportType']==1){
 echo "<P class='fs-1'> Accessories Bill <P>";
 echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
@@ -140,7 +150,6 @@ foreach($billNOArray as $index =>$value){
   echo "<tr>
         <td>".$value['billNo']."</td>
         <td>".$value['date']."</td>";
-        
         echo " <td>";
 
         $billTotalresult =  billTotal($value['billNo'], $conn);
@@ -211,7 +220,7 @@ foreach($billNOArray as $index =>$value){
           <td>".$value['billNo']."</td>
           <td>".$value['itemName']."</td>
           <td>Rs. ".$value['itemAmount']."</td>
-          </tr>";        }
+          </tr>";}
         echo "
         <tr>
         <th >Total</th>
@@ -225,9 +234,9 @@ foreach($billNOArray as $index =>$value){
       Print Bill Report
       </button>
     </div>";
-   }elseif($_POST['reportType']=="Reload & Accesoriess Bill"){
+   }elseif($_POST['reportType']=="2"){
 
-    echo "<P class='fs-1'>".$_POST['reportType']." <P>";
+    echo "<P class='fs-1'> Reload and Accesoriess Bill <P>";
     echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
       echo "<table id='myTable' class='table table-striped table-dark'>
       <thead>
@@ -286,7 +295,7 @@ foreach($billNOArray as $index =>$value){
            echo " </tr>"; 
           }
      }
-    else{
+     } else{
       $submited = true;
       $inValid = true;
       $errorEvent = "Please Select Report type";

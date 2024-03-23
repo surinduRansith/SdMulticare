@@ -163,6 +163,18 @@ function reloadBill($startDate,$endDate,$reportType,$conn){
 
 }
 
+function getItemCount($conn){
+    
+    $sql ="SELECT ItemNo, itemName, SUM(itemQty) as Total 
+    FROM `accessoriesitem` 
+    GROUP BY ItemNo, itemName;";
+
+$result = mysqli_query($conn,$sql);
+
+return $result;
+
+
+}
 
 
 ?>
