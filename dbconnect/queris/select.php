@@ -176,5 +176,20 @@ return $result;
 
 }
 
+function getAllBills($startDate,$endDate,$conn){
+
+    $sql = "SELECT *
+    FROM `accessoriesbill` 
+    WHERE `date` BETWEEN '".$startDate."' AND '".$endDate."';";
+    
+    $result = mysqli_query($conn,$sql);
+    
+    return $result;
+
+
+
+
+}
+
 
 ?>

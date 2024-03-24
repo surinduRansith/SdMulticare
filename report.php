@@ -22,24 +22,51 @@ if(isset($_POST['reloadbillreportprint'])){
 
 
 }
+if(isset($_POST['accessoriesbillreportprint'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/accessoriesreport.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
+if(isset($_POST['allbillreportprint'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/allbillreport.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
 
 
 
 
 
 $billNOArray = array();
+$billNOArrayAll = array();
 $reloadBillArray = array();
+$accesoriesamount=0;
 $reportType;
 $submited = "";
 $inValid = "";
 $errorEvent = "";
+$reloadAmount=0;
+$reloadAmountTotal = 0;
 
 if(isset($_POST['search'])){
   $reportType=$_POST['reportType'];
   $startDate = $_POST['startDate'];
   $endDate = $_POST['endDate']; 
- if(!empty($reportType)||!empty( $startDate)||!empty($endDate)){
+
+ if(!empty( $startDate) && !empty($endDate)){
+
     if($_POST['reportType']==1){
+
   $billresult =accessoriesbill($startDate,$endDate,$reportType,$conn);
 
   if($billresult->num_rows > 0){
@@ -66,11 +93,28 @@ if(isset($_POST['search'])){
   
     }
   }
+  }elseif($_POST['reportType']==2){
+
+    $allBillresult =getAllBills($startDate,$endDate,$conn);
+    if($allBillresult->num_rows > 0){
+    
+      while($row = mysqli_fetch_array($allBillresult,MYSQLI_ASSOC)){
+    
+        $billNOArrayAll []  = array(
+          'billNo' => $row['billNo'],
+          'date' => $row['date'],
+          'billtype'=> $row['billtype']
+      );
+    
+      }
+    }
+
+
   }
 }else{
     $submited = true;
       $inValid = true;
-      $errorEvent = "Please Select Report type";
+      $errorEvent = "Please Select Report type And Dates";
   }
 
 }
@@ -128,7 +172,7 @@ $fullTotal=0;
 $discountValue = 0;
 $rangeTotal=0;
 if(isset($_POST['search'])){
- if(!empty($reportType)||!empty( $startDate)||!empty($endDate)){
+ if(!empty( $startDate)&&!empty($endDate)){
 
   if($_POST['reportType']==1){
 echo "<P class='fs-1'> Accessories Bill <P>";
@@ -197,6 +241,11 @@ foreach($billNOArray as $index =>$value){
       echo "
       </tbody>
       </table>";
+      echo " <div >
+      <button type='submit' name='accessoriesbillreportprint' class='btn btn-warning'>
+      Print Bill Report
+      </button>
+    </div>";
  }elseif($_POST['reportType']==0){
 
   echo "<P class='fs-1'>Reload <P>";
@@ -243,62 +292,118 @@ foreach($billNOArray as $index =>$value){
       <tr>
       <th >Bill No</th>
       <th >Bill Date</th>
+      <th>Bill Type </th>
       <th> Total Price </th>
-      <th></th>
       </tr>
       </thead>
       <tbody>
     ";
-    $result = accessoriesReport($startDate,$endDate,$conn);
-    
-    foreach($billNOArray as $index =>$value){
+    $AllBillTotal =0;
+    foreach($billNOArrayAll as $index =>$value){
+      $resultreload = reloadBill($startDate,$endDate,0,$conn);
 
+      $billTotalresult =  billTotal($value['billNo'], $conn);
       echo "<tr>
             <td>".$value['billNo']."</td>
-            <td>".$value['date']."</td>";
+            <td>".$value['date']."</td>
+            <td>";
+            $billType = $value['billtype'];
+            if($billType == 0){
+
+              echo "Reload";
+            }else{
+
+
+              echo "Accessories";
+            }
+
+           echo  "</td>";
             
             echo " <td>";
-    
-            $billTotalresult =  billTotal($value['billNo'], $conn);
-            if($billTotalresult->num_rows > 0){
+if($billType == 1){
+  if($billTotalresult->num_rows > 0){
+        
+    while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
+      $discountValue = $row['discount']; 
+      //echo $row['Total'];
+
+      if( $discountValue<=0){
+
+        $fullTotal = $row['Total']; 
+       echo $fullTotal;
+
+    }else{
+
+        $fullTotal = $row['Total']; 
+        $discountPrice = ($fullTotal*$discountValue)/100;
+
+        $fullTotal = $fullTotal-$discountPrice;
+
+        echo $fullTotal;         
+}
+
+        
+$accesoriesamount = $accesoriesamount+ $fullTotal;
+
+    }
+  }
+
+
+
+
+
+
+}else{
+
+  if($resultreload->num_rows > 0){
       
-              while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
-                $discountValue = $row['discount']; 
-                //echo $row['Total'];
+    while($row = mysqli_fetch_array($resultreload,MYSQLI_ASSOC)){
+
+        if( $value['billNo'] == $row['billNo']){
+            $reloadAmount = $row['itemAmount'];
+         echo $reloadAmount;
+
+
+         $reloadAmountTotal = $reloadAmountTotal+$reloadAmount;
+        }
+        
+        
+
+       
     
-                if( $discountValue<=0){
-    
-                  $fullTotal = $row['Total']; 
-                  echo $fullTotal;
-              }else{
-          
-                  $fullTotal = $row['Total']; 
-                  $discountPrice = ($fullTotal*$discountValue)/100;
-          
-                  $fullTotal = $fullTotal-$discountPrice;
-    
-                  echo $fullTotal;        
+    }}
+}
+            
+
+           
+            echo " </td>"; 
+           echo " </tr>";
+           
+          //echo $fullTotalAll."<br>";
+        // echo $reloadAmountAll."<br>";
+           
           }
-              }
-            }
-            echo " </td>
-            <td>
-            <button type='submit' name='printinvoice' class='btn btn-warning' value='".$value['billNo']."'>
-            <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-eye' viewBox='0 0 16 16'>
-      <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z'/>
-      <path d='M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0'/>
-    </svg>
-             </button>
-            </td>
-            ";
-          
-           echo " </tr>"; 
-          }
+          $AllBillTotal = $accesoriesamount+$reloadAmountTotal;
+
+          echo "
+        <tr>
+        <th >Total</th>
+        <th></th>
+        <th></th>
+        <td>Rs. ".$AllBillTotal."</td> </tr>";
+        echo "
+        </tbody>
+        </table>";
+        echo " <div >
+      <button type='submit' name='allbillreportprint' class='btn btn-warning'>
+      Print Bill Report
+      </button>
+    </div>";
      }
      } else{
-      $submited = true;
-      $inValid = true;
-      $errorEvent = "Please Select Report type";
+      // $submited = true;
+      // $inValid = true;
+      // $errorEvent = "Please Select Report type";
      }
 }
 ?>
