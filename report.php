@@ -42,6 +42,16 @@ if(isset($_POST['allbillreportprint'])){
 
 
 }
+if(isset($_POST['Accesoriessitemreportprint'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/accesoriessitemlist.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
 
 
 
@@ -50,6 +60,7 @@ if(isset($_POST['allbillreportprint'])){
 $billNOArray = array();
 $billNOArrayAll = array();
 $reloadBillArray = array();
+$accesoriesitemArray = array();
 $accesoriesamount=0;
 $reportType;
 $submited = "";
@@ -110,6 +121,24 @@ if(isset($_POST['search'])){
     }
 
 
+  }elseif($_POST['reportType']==3){
+
+    $accesoriesitemresult =getItemCountofsale($startDate,$endDate,$conn);
+    if($accesoriesitemresult->num_rows > 0){
+    
+      while($row = mysqli_fetch_array($accesoriesitemresult,MYSQLI_ASSOC)){
+    
+        $accesoriesitemArray []  = array(
+          'ItemNo' => $row['ItemNo'],
+          'itemName' => $row['itemName'],
+          'date'=> $row['date'],
+          'item_count'=> $row['item_count']
+      );
+    
+      }
+    }
+
+
   }
 }else{
     $submited = true;
@@ -127,7 +156,7 @@ if(isset($_POST['search'])){
 <head>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <title>Stocks</title>
 </head>
 <body class="bg-secondary">
@@ -177,7 +206,11 @@ if(isset($_POST['search'])){
   if($_POST['reportType']==1){
 echo "<P class='fs-1'> Accessories Bill <P>";
 echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
-
+echo " <div >
+<button type='submit' name='accessoriesbillreportprint' class='btn btn-warning'>
+Save Report
+</button>
+</div>";
   echo "<table id='myTable' class='table table-striped table-dark'>
   <thead>
   <tr>
@@ -206,7 +239,7 @@ foreach($billNOArray as $index =>$value){
             if( $discountValue<=0){
 
               $fullTotal = $row['Total']; 
-              echo $fullTotal;
+              echo "RS. ".$fullTotal;
 
           }else{
       
@@ -215,7 +248,7 @@ foreach($billNOArray as $index =>$value){
       
               $fullTotal = $fullTotal-$discountPrice;
 
-              echo $fullTotal;         
+              echo "RS. ".$fullTotal;         
       }
           }
         }
@@ -241,15 +274,16 @@ foreach($billNOArray as $index =>$value){
       echo "
       </tbody>
       </table>";
-      echo " <div >
-      <button type='submit' name='accessoriesbillreportprint' class='btn btn-warning'>
-      Print Bill Report
-      </button>
-    </div>";
+     
  }elseif($_POST['reportType']==0){
 
   echo "<P class='fs-1'>Reload <P>";
   echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+  echo " <div >
+  <button type='submit' name='reloadbillreportprint' class='btn btn-warning'>
+  Save Report
+  </button>
+</div>";
     echo "<table id='myTablerelod' class='table table-striped table-dark'>
     <thead>
     <tr>
@@ -278,15 +312,16 @@ foreach($billNOArray as $index =>$value){
         echo "
         </tbody>
         </table>";
-      echo " <div >
-      <button type='submit' name='reloadbillreportprint' class='btn btn-warning'>
-      Print Bill Report
-      </button>
-    </div>";
+    
    }elseif($_POST['reportType']=="2"){
 
     echo "<P class='fs-1'> Reload and Accesoriess Bill <P>";
     echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+    echo " <div >
+      <button type='submit' name='allbillreportprint' class='btn btn-warning'>
+      Save Report
+      </button>
+    </div>";
       echo "<table id='myTable' class='table table-striped table-dark'>
       <thead>
       <tr>
@@ -330,7 +365,7 @@ if($billType == 1){
       if( $discountValue<=0){
 
         $fullTotal = $row['Total']; 
-       echo $fullTotal;
+       echo "RS. ".$fullTotal;
 
     }else{
 
@@ -339,7 +374,7 @@ if($billType == 1){
 
         $fullTotal = $fullTotal-$discountPrice;
 
-        echo $fullTotal;         
+        echo "RS. ".$fullTotal;         
 }
 
         
@@ -361,7 +396,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
 
         if( $value['billNo'] == $row['billNo']){
             $reloadAmount = $row['itemAmount'];
-         echo $reloadAmount;
+         echo "RS. ".$reloadAmount;
 
 
          $reloadAmountTotal = $reloadAmountTotal+$reloadAmount;
@@ -394,17 +429,49 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
         echo "
         </tbody>
         </table>";
-        echo " <div >
-      <button type='submit' name='allbillreportprint' class='btn btn-warning'>
-      Print Bill Report
-      </button>
-    </div>";
-     }
-     } else{
-      // $submited = true;
-      // $inValid = true;
-      // $errorEvent = "Please Select Report type";
-     }
+        
+     }elseif($_POST['reportType']=="3"){
+
+      echo "<P class='fs-1'>  Accesoriess Item <P>";
+      echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+      echo " <div >
+        <button type='submit' name='Accesoriessitemreportprint' class='btn btn-warning'>
+        Save Report
+        </button>
+      </div>";
+        echo "<table id='myTable' class='table table-striped table-dark'>
+        <thead>
+        <tr>
+        <th >Item Number</th>
+        <th >Item Name</th>
+        <th>Item Count </th>
+        </tr>
+        </thead>
+        <tbody>
+      ";
+    $itemTotal = 0;
+      foreach($accesoriesitemArray as $index =>$value){
+
+        echo "<tr>
+              <td>".$value['ItemNo']."</td>
+              <td>".$value['itemName']."</td>
+              <td>".$value['item_count']."</td>";
+             echo " </tr>";
+
+             $itemTotal = $itemTotal+$value['item_count'];
+            }
+          
+  
+            echo "
+          <tr>
+          <th >Total</th>
+          <th></th>
+          <td>".$itemTotal." </td> </tr>";
+          echo "
+          </tbody>
+          </table>";
+          }  
+     } 
 }
 ?>
 

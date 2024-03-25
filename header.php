@@ -23,6 +23,7 @@ if (isset($_POST['submit'])) {
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
 <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+<script src="assets/js/sweetalert.js"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark  ">
   <div class="container-fluid">

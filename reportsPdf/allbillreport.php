@@ -48,7 +48,7 @@ function Header()
         $this->Cell(30,10,$Title,0,0,'L');
         $this->Ln(12);
         $this->SetFont('Arial','B',20);
-        $this->Cell(30,10,'Accessories Report',0,0,'L');
+        $this->Cell(30,10,'Reload and Accesoriess Report',0,0,'L');
     
       
         $this->SetFont('Arial','B',12);
@@ -180,7 +180,7 @@ $pdf = new PDF();
       }
 
 
-    $pdf->Cell($width_cell[4],10,$fullTotal,1,1,'C',false); // Fourth column of row 1 
+    $pdf->Cell($width_cell[4],10,'RS. '.$fullTotal,1,1,'C',false); // Fourth column of row 1 
     }else{
 
         if($resultreload->num_rows > 0){
@@ -202,7 +202,7 @@ $pdf = new PDF();
             
             }}
 
-        $pdf->Cell($width_cell[4],10,$reloadAmount,1,1,'C',false); // Fourth column of row 1 
+        $pdf->Cell($width_cell[4],10,'RS. '.$reloadAmount,1,1,'C',false); // Fourth column of row 1 
 
        
     }
@@ -219,7 +219,7 @@ $total =$accesoriesamount+$reloadAmountTotal;
     $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Fourth column of row 1 
     $pdf->Cell($width_cell[2],10,'',0,0,'C',false); // Third column of row 1 
     $pdf->Cell($width_cell[3],10,'Total',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[4],10,$total,1,1,'C',false); // Fourth column of row 1
+    $pdf->Cell($width_cell[4],10,'RS. '.$total,1,1,'C',false); // Fourth column of row 1
 
     $pdf->SetFont('Arial','B',20);
     $pdf->Ln(30);

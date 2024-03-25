@@ -191,5 +191,20 @@ function getAllBills($startDate,$endDate,$conn){
 
 }
 
+function getItemCountofsale($startDate,$endDate,$conn){
+
+    $sql = "SELECT ai.ItemNo,ai.itemName,ab.date, sum(ai.itemQty) AS item_count
+FROM accessoriesbill ab
+INNER JOIN accessoriesitem ai ON ab.billNo = ai.billNo
+where ab.date BETWEEN '".$startDate."' AND '".$endDate."'
+GROUP BY ai.ItemNo 
+";
+    
+    $result = mysqli_query($conn,$sql);
+    
+    return $result;
+    
+}
+
 
 ?>
