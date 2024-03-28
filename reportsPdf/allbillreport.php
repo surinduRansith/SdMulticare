@@ -24,6 +24,7 @@ $total = 0;
 $billtype="";
 $reloadAmountTotal=0;
 $accesoriesamount = 0;
+$printAmountTotal =0;
 
 class PDF extends FPDF
 {
@@ -48,7 +49,7 @@ function Header()
         $this->Cell(30,10,$Title,0,0,'L');
         $this->Ln(12);
         $this->SetFont('Arial','B',20);
-        $this->Cell(30,10,'Reload and Accesoriess Report',0,0,'L');
+        $this->Cell(30,10,'All Items Report',0,0,'L');
     
       
         $this->SetFont('Arial','B',12);
@@ -126,7 +127,7 @@ $pdf = new PDF();
 
         while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
             $resultreload = reloadBill($startDate,$endDate,0,$conn);
-
+            $resultPrint = getprintData($startDate,$endDate,2,$conn);
             $billNo =$row['billNo'];
 
             $billTotalresult =  billTotal($row['billNo'], $conn);
@@ -143,8 +144,11 @@ $pdf = new PDF();
 
                 $billtype = "Reload";
 
-            }else{
+            }elseif($row['billtype']==1){
                 $billtype = "Accessories";
+            }elseif($row['billtype']==2){
+
+                $billtype = "Print & Others";
             }
 
 
@@ -181,7 +185,7 @@ $pdf = new PDF();
 
 
     $pdf->Cell($width_cell[4],10,'RS. '.$fullTotal,1,1,'C',false); // Fourth column of row 1 
-    }else{
+    }elseif($row['billtype']==0){
 
         if($resultreload->num_rows > 0){
       
@@ -205,14 +209,35 @@ $pdf = new PDF();
         $pdf->Cell($width_cell[4],10,'RS. '.$reloadAmount,1,1,'C',false); // Fourth column of row 1 
 
        
-    }
+    }elseif($row['billtype']==2){
+        if($resultPrint->num_rows > 0){
+            
+          while($row = mysqli_fetch_array($resultPrint,MYSQLI_ASSOC)){
+      
+              if( $billNo == $row['billNo']){
+                  $printAmount = $row['Amount'];
+               //echo "RS. ".$printAmount;
+      
+      
+               $printAmountTotal = $printAmountTotal+$printAmount;
+              }
+              
+              
+      
+             
+          
+          }}
+      
+          $pdf->Cell($width_cell[4],10,'RS. '.$printAmount,1,1,'C',false); // Fourth column of row 1 
+      
+      }
 
     
 }
 
 
 }
-$total =$accesoriesamount+$reloadAmountTotal;  
+$total =$accesoriesamount+$reloadAmountTotal+ $printAmountTotal ;  
     
     
     $pdf->Cell($width_cell[0],10,'',0,0,'C',false); // Third column of row 1 
@@ -228,6 +253,6 @@ $total =$accesoriesamount+$reloadAmountTotal;
    
     
 
-    $pdf->Output('ff'.'.pdf', 'I' );
+    $pdf->Output('All Items Report'.'.pdf', 'I' );
 
 ?>

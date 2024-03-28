@@ -1,6 +1,6 @@
 <?php
 include("../sd_multicare/dbconnect/dbconnect.php");
-$sql = "SELECT * from stock;";
+$sql = "SELECT * from stock where status=1;";
 $result = mysqli_query($conn,$sql);
 if (isset($_POST["submit"])) {
 
@@ -90,7 +90,7 @@ echo "<tbody>";
               // <b class='text-dark'>Do you want to delete this Item ".$row['itemNo']."?</b>
             <div class='modal-footer'>
               <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
-              <button type='button' class='btn btn-danger'><a style='text-decoration:none' href = './crud/delete.php? deleteId=".$row['itemNo']."' class='text-light'>Delete</a></button>
+              <button type='button' class='btn btn-danger'><a style='text-decoration:none' href = './crud/delete.php?deleteId=".$row['itemNo']."' class='text-light'>Delete</a></button>
             </div>
           </div>
         </div>

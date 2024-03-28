@@ -68,6 +68,7 @@ $inValid = "";
 $errorEvent = "";
 $reloadAmount=0;
 $reloadAmountTotal = 0;
+$printAmountTotal = 0;
 
 if(isset($_POST['search'])){
   $reportType=$_POST['reportType'];
@@ -316,7 +317,7 @@ foreach($billNOArray as $index =>$value){
     
    }elseif($_POST['reportType']=="2"){
 
-    echo "<P class='fs-1'> Reload and Accesoriess Bill <P>";
+    echo "<P class='fs-1'> All Items Bill Report <P>";
     echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
     echo " <div >
       <button type='submit' name='allbillreportprint' class='btn btn-warning'>
@@ -337,6 +338,7 @@ foreach($billNOArray as $index =>$value){
     $AllBillTotal =0;
     foreach($billNOArrayAll as $index =>$value){
       $resultreload = reloadBill($startDate,$endDate,0,$conn);
+      $resultPrint = getprintData($startDate,$endDate,2,$conn);
 
       $billTotalresult =  billTotal($value['billNo'], $conn);
       echo "<tr>
@@ -347,10 +349,13 @@ foreach($billNOArray as $index =>$value){
             if($billType == 0){
 
               echo "Reload";
-            }else{
+            }elseif($billType == 1){
 
 
               echo "Accessories";
+            }elseif($billType == 2){
+
+              echo "Print & Others";
             }
 
            echo  "</td>";
@@ -389,7 +394,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
 
 
 
-}else{
+}elseif($billType == 0){
 
   if($resultreload->num_rows > 0){
       
@@ -408,6 +413,27 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
        
     
     }}
+}elseif($billType == 2){
+  if($resultPrint->num_rows > 0){
+      
+    while($row = mysqli_fetch_array($resultPrint,MYSQLI_ASSOC)){
+
+        if( $value['billNo'] == $row['billNo']){
+            $printAmount = $row['Amount'];
+         echo "RS. ".$printAmount;
+
+
+         $printAmountTotal = $printAmountTotal+$printAmount;
+        }
+        
+        
+
+       
+    
+    }}
+
+
+
 }
             
 
@@ -419,7 +445,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
         // echo $reloadAmountAll."<br>";
            
           }
-          $AllBillTotal = $accesoriesamount+$reloadAmountTotal;
+          $AllBillTotal = $accesoriesamount+$reloadAmountTotal+$printAmountTotal;
 
           echo "
         <tr>

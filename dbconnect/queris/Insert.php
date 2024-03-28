@@ -16,11 +16,21 @@ return $result;
 function addStockItem($itemNo, $itemName, $type, $unitCost, $sellingPrice, $qty, $conn, $itemAddSuccess)
 {
 
-  $sql =  $sql = "INSERT INTO `stock`(`itemNo`,`ItemName`, `Type`, `Cost`, `SellingPrice`, `qty`) VALUES ('$itemNo','$itemName','$type','$unitCost','$sellingPrice','$qty')";
+  $sql =  $sql = "INSERT INTO `stock`(`itemNo`,`ItemName`, `Type`, `Cost`, `SellingPrice`, `qty`,`status`) VALUES ('$itemNo','$itemName','$type','$unitCost','$sellingPrice','$qty',1)";
 
   $result = mysqli_query($conn, $sql);
 
+  if(!$result){
+
+    $sql = "UPDATE `stock` SET `ItemName`='".$itemName."',`Type`=' ".$type."',`Cost`=$unitCost,`SellingPrice`= $sellingPrice ,`status`= 1 ,`qty`=$qty WHERE itemNo='".$itemNo."'";
+
+    $result = mysqli_query($conn, $sql);
+   
+  }
+
  return $result;
+
+
 }
 
 
@@ -81,7 +91,28 @@ function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$di
   }
 }
 
+function insertPrintBill($billID,$itemName,$amount,$conn){
 
+$sql = "INSERT INTO `print_others`(`billNo`, `itemName`, `Amount`) VALUES ('$billID','$itemName','$amount')";
+
+
+$result = mysqli_query($conn, $sql);
+
+
+  if ($result > 0) {
+
+    // header('Location: /sd_multicare/dailyinvoice.php?mode=s');
+    // exit();
+  } else {
+    // header('Location: /sd_multicare/dailyinvoice.php?mode=f');
+    // exit();
+ 
+  }
+
+
+
+
+}
 
 
 

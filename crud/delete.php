@@ -7,7 +7,7 @@ if (isset($_GET['deleteId'] )){
 $itemNO = $_GET['deleteId'];
 
 
-$sql = "DELETE FROM `stock` WHERE itemNo='".$itemNO."'";
+$sql = "UPDATE `stock` SET `status`=0,`qty`=0 WHERE itemNo='".$itemNO."'";
 
 $result = mysqli_query($conn, $sql);
 

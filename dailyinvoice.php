@@ -32,12 +32,12 @@ if (isset($_POST["submitreload"])) {
     } else {
       
 
-     accessoriesPaymentItemInsert(0,$conn);
-     
+      
       $reloadType = $_POST["data"];
       $amount = $_POST["reloadAmount"];
       $itemType = 'reload';
       if ($amount > 0) {
+        accessoriesPaymentItemInsert(0,$conn);
       
         reloadDataAdd($billID,$reloadType, $amount, $itemType, $conn);
     $submited = true;
@@ -51,6 +51,41 @@ if (isset($_POST["submitreload"])) {
     }
   } else {
     $errorEvent = "Please Enter the Reload  Amount";
+  }
+}
+
+if (isset($_POST["submitprint"])) {
+  $submited = true;
+  $inValid = empty($_POST["dataprint"]) || empty(trim($_POST["printAmount"]));
+  if (!$inValid) {
+
+    if (!is_numeric($_POST["printAmount"])) {
+
+
+      $submited = true;
+      $inValid = true;
+      $errorEvent = "Please Enter Numbers";
+    } else {
+      
+
+      
+      $itemName = $_POST["dataprint"];
+      $amount = $_POST["printAmount"];
+      if ($amount > 0) {
+        
+        accessoriesPaymentItemInsert(2,$conn);
+         insertPrintBill($billID,$itemName,$amount,$conn);
+    $submited = true;
+    $inValid = false;
+    $successEvent = "Payment Successfully Added";
+      } else {
+        $submited = true;
+        $inValid = true;
+        $errorEvent = "Please Enter Positive Numbers";
+      }
+    }
+  } else {
+    $errorEvent = "Please Enter the  Amount";
   }
 }
 
@@ -135,6 +170,54 @@ if (isset($_POST["closebutton"])) {
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="closebutton">Close</button>
                   <button type="submit" name="submitreload" class="btn btn-primary">Add</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col">
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div>
+          <a data-bs-toggle="modal" data-bs-target="#PrintModal" data-bs-whatever="@mdo"><img src="./assets/Images/298915599_380665014220845_614254535053325149_n.png" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
+
+            <div style="padding-top: 10px; ">
+              <p class="fw-bold fs-1 text-dark    ">Print & Others</p>
+            </div>
+          </a>
+
+
+          <div class="modal fade" id="PrintModal" tabindex="-1" aria-labelledby="PrintModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="PrintModalLabel">Print & Others Payment</h1>
+                  <!-- <button type="submit" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="closebutton"></button> -->
+                </div>
+                <div class="modal-body">
+
+                  <form method="post">
+                    <div class="mb-3">
+                      <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="dataprint">
+                        <option value="Print">Print</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <input type="float" name="printAmount" class="form-control " placeholder="Please enter the Amount">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" name="closebutton">Close</button>
+                  <button type="submit" name="submitprint" class="btn btn-primary">Add</button>
                   </form>
                 </div>
               </div>

@@ -206,5 +206,20 @@ GROUP BY ai.ItemNo
     
 }
 
+function getprintData($startDate,$endDate,$itemType,$conn){
+
+    $sql = "SELECT  po.billNo, po.itemName, po.Amount, ab.date,ab.billtype FROM print_others po
+    INNER JOIN  accessoriesbill ab 
+    ON ab.billNo=po.billNo
+    WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billtype=$itemType;";
+    
+    $result = mysqli_query($conn,$sql);
+    
+    return $result;
+
+
+
+
+}
 
 ?>
