@@ -424,6 +424,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
 
 
          $printAmountTotal = $printAmountTotal+$printAmount;
+         
         }
         
         
