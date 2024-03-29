@@ -52,6 +52,16 @@ if(isset($_POST['Accesoriessitemreportprint'])){
 
 
 }
+if(isset($_POST['printandOthersprint'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/printothersreport.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
 
 
 
@@ -61,6 +71,7 @@ $billNOArray = array();
 $billNOArrayAll = array();
 $reloadBillArray = array();
 $accesoriesitemArray = array();
+$printOthersArray = array();
 $accesoriesamount=0;
 $reportType;
 $submited = "";
@@ -140,13 +151,28 @@ if(isset($_POST['search'])){
     }
 
 
-  }
-}else{
-    $submited = true;
-      $inValid = true;
-      $errorEvent = "Please Select Report type And Dates";
-  }
+  }elseif($_POST['reportType']==4){
 
+    $printOtherResults =getprintData($startDate,$endDate,2,$conn);
+    if($printOtherResults->num_rows > 0){
+    
+      while($row = mysqli_fetch_array($printOtherResults,MYSQLI_ASSOC)){
+    
+        $printOthersArray []  = array(
+          'ItemNo' => $row['billNo'],
+          'itemName' => $row['itemName'],
+          'date'=> $row['date'],
+          'amount'=> $row['Amount']
+      );
+    
+    }
+  } 
+}
+}else{
+  $submited = true;
+    $inValid = true;
+    $errorEvent = "Please Select Report type And Dates";
+}  
 }
 ?>
 
@@ -190,7 +216,7 @@ if(isset($_POST['search'])){
   <option value="1">Accesoriess Bill</option>
   <option value="2">All Item Bill</option>
   <option value="3">Accesoriess Items</option>
-
+  <option value="4">Print & Others</option>
 </select>
 </div>
 <div class="col-2">
@@ -220,6 +246,7 @@ Save Report
   <th >Bill Date</th>
   <th>Bill Item</th>
   <th>Item Qty</th>
+  <th>Item Note</th>
   <th> Bill Total</th>
   <th></th>
   </tr>
@@ -254,6 +281,20 @@ foreach($billNOArray as $index =>$value){
     while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
       
       echo $row['itemQty']."<br>";
+     
+    }
+  }
+  
+        echo "</td>
+        ";
+        echo "<td>";
+        
+        $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+  if($resultitems->num_rows > 0){
+    
+    while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+      
+      echo $row['note']."<br>";
      
     }
   }
@@ -301,6 +342,7 @@ foreach($billNOArray as $index =>$value){
       echo "
       <tr>
       <th >Total</th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -531,7 +573,50 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
           echo "
           </tbody>
           </table>";
-          }  
+          } elseif($_POST['reportType']=="4"){
+
+            echo "<P class='fs-1'>  Print & Others Report <P>";
+            echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+            echo " <div >
+              <button type='submit' name='printandOthersprint' class='btn btn-warning'>
+              Save Report
+              </button>
+            </div>";
+              echo "<table id='myTable' class='table table-striped table-dark'>
+              <thead>
+              <tr>
+              <th >Bill No</th>
+              <th >Item Name</th>
+              <th>Date</th>
+              <th>Amount</th>
+              </tr>
+              </thead>
+              <tbody>
+            ";
+          $itemTotal = 0;
+            foreach($printOthersArray as $index =>$value){
+      
+              echo "<tr>
+                    <td>".$value['ItemNo']."</td>
+                    <td>".$value['itemName']."</td>
+                    <td>".$value['date']."</td>
+                    <td>".$value['amount']."</td>";
+                   echo " </tr>";
+      
+                   $itemTotal = $itemTotal+$value['amount'];
+                  }
+                
+        
+                  echo "
+                <tr>
+                <th >Total</th>
+                <th></th>
+                <th></th>
+                <td>".$itemTotal." </td> </tr>";
+                echo "
+                </tbody>
+                </table>";
+                }   
      } 
 }
 ?>

@@ -238,7 +238,7 @@ return $result;
 
 function getitems($startDate,$endDate,$billID,$conn){
 
-$sql = "SELECT ai.itemName,ai.itemQty,ab.date FROM accessoriesitem ai 
+$sql = "SELECT ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
 INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
 WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billNo = $billID;";
 

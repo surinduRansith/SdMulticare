@@ -382,6 +382,7 @@ $notetest="-";
     ?>
    
     <button type="submit" name="itemadd" class="btn btn-success"> Add Bill </button>
+    <button  type='submit' name='clearInvoice' class='btn btn-danger' > Clear Invoice</button>
     <?php  
 
 echo $downloadInvoice;
