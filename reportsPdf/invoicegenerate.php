@@ -22,6 +22,7 @@ function  dowonloadPDF($billID , $conn){
    accessoriesitem.itemName,
    stock.SellingPrice,
    accessoriesitem.itemQty,
+   accessoriesitem.note,
    accessoriesitem.discount,
    (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,
    SUM(stock.SellingPrice * accessoriesitem.itemQty) OVER () AS Total
@@ -132,16 +133,17 @@ class PDF extends FPDF
     $pdf->SetFont('Arial','B',11);
      
     $pdf->Ln(15);
-    $width_cell=array(10,20,50,50,20,45);
+    $width_cell=array(10,20,40,40,30,20,35);
     $pdf->SetFillColor(193,229,252); 
     
     // Header starts /// 
     $pdf->Cell($width_cell[0],10,'',1,0,'C',true); 
     $pdf->Cell($width_cell[1],10,'ITEM NO',1,0,'C',true); 
     $pdf->Cell($width_cell[2],10,'ITEM NAME',1,0,'C',true); 
-    $pdf->Cell($width_cell[3],10,'SELLING PRICE(RS.)',1,0,'C',true);
-    $pdf->Cell($width_cell[4],10,'QTY',1,0,'C',true);
-    $pdf->Cell($width_cell[5],10,'SUB TOTAL(RS.)',1,1,'C',true); 
+    $pdf->Cell($width_cell[3],10,'SELLING PRICE',1,0,'C',true);
+    $pdf->Cell($width_cell[4],10,' NOTE',1,0,'C',true);
+    $pdf->Cell($width_cell[5],10,'QTY',1,0,'C',true);
+    $pdf->Cell($width_cell[6],10,'SUB TOTAL',1,1,'C',true); 
     //// header is over ///////
     
 
@@ -158,9 +160,10 @@ $itemCount++;
     $pdf->Cell($width_cell[0],10,$itemCount,1,0,'C',false); // First column of row 1 
     $pdf->Cell($width_cell[1],10,$row['ItemNo'],1,0,'C',false); // Second column of row 1 
     $pdf->Cell($width_cell[2],10,$row['itemName'],1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[3],10,$row['SellingPrice'],1,0,'C',false); // Fourth column of row 1 
-    $pdf->Cell($width_cell[4],10,$row['itemQty'],1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[5],10,$row['subTotal'],1,1,'C',false); // Fourth column of row 1 
+    $pdf->Cell($width_cell[3],10,'Rs.'.$row['SellingPrice'],1,0,'C',false); // Fourth column of row 1 
+    $pdf->Cell($width_cell[4],10,$row['note'],1,0,'C',false); // Third column of row 1 
+    $pdf->Cell($width_cell[5],10,$row['itemQty'],1,0,'C',false); // Third column of row 1 
+    $pdf->Cell($width_cell[6],10,'Rs.'.$row['subTotal'],1,1,'C',false); // Fourth column of row 1 
     $discountValue = $row['discount'] ;
       
     if( $discountValue<=0){
@@ -182,16 +185,18 @@ $itemCount++;
     $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Second column of row 1 
     $pdf->Cell($width_cell[2],10,'',0,0,'C',false); // Third column of row 1 
     $pdf->Cell($width_cell[3],10,'',0,0,'C',false); // Fourth column of row 1 
-    $pdf->Cell($width_cell[4],10,'Discount',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[5],10,$discountValue,1,1,'C',false); // Fourth column of row 1 
+    $pdf->Cell($width_cell[4],10,'',0,0,'C',false); // Fourth column of row 1 
+    $pdf->Cell($width_cell[5],10,'Discount',1,0,'C',false); // Third column of row 1 
+    $pdf->Cell($width_cell[6],10,$discountValue.'%',1,1,'C',false); // Fourth column of row 1 
 
    
     $pdf->Cell($width_cell[0],10,'',0,0,'C',false); // First column of row 1 
     $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Second column of row 1 
     $pdf->Cell($width_cell[2],10,'',0,0,'C',false); // Third column of row 1 
     $pdf->Cell($width_cell[3],10,'',0,0,'C',false); // Fourth column of row 1 
-    $pdf->Cell($width_cell[4],10,'Total',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[5],10,$fullTotal,1,1,'C',false); // Fourth column of row 1
+    $pdf->Cell($width_cell[4],10,'',0,0,'C',false); // Fourth column of row 1
+    $pdf->Cell($width_cell[5],10,'Total',1,0,'C',false); // Third column of row 1 
+    $pdf->Cell($width_cell[6],10,'Rs.'.$fullTotal,1,1,'C',false); // Fourth column of row 1
 
     $pdf->SetFont('Arial','B',20);
     $pdf->Ln(30);

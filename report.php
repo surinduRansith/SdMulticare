@@ -188,7 +188,7 @@ if(isset($_POST['search'])){
   <option selected>Select Report Types</option>
   <option value="0">Reload</option>
   <option value="1">Accesoriess Bill</option>
-  <option value="2">Reload and Accesoriess Bill</option>
+  <option value="2">All Item Bill</option>
   <option value="3">Accesoriess Items</option>
 
 </select>
@@ -218,6 +218,8 @@ Save Report
   <tr>
   <th >Bill No</th>
   <th >Bill Date</th>
+  <th>Bill Item</th>
+  <th>Item Qty</th>
   <th> Bill Total</th>
   <th></th>
   </tr>
@@ -226,9 +228,39 @@ Save Report
 ";
 
 foreach($billNOArray as $index =>$value){
-  echo "<tr>
-        <td>".$value['billNo']."</td>
+  $itemBillNo = $value['billNo'];
+  echo "<tr >
+        <td >".$value['billNo']."</td>
         <td>".$value['date']."</td>";
+        echo "<td>";
+        
+        $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+  if($resultitems->num_rows > 0){
+    
+    while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+      
+      echo $row['itemName']."<br>";
+     
+    }
+  }
+  
+        echo "</td>
+        ";
+        echo "<td>";
+        
+        $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+  if($resultitems->num_rows > 0){
+    
+    while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+      
+      echo $row['itemQty']."<br>";
+     
+    }
+  }
+  
+        echo "</td>
+        ";
+        
         echo " <td>";
 
         $billTotalresult =  billTotal($value['billNo'], $conn);
@@ -236,8 +268,7 @@ foreach($billNOArray as $index =>$value){
   
           while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
             $discountValue = $row['discount']; 
-            //echo $row['Total'];
-
+  
             if( $discountValue<=0){
 
               $fullTotal = $row['Total']; 
@@ -255,7 +286,7 @@ foreach($billNOArray as $index =>$value){
           }
         }
         echo " </td>
-        <td>
+        <td >
         <button type='submit' name='printinvoice' class='btn btn-warning' value='".$value['billNo']."'>
         <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-eye' viewBox='0 0 16 16'>
   <path d='M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z'/>
@@ -270,6 +301,8 @@ foreach($billNOArray as $index =>$value){
       echo "
       <tr>
       <th >Total</th>
+        <th></th>
+        <th></th>
         <th></th>
       <td>Rs. ".$rangeTotal."</td> 
       <td></td> </tr>";

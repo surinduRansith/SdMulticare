@@ -222,4 +222,31 @@ function getprintData($startDate,$endDate,$itemType,$conn){
 
 }
 
+function getitemNotes($startDate,$endDate,$itemNO,$conn){
+    $sql = "SELECT ai.ItemNo,ai.itemName,ai.note,ab.date
+FROM accessoriesbill ab
+INNER JOIN accessoriesitem ai ON ab.billNo = ai.billNo
+where ab.date BETWEEN '".$startDate."' AND '".$endDate."'
+AND ai.ItemNo = '$itemNO' 
+";
+
+$result = mysqli_query($conn,$sql);
+    
+return $result;
+
+}
+
+function getitems($startDate,$endDate,$billID,$conn){
+
+$sql = "SELECT ai.itemName,ai.itemQty,ab.date FROM accessoriesitem ai 
+INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
+WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billNo = $billID;";
+
+$result = mysqli_query($conn,$sql);
+    
+return $result;
+
+
+}
+
 ?>

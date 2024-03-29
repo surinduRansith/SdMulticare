@@ -140,10 +140,11 @@ if(isset($_POST['itemadd'])){
     $quantity = $_POST['quantity'][$index];
     $discountValue = $_POST['discount'];
     $total = $quantity*$stockArray[$index]['SellingPrice'];
+    $note =$_POST['note'][$index];
     $fullTotal1 = $fullTotal1+intval($total);
-
+echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
-     accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$discountValue,$conn);
+     accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountValue,$conn);
 
 if($discountValue>0){
 
@@ -318,6 +319,7 @@ if(!empty($cartList)){
 <th >Item Type</th>
 <th >Selling Price</th>
 <th >Quantity</th>
+<th>Note</th>
 <th></th>
 
 </tr>
@@ -325,13 +327,15 @@ if(!empty($cartList)){
 </thead>
 <tbody>
 <?php
+$notetest="-";
   foreach($cartList as $index)
     echo "<tr>
         <td>".$stockArray[$index]['itemNo']."</td>
         <td>".$stockArray[$index]['ItemName']."</td>
         <td>".$stockArray[$index]['Type']."</td>
-        <td>".$stockArray[$index]['SellingPrice']."</td>
+        <td>Rs. ".$stockArray[$index]['SellingPrice']."</td>
         <td><input type='number' name='quantity[$index]' value='1'></td>
+        <td><input type='text' name='note[$index]' value='".$notetest."'></td>
         <td>
         <button type='submit' name='itemremove' class='btn btn-danger' value='".$index."'>
         Remove
@@ -351,8 +355,9 @@ if(!empty($cartList)){
     <td></td>
     <td></td>
     
-    <td>Discount</td>
+    <td>Discount(%)</td>
     <td><input type='number' name='discount' value='0'></td>
+    <td></td>
     <td>
     
     </td>
@@ -365,6 +370,7 @@ if(!empty($cartList)){
         
         <td>Total</td>
         <td>RS. ".$fullTotal."</td>
+        <td></td>
         <td>
         
         </td>

@@ -3,7 +3,7 @@
 
 function insertStockData($conn){
 
-  $sql = "SELECT * from stock;";
+  $sql = "SELECT * from stock WHERE `status`= 1 ;";
 $result = mysqli_query($conn,$sql);
 
 
@@ -22,7 +22,7 @@ function addStockItem($itemNo, $itemName, $type, $unitCost, $sellingPrice, $qty,
 
   if(!$result){
 
-    $sql = "UPDATE `stock` SET `ItemName`='".$itemName."',`Type`=' ".$type."',`Cost`=$unitCost,`SellingPrice`= $sellingPrice ,`status`= 1 ,`qty`=$qty WHERE itemNo='".$itemNo."'";
+    $sql = "UPDATE `stock` SET `ItemName`='".$itemName."',`Type`=' ".$type."',`Cost`=$unitCost,`SellingPrice`= $sellingPrice ,`status`= 1 ,`qty`=$qty WHERE itemNo='".$itemNo."' AND `status`= 0 ";
 
     $result = mysqli_query($conn, $sql);
    
@@ -74,9 +74,9 @@ function accessoriesPaymentItemInsert($billType,$conn)
     }
   }
 
-function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$discountValue,$conn){
+function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$note,$discountValue,$conn){
 
-  $sqlBillItem = "INSERT INTO `accessoriesitem`(`billNo`, `ItemNo`, `itemName`, `itemQty`,`discount`) VALUES ($billID,'$itemNo1','$itemName1',$valueitemqty,$discountValue)";
+  $sqlBillItem = "INSERT INTO `accessoriesitem`(`billNo`, `ItemNo`, `itemName`, `itemQty`,`note`,`discount`) VALUES ($billID,'$itemNo1','$itemName1',$valueitemqty,'$note',$discountValue)";
 
 
   
