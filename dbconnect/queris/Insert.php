@@ -91,9 +91,9 @@ function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$no
   }
 }
 
-function insertPrintBill($billID,$itemName,$amount,$conn){
+function insertPrintBill($billID,$itemName,$note,$amount,$conn){
 
-$sql = "INSERT INTO `print_others`(`billNo`, `itemName`, `Amount`) VALUES ('$billID','$itemName','$amount')";
+$sql = "INSERT INTO `print_others`(`billNo`, `itemName`,`note`, `Amount`) VALUES ('$billID','$itemName','$note','$amount')";
 
 
 $result = mysqli_query($conn, $sql);

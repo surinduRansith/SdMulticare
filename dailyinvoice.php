@@ -18,6 +18,7 @@ $inValid = false;
 $submited = false;
 $successEvent;
 $errorEvent;
+$note = "-";
 if (isset($_POST["submitreload"])) {
   $submited = true;
   $inValid = empty($_POST["data"]) || empty(trim($_POST["reloadAmount"]));
@@ -71,10 +72,11 @@ if (isset($_POST["submitprint"])) {
       
       $itemName = $_POST["dataprint"];
       $amount = $_POST["printAmount"];
+      $note = $_POST['printOtherNote'];
       if ($amount > 0) {
         
         accessoriesPaymentItemInsert(2,$conn);
-         insertPrintBill($billID,$itemName,$amount,$conn);
+         insertPrintBill($billID,$itemName,$note,$amount,$conn);
     $submited = true;
     $inValid = false;
     $successEvent = "Payment Successfully Added";
@@ -209,6 +211,10 @@ if (isset($_POST["closebutton"])) {
                         <option value="Print">Print</option>
                         <option value="Other">Other</option>
                       </select>
+                    </div>
+                    <div class="mb-3">
+                      <input type="text" name="printOtherNote" class="form-control " placeholder="Please enter the Note">
+
                     </div>
                     <div class="mb-3">
                       <input type="float" name="printAmount" class="form-control " placeholder="Please enter the Amount">

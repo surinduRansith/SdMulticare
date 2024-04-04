@@ -167,8 +167,6 @@ $successEvent = "Item Add Successfully";
 
 
 $downloadInvoice="<button type='submit' name='printinvoice' class='btn btn-warning'> Download Invoice </button>";
-$clearInvoice = "<button  type='submit' name='clearInvoice' class='btn btn-danger' > Clear Invoice</button>";
-$closeButton = "<button  type='submit' name='invocieExit' class='btn btn-primary' > Close</button>";
 }
 }else{
 
@@ -382,19 +380,12 @@ $notetest="-";
     ?>
    
     <button type="submit" name="itemadd" class="btn btn-success"> Add Bill </button>
-    <button  type='submit' name='clearInvoice' class='btn btn-danger' > Clear Invoice</button>
+   
     <?php  
 
 echo $downloadInvoice;
-echo $clearInvoice;
-echo $closeButton;
-
-      
-
-      
-    
     ?>
-    
+     <button  type='submit' name='clearInvoice' class='btn btn-danger' > Clear Invoice</button>
     
 </form>
 <?php

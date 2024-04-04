@@ -162,6 +162,16 @@ function reloadBill($startDate,$endDate,$reportType,$conn){
     return $result;
 
 }
+function reloadBillitems($startDate,$endDate,$billNo,$reportType,$conn){
+
+
+    $sql = "SELECT accessoriesbill.billNo, reload.ItemName, reload.itemAmount,accessoriesbill.billtype,accessoriesbill.date 
+    FROM reload,accessoriesbill WHERE  accessoriesbill.billNo = reload.billNo AND accessoriesbill.date BETWEEN '".$startDate."' AND '".$endDate."' AND accessoriesbill.billtype = ".$reportType." AND accessoriesbill.billNo=$billNo ";
+    $result = mysqli_query($conn,$sql);
+
+    return $result;
+
+}
 
 function getItemCount($conn){
     
@@ -208,10 +218,26 @@ GROUP BY ai.ItemNo
 
 function getprintData($startDate,$endDate,$itemType,$conn){
 
-    $sql = "SELECT  po.billNo, po.itemName, po.Amount, ab.date,ab.billtype FROM print_others po
+    $sql = "SELECT  po.billNo, po.itemName, po.Amount,  po.note,ab.date,ab.billtype FROM print_others po
     INNER JOIN  accessoriesbill ab 
     ON ab.billNo=po.billNo
     WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billtype=$itemType;";
+    
+    $result = mysqli_query($conn,$sql);
+    
+    return $result;
+
+
+
+
+}
+
+function getprintDatalist($startDate,$endDate,$billNo,$itemType,$conn){
+
+    $sql = "SELECT  po.billNo, po.itemName, po.Amount,po.note, ab.date,ab.billtype FROM print_others po
+    INNER JOIN  accessoriesbill ab 
+    ON ab.billNo=po.billNo
+    WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billtype=$itemType AND po.billNo=$billNo ;";
     
     $result = mysqli_query($conn,$sql);
     

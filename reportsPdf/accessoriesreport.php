@@ -182,6 +182,6 @@ $pdf = new PDF();
    
     
 
-    $pdf->Output('ff'.'.pdf', 'I' );
+    $pdf->Output('AccesoriesBill'.'.pdf', 'I' );
 
 ?>

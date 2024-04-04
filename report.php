@@ -22,12 +22,12 @@ if(isset($_POST['reloadbillreportprint'])){
 
 
 }
+
 if(isset($_POST['accessoriesbillreportprint'])){
-
   $startDate = $_POST['startDate'];
-  $endDate = $_POST['endDate']; 
+  $endDate = $_POST['endDate'];
 
-  $url = "/sd_multicare/reportsPdf/accessoriesreport.php?startdate=$startDate&enddate= $endDate";
+  $url = "/sd_multicare/reportsPdf/accessoriesreport.php?startdate=$startDate&enddate=$endDate";
   echo "<script>window.open('$url', '_blank');</script>";
 
 
@@ -405,6 +405,9 @@ foreach($billNOArray as $index =>$value){
       <th >Bill No</th>
       <th >Bill Date</th>
       <th>Bill Type </th>
+      <th>Bill Items</th>
+      <th>Bill Qty</th>
+      <th>Bill Note </th>
       <th> Total Price </th>
       </tr>
       </thead>
@@ -412,9 +415,13 @@ foreach($billNOArray as $index =>$value){
     ";
     $AllBillTotal =0;
     foreach($billNOArrayAll as $index =>$value){
+
+
+      $itemBillNo=$value['billNo'];
+      $reloadbillresult = reloadBillitems($startDate,$endDate, $itemBillNo,0,$conn);
+      $getprintresult = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
       $resultreload = reloadBill($startDate,$endDate,0,$conn);
       $resultPrint = getprintData($startDate,$endDate,2,$conn);
-
       $billTotalresult =  billTotal($value['billNo'], $conn);
       echo "<tr>
             <td>".$value['billNo']."</td>
@@ -434,7 +441,93 @@ foreach($billNOArray as $index =>$value){
             }
 
            echo  "</td>";
-            
+           if($billType == 1){
+           echo "<td>";
+           $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+     if($resultitems->num_rows > 0){
+       
+       while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+         
+         echo $row['itemName']."<br>";
+        
+       }
+     }
+     
+           echo "</td>
+           ";
+           echo "<td>";
+           
+           $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+     if($resultitems->num_rows > 0){
+       
+       while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+         
+         echo $row['itemQty']."<br>";
+        
+       }
+     }
+     
+           echo "</td>
+           ";
+           echo "<td>";
+           
+           $resultitems = getitems($startDate,$endDate,$itemBillNo,$conn);
+     if($resultitems->num_rows > 0){
+       
+       while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+         
+         echo $row['note']."<br>";
+        
+       }
+     }
+     echo "</td>
+     ";
+    }if($billType == 0){
+
+      echo "<td>";
+     
+      if($reloadbillresult->num_rows > 0){
+  
+        while($row = mysqli_fetch_array($reloadbillresult,MYSQLI_ASSOC)){
+
+          echo $row['ItemName']; 
+          
+        }}
+
+      echo "</td>";
+      echo "<td>";
+      echo "-";
+      
+    
+
+      echo "</td> ";
+     
+      echo "<td>";
+      echo "-";
+echo "</td>";
+
+    }elseif($billType==2){
+      echo "<td>";
+     
+if($getprintresult ->num_rows > 0){
+  
+  while($row = mysqli_fetch_array($getprintresult ,MYSQLI_ASSOC)){
+    
+    echo $row['itemName'];
+
+      echo "</td>";
+
+      echo "<td>";
+      echo "-";
+      echo "</td>";
+
+      echo "<td>";
+      
+      echo $row['note'];
+echo "</td>";
+}
+}
+    }
             echo " <td>";
 if($billType == 1){
   if($billTotalresult->num_rows > 0){
@@ -528,6 +621,9 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
         <th >Total</th>
         <th></th>
         <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
         <td>Rs. ".$AllBillTotal."</td> </tr>";
         echo "
         </tbody>
@@ -588,6 +684,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
               <th >Bill No</th>
               <th >Item Name</th>
               <th>Date</th>
+              <th>Bill Note</th>
               <th>Amount</th>
               </tr>
               </thead>
@@ -595,12 +692,22 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
             ";
           $itemTotal = 0;
             foreach($printOthersArray as $index =>$value){
-      
+
+              $itemBillNo=$value['ItemNo'];
+              $getprintresult = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
               echo "<tr>
                     <td>".$value['ItemNo']."</td>
                     <td>".$value['itemName']."</td>
-                    <td>".$value['date']."</td>
-                    <td>".$value['amount']."</td>";
+                    <td>".$value['date']."</td>";
+                    echo " <td>";
+                    if($getprintresult ->num_rows > 0){
+  
+                      while($row = mysqli_fetch_array($getprintresult ,MYSQLI_ASSOC)){
+                        
+                        echo $row['note'];
+                      }}
+                    echo "</td>";
+                   echo " <td>".$value['amount']."</td>";
                    echo " </tr>";
       
                    $itemTotal = $itemTotal+$value['amount'];
@@ -610,6 +717,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                   echo "
                 <tr>
                 <th >Total</th>
+                <th></th>
                 <th></th>
                 <th></th>
                 <td>".$itemTotal." </td> </tr>";
