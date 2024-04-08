@@ -4,6 +4,10 @@ include("../dbconnect/queris/select.php");
 include("../dbconnect/queris/updateItemData.php");
 
 
+$submited = true;
+$inValid = true;
+$closeButton="";
+
 if (isset($_GET["upadateId"])){
 
     $itemNoId = $_GET["upadateId"];
@@ -62,10 +66,28 @@ if(isset($_POST['sumbitUpdate'])){
     $Qty = $_POST['qty'];
 
 
-    itemUpdate($ItemNO,$ItemName,$ItemType,$UnitCost,$SellingPrice,$Qty,$conn);
+ $result =  itemUpdate($ItemNO,$ItemName,$ItemType,$UnitCost,$SellingPrice,$Qty,$conn);
 
-    
+    if($result === true){
 
+      echo "Done";
+      $submited = true;
+      $inValid = false;
+      $successEvent = "Item Update Successfully";
+
+
+      $closeButton = "<button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>";
+
+ 
+    }
+
+
+}
+
+if(isset($_POST['sumbitClose'])){
+
+    header('Location: /sd_multicare/stocks.php');
+ exit();
 
 }
 
@@ -115,6 +137,11 @@ if(isset($_POST['sumbitUpdate'])){
   <input type="number" class="form-control" placeholder="QTY"  name="qty" value="<?php echo $getItemQty?>">
 </div>
         <button class="btn btn-success" name="sumbitUpdate"><b> Update </b></button>
+
+        <?php 
+
+        echo $closeButton;
+?>
         </div>
 
 
@@ -131,5 +158,28 @@ if(isset($_POST['sumbitUpdate'])){
     </div>
 </body>
 </html>
+<?php
+        if ($submited) {
+          if ($inValid) {
+        ?>
+            <script>
+              swal({
+                title: "<?php echo $errorEvent ?>",
+                // text: "You clicked the button!",
+                icon: "warning",
+                button: "ok",
+              });
+            </script>
+          <?php } else { ?>
+            <script>
+              swal({
+                title: "<?php echo $successEvent ?>",
+                // text: "You clicked the button!",
+                icon: "success",
+                button: "ok",
+              });
+            </script>
+        <?php }
+        } ?>
 
 

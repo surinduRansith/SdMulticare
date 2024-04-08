@@ -1,187 +1,247 @@
 
 <?php
-require('../assets/fpdf186/fpdf.php');
-require('../dbconnect/dbconnect.php');
-require('../dbconnect/queris/select.php');
+require_once '../assets/vendor/autoload.php';
+$servername = "localhost";
+$username  = "root";
+$password = "";
+$dbname = "sdmulticarehouse";
 
+
+$conn= new mysqli($servername,$username,$password,$dbname);
 
 if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
 
     $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-$result = accessoriesbill($startDate,$endDate,1,$conn);
-
-
-
-
-
-    
+    $endDate = $_GET['enddate'];
+   
 }
-$itemCount=0;
-$total = 0;
-class PDF extends FPDF
-{
-// Page header
-function Header()
-    {
-        // $startDate = "2024-03-23";
-        // $endDate = "2024-03-24";
-        
-        $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-       
-        // Logo
-        $Title = "SD Multicare House Report";
-        $this->Image('../assets/fpdf186/images/sdlogo.jpeg',170,6,30,);
-        // Arial bold 15
-        $this->SetFont('Arial','B',25);
-        // Move to the right
-        
-        // Title
-        
-        $this->Cell(30,10,$Title,0,0,'L');
-        $this->Ln(12);
-        $this->SetFont('Arial','B',20);
-        $this->Cell(30,10,'Accessories Report',0,0,'L');
-    
-      
-        $this->SetFont('Arial','B',12);
-        // Line break
-        $this->Ln(7);
-        
-        $this->Ln(5);
-        $this->Cell(0,10,'Start Date  :-  '.$startDate,0,0,'L');
-        $this->Ln(5);
-        $this->Cell(0,10,'End Date   :- '.$endDate,0,0,'L');
-        $this->Ln(30);
-    }
-    
-    // Page footer
-    function Footer()
-    {
-       
-        // Position at 1.5 cm from bottom
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        
-        
-        // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
-    }
-
-    
 
 
+
+function  billTotal($billID , $conn){
+
+ 
+  $sql = "SELECT
+  accessoriesitem.billNo,
+      accessoriesitem.ItemNo,
+     accessoriesitem.itemName,
+     stock.SellingPrice,
+     accessoriesitem.itemQty,
+     accessoriesitem.discount,
+     accessoriesbill.date,
+     (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,
+     SUM(stock.SellingPrice * accessoriesitem.itemQty) OVER () AS Total
+  FROM
+     accessoriesitem,accessoriesbill,stock
+  
+  WHERE
+  
+  accessoriesitem.ItemNo = stock.itemNo and accessoriesbill.billNo = accessoriesitem.billNo  AND
+accessoriesitem.billNo=$billID
     
+  GROUP BY
+     accessoriesitem.ItemNo, accessoriesitem.itemName, stock.SellingPrice, accessoriesitem.itemQty,
+     accessoriesitem.discount LIMIT 1;";
+
+  $result = mysqli_query($conn,$sql);
+
+return $result;
 
 }
 
-$pdf = new PDF();
+function accessoriesbill($startDate,$endDate,$reportType,$conn){
+
+    $sql = "SELECT *
+    FROM `accessoriesbill` 
+    WHERE `date` BETWEEN '".$startDate."' AND '".$endDate."' AND billtype = ".$reportType." ;";
     
-    $pdf->AddPage();
-    $pdf->Ln(20);
-    $pdf->SetFont('Arial','B',20);
-
-    $pdf->SetXY(80,50);
-
- 
-
-    $pdf->SetFont('Arial','B',11);
+    $result = mysqli_query($conn,$sql);
     
-    $pdf->SetXY(1,50);
-
-
+    return $result;
     
-
-    
-    
-    $pdf->SetFont('Arial','B',11);
-    
-    $pdf->Ln(15);
-    $width_cell=array(15,50,50,50);
-    $pdf->SetFillColor(193,229,252); 
-    
-    // Header starts /// 
-    $pdf->Cell($width_cell[0],10,'',1,0,'C',true); 
-    $pdf->Cell($width_cell[1],10,'BILL NO',1,0,'C',true); 
-    $pdf->Cell($width_cell[2],10,'BILL DATE',1,0,'C',true); 
-    $pdf->Cell($width_cell[3],10,'BILL TOTAL',1,1,'C',true);
-
-    //// header is over ///////
-    
-    
-    
-    $pdf->SetFont('Arial','',10);
-
- 
-    if($result->num_rows > 0){
-
-        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-
-            $billTotalresult =  billTotal($row['billNo'], $conn);
-           
-
-
-            $itemCount++;
-    $pdf->Cell($width_cell[0],10,$itemCount,1,0,'C',false); // First column of row 1 
-    $pdf->Cell($width_cell[1],10,$row['billNo'],1,0,'C',false); // Second column of row 1 
-    $pdf->Cell($width_cell[2],10,$row['date'],1,0,'C',false); // Third column of row 1 
-
-    if($billTotalresult->num_rows > 0){
-        
-        while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
-          $discountValue = $row['discount']; 
-          //echo $row['Total'];
-  
-          if( $discountValue<=0){
-  
-            $fullTotal = $row['Total']; 
-           // echo $fullTotal;
-  
-        }else{
-    
-            $fullTotal = $row['Total']; 
-            $discountPrice = ($fullTotal*$discountValue)/100;
-    
-            $fullTotal = $fullTotal-$discountPrice;
-  
-           // echo $fullTotal;         
     }
 
+    function getitems($startDate,$endDate,$billID,$conn){
+
+        $sql = "SELECT ab.billNo,ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
+        INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
+        WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billNo = $billID;";
+        
+        $result = mysqli_query($conn,$sql);
             
-            $total =$total+$fullTotal;
+        return $result;
+        
+        
+        }
 
+$billNOArray = array();
+
+
+$billresult =accessoriesbill($startDate,$endDate,1,$conn);
+
+  if($billresult->num_rows > 0){
+    
+    while($row = mysqli_fetch_array($billresult,MYSQLI_ASSOC)){
+  
+      $billNOArray[]  = array(
+        'billNo' => $row['billNo'],
+        'date' => $row['date']
+    );
+  
+    }
+  }
+
+// Import Mpdf class
+use Mpdf\Mpdf;
+
+// Instantiate Mpdf object
+$mpdf = new Mpdf();
+
+// HTML content for PDF
+$html= '<style>
+.tb1 {
+  border-style: none;
+}
+</style><table class="tb1">
+<tr >
+<td><h1> SD Multicare House Report </h1>
+<h2> Accessories Bill </h2>
+<h3> Start Date :- '.$startDate.' </h3>
+<h3>End Date    :-  '.$endDate.' </h3></td>
+<td><img src="../assets/Images/sdlogo.jpeg"  style="width:150px; height: 150px;"></td>
+</tr>
+</table>';
+
+
+  $html.= '<head>
+  <style>
+  .tb2{
+    border:1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    
+  }
+  th{
+    height: 50px;
+    
+    background-color: rgba(150, 212, 212, 0.4);
+  }
+  table{
+    width: 100%;
+  }
+  th, td {
+    padding: 15px;
+    text-align: left;
+  }
+  
+  </style><table class="tb2" >
+  <tr class="tb2">
+  <th class="tb2">Bill No</th>
+  <th class="tb2">Bill Date</th>
+  <th class="tb2">Bill Item</th>
+  <th class="tb2">Item Qty</th>
+  <th class="tb2">Item Note</th>
+  <th class="tb2"> Bill Total</th>
+  </tr>
+ 
+  <tbody>
+';
+
+$rangeTotal=0;
+foreach($billNOArray as $index =>$value){
+  
+  $html.= '<tr class="tb2" >
+        <td class="tb2">'.$value['billNo'].'</td>
+        <td class="tb2">'.$value['date'].'</td>';
+        
+
+        $resultitems = getitems($startDate,$endDate,$value['billNo'],$conn);
+        $resultQty = getitems($startDate,$endDate,$value['billNo'],$conn);
+        $resultNote = getitems($startDate,$endDate,$value['billNo'],$conn);
+
+        $itemNames = '';
+        $itemQty = '';
+        $itemNote='';
+        if($resultitems->num_rows > 0){
+          
+          while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
+
+            if($value['billNo']==$row['billNo']){
+
+                $itemNames .= $row['itemName'] . '<br>';
+
+            }else{
+
+                $itemNames="";
+            }
+            
+            
+        }
+    }
+    $html .= '<td class="tb2">'.$itemNames.'<br>'.'</td>';
+      
+    if($resultQty->num_rows > 0){
+    
+        while($row = mysqli_fetch_array($resultQty,MYSQLI_ASSOC)){
+          
+         $itemQty .= $row['itemQty'] . '<br>';
+         
         }
       }
-
-
-    $pdf->Cell($width_cell[3],10,'Rs. '.$fullTotal,1,1,'C',false); // Fourth column of row 1 
-    
-   
-
-        
-        }
-
-    
-    }
-
-    
       
+        $html.= '<td class="tb2">'.$itemQty.'</td>';
+        if($resultNote->num_rows > 0){
     
-    
-    $pdf->Cell($width_cell[0],10,'',0,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Fourth column of row 1 
-    $pdf->Cell($width_cell[2],10,'Total',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[3],10,'Rs. '.$total,1,1,'C',false); // Fourth column of row 1
+            while($row = mysqli_fetch_array($resultNote,MYSQLI_ASSOC)){
+              
+                $itemNote.= $row['note']. '<br>';
+             
+            }
+          } 
 
-    $pdf->SetFont('Arial','B',20);
-    $pdf->Ln(30);
-    
+          $html.= '<td class="tb2">'. $itemNote.'</td>';
 
-   
+          $billTotalresult =  billTotal($value['billNo'], $conn);
+          if($billTotalresult->num_rows > 0){
     
+            while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
+              $discountValue = $row['discount']; 
+    
+              if( $discountValue<=0){
+  
+                $fullTotal = $row['Total']; 
+                echo "RS. ".$fullTotal;
+                $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';
+  
+            }else{
+        
+                $fullTotal = $row['Total']; 
+                $discountPrice = ($fullTotal*$discountValue)/100;
+        
+                $fullTotal = $fullTotal-$discountPrice;
+  
+                $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
+        }
+            }
+          }
 
-    $pdf->Output('AccesoriesBill'.'.pdf', 'I' );
+      
+       $html .=  " </tr>";
+       $rangeTotal=$rangeTotal+$fullTotal;
+      }
+      $html .=  '
+      <tr class="tb2">
+        <td class="tb2" colspan ="5">Total</td>
+      <td>Rs.'.$rangeTotal.'</td> </tr>';
+      $html.= '
+      </tbody>';
+$html.= "</table>";
+     
+
+// Write HTML content to PDF
+$mpdf->WriteHTML($html);
+
+// Output PDF to browser
+$mpdf->Output();
 
 ?>

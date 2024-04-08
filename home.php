@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+<?php
+
+include("header.php");
+
+
+
+
+    ?>
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -10,15 +18,7 @@
 </head>
 
 <body class="bg-secondary">
-    <div>
-
-        <?php
-        include("header.php");
-
-
-        ?>
-    </div>
-
+ 
 
     <div class="container text-center">
 
@@ -29,8 +29,8 @@
             <div class="col" href="#">
                 <a href="dailyinvoice.php" style="text-decoration:none"><img src="./assets/Images/invoice.jpg" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
 
-                    <div style="padding-top: 10px; ">
-                        <p class="fw-bold fs-1 text-dark    ">Daily Invoice</p>
+                    <div style="padding-top: 10px;">
+                        <p class="fw-bold fs-1 text-dark">Daily Invoice</p>
                     </div>
                 </a>
             </div>
@@ -79,3 +79,4 @@
 </body>
 
 </html>
+

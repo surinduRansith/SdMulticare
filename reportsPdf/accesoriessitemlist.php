@@ -35,7 +35,7 @@ function Header()
         $endDate = $_GET['enddate'];
        
         // Logo
-        $Title = "SD Multicare House Report";
+        $Title = " LAVTC Report";
         $this->Image('../assets/fpdf186/images/sdlogo.jpeg',170,6,30,);
         // Arial bold 15
         $this->SetFont('Arial','B',25);

@@ -6,10 +6,10 @@ function itemUpdate($ItemNO,$ItemName,$ItemType,$UnitCost,$SellingPrice,$Qty,$co
 
     if($conn->query($sql)){
 
-        header('Location: /sd_multicare/stocks.php');
+    //     header('Location: /sd_multicare/stocks.php');
  
-    exit();
-
+    // exit();
+return true;
 
 
     }

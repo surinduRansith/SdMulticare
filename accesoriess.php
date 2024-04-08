@@ -142,7 +142,7 @@ if(isset($_POST['itemadd'])){
     $total = $quantity*$stockArray[$index]['SellingPrice'];
     $note =$_POST['note'][$index];
     $fullTotal1 = $fullTotal1+intval($total);
-echo $_POST['note'][$index];
+//echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
      accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountValue,$conn);
 

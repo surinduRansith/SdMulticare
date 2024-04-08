@@ -264,7 +264,7 @@ return $result;
 
 function getitems($startDate,$endDate,$billID,$conn){
 
-$sql = "SELECT ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
+$sql = "SELECT ab.billNo,ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
 INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
 WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billNo = $billID;";
 
@@ -274,5 +274,18 @@ return $result;
 
 
 }
+
+function getitemstest($startDate,$endDate,$conn){
+
+    $sql = "SELECT ab.billNo,ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
+    INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
+    WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."';";
+    
+    $result = mysqli_query($conn,$sql);
+        
+    return $result;
+    
+    
+    }
 
 ?>

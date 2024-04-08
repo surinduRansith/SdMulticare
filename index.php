@@ -2,6 +2,7 @@
 $error = "";
 $setusername = "";
 $userName = "";
+$userRole = "";
 
 include("../sd_multicare/dbconnect/dbconnect.php");
 
@@ -20,13 +21,14 @@ if (isset($_POST["submit"])) {
 
 
         $result = mysqli_query($conn, $sql);
+            if($result->num_rows > 0){
 
-        if (mysqli_num_rows($result) > 0) {
-
-
+                while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
 
             header('Location: home.php');
+            $userRole = $row['role'];
+                }
         } else {
             $setusername = $userName;
             $error = 'User Name or Password Incorrect';
@@ -34,6 +36,7 @@ if (isset($_POST["submit"])) {
     }
     session_start();
     $_SESSION['username'] = $userName;
+    $_SESSION['userrole'] =$userRole;
 }
 
 
