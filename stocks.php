@@ -137,6 +137,7 @@ if (isset($_POST["submitStock"])) {
   
   <!-- Button trigger modal -->
 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#CreateStock">
+<img src="./assets/Images/stockadd.png" alt="invoice" class="img-fluid" style="width:35px; height: 35px;">
 Add Stock
 </button>
 

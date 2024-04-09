@@ -84,6 +84,28 @@ function itemQtyUpdate($ItemNoUpdate,$Qty,$conn){
 // }
 
 
+function userLoginUpdate($id,$username,$password,$role,$conn){
+
+    $sql = "UPDATE `userlogin` 
+    SET `username`='$username',`password`='$password',`role`='$role'
+     WHERE id=$id";
+
+if($conn->query($sql)){
+
+    return true;   
+
+}else{
+
+    return false;
+}
+
+
+
+
+
+}
+
+
 
 
 ?>

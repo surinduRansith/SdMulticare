@@ -99,15 +99,26 @@ if ($result){
         exit();
 
     }
-
-   
-
+}
 }
 
+if(isset($_GET['userid'])){
+  
+    $userID= $_GET['userid'];
 
+   $sql="DELETE FROM `userlogin` WHERE id=$userID";
+
+    $result = mysqli_query($conn, $sql);
+
+    if($result){
+
+     header('Location: /sd_multicare/usercreate.php');
+ 
+        exit();
+
+    }
 
 }
-
 
 
 ?>

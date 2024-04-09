@@ -1,150 +1,130 @@
 
 <?php
-require('../assets/fpdf186/fpdf.php');
-require('../dbconnect/dbconnect.php');
-require('../dbconnect/queris/select.php');
+require_once '../assets/vendor/autoload.php';
+$servername = "localhost";
+$username  = "root";
+$password = "";
+$dbname = "sdmulticarehouse";
 
+
+$conn= new mysqli($servername,$username,$password,$dbname);
 
 if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
 
     $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-$result = getItemCountofsale($startDate,$endDate,$conn);
+    $endDate = $_GET['enddate'];
+   
+}
+function getItemCountofsale($startDate,$endDate,$conn){
 
-
-
-
-
-
-
+    $sql = "SELECT ai.ItemNo,ai.itemName,ab.date, sum(ai.itemQty) AS item_count
+FROM accessoriesbill ab
+INNER JOIN accessoriesitem ai ON ab.billNo = ai.billNo
+where ab.date BETWEEN '".$startDate."' AND '".$endDate."'
+GROUP BY ai.ItemNo 
+";
+    
+    $result = mysqli_query($conn,$sql);
+    
+    return $result;
     
 }
-$itemCount=0;
-$total = 0;
 
 
-class PDF extends FPDF
-{
-// Page header
-function Header()
-    {
-        // $startDate = "2024-03-23";
-        // $endDate = "2024-03-24";
-        
-        $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-       
-        // Logo
-        $Title = " LAVTC Report";
-        $this->Image('../assets/fpdf186/images/sdlogo.jpeg',170,6,30,);
-        // Arial bold 15
-        $this->SetFont('Arial','B',25);
-        // Move to the right
-        
-        // Title
-        
-        $this->Cell(30,10,$Title,0,0,'L');
-        $this->Ln(12);
-        $this->SetFont('Arial','B',20);
-        $this->Cell(30,10,'Accesoriess Item Report',0,0,'L');
+    $companyName ="SD Multicare House Report";
+    $reportType = "All Item Report";
+    $companyImage = "<img src='../assets/Images/sdlogo.jpeg'  style='width:150px; height: 150px;'>";
+
+// Import Mpdf class
+use Mpdf\Mpdf;
+
+// Instantiate Mpdf object
+$mpdf = new Mpdf();
+
+// HTML content for PDF
+$html= '<style>
+.tb1 {
+  border-style: none;
+}
+</style><table class="tb1">
+<tr >
+<td><h1> '.$companyName.'</h1>
+<h2> '.$reportType.'</h2>
+<h3> Start Date :- '.$startDate.' </h3>
+<h3>End Date    :-  '.$endDate.' </h3></td>
+<td>'.$companyImage.'</td>
+</tr>
+</table><br><br>';
+
+
+  $html.= '<head>
+  <style>
+  .tb2{
+    border:1px solid black;
+    border-collapse: collapse;
+    text-align: center;
     
+    
+  }
+  th{
+    height: 50px;
+    
+    background-color: rgba(150, 212, 212, 0.4);
+  }
+  table{
+    width: 120%;
+    
+  }
+  th, td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  </style><table class="tb2" >
+  <tr class="tb2">
+  <th class="tb2">Item No</th>
+  <th class="tb2">Item Name</th>
+  <th class="tb2">Item Count</th>
+  </tr>
+ 
+  <tbody>
+';
+
+$rangeTotal=0;
+
+        
       
-        $this->SetFont('Arial','B',12);
-        // Line break
-        $this->Ln(7);
         
-        $this->Ln(5);
-        $this->Cell(0,10,'Start Date  :-  '.$startDate,0,0,'L');
-        $this->Ln(5);
-        $this->Cell(0,10,'End Date   :- '.$endDate,0,0,'L');
-        $this->Ln(30);
-    }
-    
-    // Page footer
-    function Footer()
-    {
-       
-        // Position at 1.5 cm from bottom
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        
-        
-        // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
-    }
-
-    
 
 
-    
-
-}
-
-$pdf = new PDF();
-    
-    $pdf->AddPage();
-    $pdf->Ln(20);
-    $pdf->SetFont('Arial','B',20);
-
-    $pdf->SetXY(80,50);
-
- 
-
-    $pdf->SetFont('Arial','B',11);
-    
-    $pdf->SetXY(1,50);
-
-
-    
-
-    
-    
-    $pdf->SetFont('Arial','B',11);
-    
-    $pdf->Ln(15);
-    $width_cell=array(15,50,50,50);
-    $pdf->SetFillColor(193,229,252); 
-    
-    // Header starts /// 
-    $pdf->Cell($width_cell[0],10,'',1,0,'C',true); 
-    $pdf->Cell($width_cell[1],10,'ITEM NO',1,0,'C',true); 
-    $pdf->Cell($width_cell[2],10,'ITEM NAME',1,0,'C',true); 
-    $pdf->Cell($width_cell[3],10,'ITEM TOTAL',1,1,'C',true);
-
-    //// header is over ///////
-    
-    
-    
-    $pdf->SetFont('Arial','',10);
-
- 
-    if($result->num_rows > 0){
-
-        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-
-            $itemCount++;
-    $pdf->Cell($width_cell[0],10,$itemCount,1,0,'C',false); // First column of row 1 
-    $pdf->Cell($width_cell[1],10,$row['ItemNo'],1,0,'C',false); // Second column of row 1 
-    $pdf->Cell($width_cell[2],10,$row['itemName'],1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[3],10,$row['item_count'],1,1,'C',false); // Fourth column of row 1 
+        //Reload
+        $itemCountresult = getItemCountofsale($startDate,$endDate,$conn);
    
-    $total=$total+$row['item_count'];
-    
-}
-}
-    $pdf->Cell($width_cell[0],10,'',0,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Fourth column of row 1 
-    $pdf->Cell($width_cell[2],10,'Total',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[3],10,$total,1,1,'C',false); // Fourth column of row 1
+        if($itemCountresult->num_rows > 0){
+  
+            while($row = mysqli_fetch_array($itemCountresult,MYSQLI_ASSOC)){
 
-    $pdf->SetFont('Arial','B',20);
-    $pdf->Ln(30);
-    
+                $html .=  '<tr class="tb2">
+                            <td class="tb2" >'.$row['ItemNo'].'</td>
+                            <td class="tb2" >'.$row['itemName'].'</td>
+                            <td class="tb2" >'.$row['item_count'].'</td>
+                         </tr>';
+                            $rangeTotal=$rangeTotal+$row['item_count'];
+    }
+      }
+      $html .=  '
+      <tr class="tb2">
+        <td class="tb2" colspan ="2">Total</td>
+      <td class="tb2">'.$rangeTotal.'</td> </tr>';
+      $html.= '
+      </tbody>';
+$html.= "</table>";
+     
 
-   
-    
+// Write HTML content to PDF
+$mpdf->WriteHTML($html);
 
-    $pdf->Output('ff'.'.pdf', 'I' );
+// Output PDF to browser
+$mpdf->Output();
 
 ?>

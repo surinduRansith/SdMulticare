@@ -288,4 +288,36 @@ function getitemstest($startDate,$endDate,$conn){
     
     }
 
+    function getuserNames($userName,$conn){
+ 
+        $sql ="SELECT `username` FROM `userlogin` WHERE username='$userName';";
+
+        $result = mysqli_query($conn,$sql);
+        
+    return $result;
+
+
+    }
+    function getuserLogin($conn){
+ 
+        $sql ="SELECT `id`, `username`, `role` FROM `userlogin`;";
+
+        $result = mysqli_query($conn,$sql);
+        
+    return $result;
+
+
+    }
+
+    function getuserLoginid($userid,$conn){
+ 
+        $sql ="SELECT `id`, `username`,`password`,  `role` FROM `userlogin` WHERE id=$userid ;";
+
+        $result = mysqli_query($conn,$sql);
+        
+    return $result;
+
+
+    }
+
 ?>

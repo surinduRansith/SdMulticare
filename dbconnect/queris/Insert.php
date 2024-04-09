@@ -114,6 +114,25 @@ $result = mysqli_query($conn, $sql);
 
 }
 
+function usercreate($userName,$password,$userRole,$conn){
+
+ $sql = "INSERT INTO `userlogin`(`username`, `password`, `role`) 
+ VALUES ('$userName','$password','$userRole')"; 
+
+$result = mysqli_query($conn, $sql);
+
+
+if ($result > 0) {
+
+ return true;
+} else {
+return false;
+
+}
+
+
+}
+
 
 
 

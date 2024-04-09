@@ -264,6 +264,7 @@ echo "<P class='fs-1'> Accessories Bill <P>";
 echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
 echo " <div >
 <button type='submit' name='accessoriesbillreportprint' class='btn btn-warning'>
+<img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
 Save Report
 </button>
 </div>";
@@ -395,6 +396,7 @@ foreach($billNOArray as $index =>$value){
   echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
   echo " <div >
   <button type='submit' name='reloadbillreportprint' class='btn btn-warning'>
+  <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
   Save Report
   </button>
 </div>";
@@ -442,6 +444,7 @@ foreach($billNOArray as $index =>$value){
     echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
     echo " <div >
       <button type='submit' name='allbillreportprint' class='btn btn-warning'>
+      <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
       Save Report
       </button>
     </div>";
@@ -681,6 +684,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
       echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
       echo " <div >
         <button type='submit' name='Accesoriessitemreportprint' class='btn btn-warning'>
+        <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
         Save Report
         </button>
       </div>";
@@ -721,6 +725,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
             echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
             echo " <div >
               <button type='submit' name='printandOthersprint' class='btn btn-warning'>
+              <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
               Save Report
               </button>
             </div>";

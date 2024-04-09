@@ -8,70 +8,91 @@ $submited = true;
 $inValid = true;
 $closeButton="";
 
-if (isset($_GET["upadateId"])){
 
-    $itemNoId = $_GET["upadateId"];
-    
-
-$itemlist_array = getStcokData($itemNoId,$conn);
-
-$getItemNo = $itemlist_array[0];
-$getItemName = $itemlist_array[1];
-$getItemType = $itemlist_array[2];
-$getItemCost = $itemlist_array[3];
-$getItemSellingPrice = $itemlist_array[4];
-$getItemQty = $itemlist_array[5];
-}
-
-if ($getItemType == 'Mobile'){
-
-    $itemvalue="selected";
-    
-}else{
-
-    $itemvalue="";
-   
-}
-
-if ($getItemType == 'Computer'){
-
-    $itemvalue="selected";
-    
-}else{
-
-    $itemvalue="";
- 
-}
-
-if(isset($_POST['sumbitUpdate'])){
-    $ItemNO = $_POST['itemNo'];
-    $ItemName = $_POST['itemName'];
-    $ItemType = $_POST['data'];
-    $UnitCost = $_POST['unitCost'];
-    $SellingPrice = $_POST['sellingPrice'];
-    $Qty = $_POST['qty'];
+$userid="";
+$userName="";
+$password="";
+$role="";
 
 
- $result =  itemUpdate($ItemNO,$ItemName,$ItemType,$UnitCost,$SellingPrice,$Qty,$conn);
+if(isset($_GET["userid"])){
 
-    if($result === true){
+    $userid=$_GET["userid"];
 
-      $submited = true;
-      $inValid = false;
-      $successEvent = "Item Update Successfully";
+    $useridresult = getuserLoginid($userid,$conn);
 
+    if($useridresult->num_rows > 0){
 
-      $closeButton = "<button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>";
+        while($row = mysqli_fetch_array($useridresult,MYSQLI_ASSOC)){
 
- 
+            $userName=$row['username'];
+            $password=$row['password'];
+            $role=$row['role'];
+        }
     }
 
 
 }
 
+if($role=='admin'){
+
+    $rolevalue = "selected";
+}else{
+    $rolevalue = "";
+
+}
+
+if($role=='user'){
+
+    $rolevalue = "selected";
+}else{
+    $rolevalue = "";
+
+}
+
+if(isset($_POST['sumbitUpdate'])){
+
+    $id = $_POST['userId'];
+
+    echo $id;
+    $username = $_POST['username'];
+    $passWord = $_POST['password'];
+    $userRole = $_POST['role'];
+
+    $userupdateresult =userLoginUpdate($id,$username,$passWord,$userRole,$conn);
+    
+    
+    if($userupdateresult === true){
+    
+      
+        $submited = true;
+        $inValid = false;
+        $successEvent = "Item Update Successfully";
+    
+    
+        $closeButton = "<button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>";
+    
+    
+      }else{
+
+        $submited = true;
+        $inValid = true;
+        $successEvent = "Item Update Not Successfully";
+
+      }
+}
+
+
+
+
+  
+
+
+
+
 if(isset($_POST['sumbitClose'])){
 
-    header('Location: /sd_multicare/stocks.php');
+    header('Location: /sd_multicare/usercreate.php');
  exit();
 
 }
@@ -96,31 +117,23 @@ if(isset($_POST['sumbitClose'])){
     
         <br>
         <div class="input-group mb-3">
-  <input type="text" class="form-control disable" placeholder="Item No" name="itemNo" value="<?php echo $getItemNo ?>">
+  <input type="text" class="form-control disable"  name="userId" value="<?php echo $userid ?>"  >
 </div>
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Item Name" name="itemName" value="<?php echo $getItemName ?>">
+  <input type="text" class="form-control"  name="username" value="<?php echo $userName ?>">
+</div>
+<div class="input-group mb-3">
+  <input type="password" class="form-control"  name="password" value="<?php echo $password ?>">
 </div>
  <div class=" input-group mb-3">
-        <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="data" > 
+        <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="role" > 
             
-        <option <?php echo $itemvalue ?>  value="Mobile">Mobile Accessories</option>
-        <option  <?php echo $itemvalue ?> value="Computer">Computer Accessories</option>
+        <option <?php echo $rolevalue ?>  value="admin">admin</option>
+        <option  <?php echo $rolevalue ?> value="user">user</option>
         </select>
           </div>
-          <div class="input-group mb-3">
-  
-  <input type="double" class="form-control" placeholder="Unit Cost" name="unitCost" value="<?php echo $getItemCost ?>">
-</div>
-<div class="input-group mb-3">
+          
 
-  <input type="double" class="form-control" placeholder="Selling Price" name="sellingPrice" value="<?php echo $getItemSellingPrice?>">
-</div>
-
-<div class="input-group mb-3">
-
-  <input type="number" class="form-control" placeholder="QTY"  name="qty" value="<?php echo $getItemQty?>">
-</div>
         <button class="btn btn-success" name="sumbitUpdate"><b> Update </b></button>
 
         <?php 

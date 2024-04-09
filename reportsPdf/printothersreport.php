@@ -56,7 +56,7 @@ $html= '<style>
 <h3>End Date    :-  '.$endDate.' </h3></td>
 <td>'.$companyImage.'</td>
 </tr>
-</table>';
+</table><br><br>';
 
 
   $html.= '<head>
