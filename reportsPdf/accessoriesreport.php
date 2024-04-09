@@ -90,6 +90,11 @@ $billresult =accessoriesbill($startDate,$endDate,1,$conn);
   
     }
   }
+  $companyName ="SD Multicare House Report";
+  $reportType = "Accessories Bill";
+  $companyImage = "<img src='../assets/Images/sdlogo.jpeg'  style='width:150px; height: 150px;'>";
+
+
 
 // Import Mpdf class
 use Mpdf\Mpdf;
@@ -104,11 +109,11 @@ $html= '<style>
 }
 </style><table class="tb1">
 <tr >
-<td><h1> SD Multicare House Report </h1>
-<h2> Accessories Bill </h2>
+<td><h1> '.$companyName.' </h1>
+<h2> '.$reportType .' </h2>
 <h3> Start Date :- '.$startDate.' </h3>
 <h3>End Date    :-  '.$endDate.' </h3></td>
-<td><img src="../assets/Images/sdlogo.jpeg"  style="width:150px; height: 150px;"></td>
+<td>'.$companyImage.'</td>
 </tr>
 </table>';
 
@@ -127,7 +132,7 @@ $html= '<style>
     background-color: rgba(150, 212, 212, 0.4);
   }
   table{
-    width: 100%;
+    width: 120%;
   }
   th, td {
     padding: 15px;
@@ -232,7 +237,7 @@ foreach($billNOArray as $index =>$value){
       $html .=  '
       <tr class="tb2">
         <td class="tb2" colspan ="5">Total</td>
-      <td>Rs.'.$rangeTotal.'</td> </tr>';
+      <td class="tb2">Rs.'.$rangeTotal.'</td> </tr>';
       $html.= '
       </tbody>';
 $html.= "</table>";

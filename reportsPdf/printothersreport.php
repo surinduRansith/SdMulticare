@@ -1,152 +1,126 @@
 
 <?php
-require('../assets/fpdf186/fpdf.php');
-require('../dbconnect/dbconnect.php');
-require('../dbconnect/queris/select.php');
+require_once '../assets/vendor/autoload.php';
+$servername = "localhost";
+$username  = "root";
+$password = "";
+$dbname = "sdmulticarehouse";
 
+
+$conn= new mysqli($servername,$username,$password,$dbname);
 
 if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
 
     $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-$result = getprintData($startDate,$endDate,2,$conn);
-
-
-
-
-
-
-
-    
+    $endDate = $_GET['enddate'];
+   
 }
-$itemCount=0;
-$total = 0;
 
 
-class PDF extends FPDF
-{
-// Page header
-function Header()
-    {
-       
+        function getprintData($startDate,$endDate,$itemType,$conn){
+
+            $sql = "SELECT  po.billNo, po.itemName, po.Amount,  po.note,ab.date,ab.billtype FROM print_others po
+            INNER JOIN  accessoriesbill ab 
+            ON ab.billNo=po.billNo
+            WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billtype=$itemType;";
+            
+            $result = mysqli_query($conn,$sql);
+            
+            return $result;
         
-        $startDate = $_GET['startdate'];
-        $endDate = $_GET['enddate'];
-       
-        // Logo
-        $Title = "SD Multicare House Report";
-        $this->Image('../assets/fpdf186/images/sdlogo.jpeg',170,6,30,);
-        // Arial bold 15
-        $this->SetFont('Arial','B',25);
-        // Move to the right
         
-        // Title
         
-        $this->Cell(30,10,$Title,0,0,'L');
-        $this->Ln(12);
-        $this->SetFont('Arial','B',20);
-        $this->Cell(30,10,'Print & Others Report',0,0,'L');
-    
+        
+        }
       
-        $this->SetFont('Arial','B',12);
-        // Line break
-        $this->Ln(7);
-        
-        $this->Ln(5);
-        $this->Cell(0,10,'Start Date  :-  '.$startDate,0,0,'L');
-        $this->Ln(5);
-        $this->Cell(0,10,'End Date   :- '.$endDate,0,0,'L');
-        $this->Ln(30);
-    }
-    
-    // Page footer
-    function Footer()
-    {
-       
-        // Position at 1.5 cm from bottom
-        $this->SetY(-15);
-        // Arial italic 8
-        $this->SetFont('Arial','I',8);
-        
-        
-        // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo(),0,0,'C');
-    }
+    $companyName ="SD Multicare House Report";
+    $reportType = "All Item Report";
+    $companyImage = "<img src='../assets/Images/sdlogo.jpeg'  style='width:150px; height: 150px;'>";
 
-    
+// Import Mpdf class
+use Mpdf\Mpdf;
 
+// Instantiate Mpdf object
+$mpdf = new Mpdf();
 
-    
-
+// HTML content for PDF
+$html= '<style>
+.tb1 {
+  border-style: none;
 }
+</style><table class="tb1">
+<tr >
+<td><h1> '.$companyName.'</h1>
+<h2> '.$reportType.'</h2>
+<h3> Start Date :- '.$startDate.' </h3>
+<h3>End Date    :-  '.$endDate.' </h3></td>
+<td>'.$companyImage.'</td>
+</tr>
+</table>';
 
-$pdf = new PDF();
+
+  $html.= '<head>
+  <style>
+  .tb2{
+    border:1px solid black;
+    border-collapse: collapse;
+    text-align: center;
     
-    $pdf->AddPage();
-    $pdf->Ln(20);
-    $pdf->SetFont('Arial','B',20);
-
-    $pdf->SetXY(80,50);
-
+  }
+  th{
+    height: 50px;
+    
+    background-color: rgba(150, 212, 212, 0.4);
+  }
+  table{
+    width: 120%;
+  }
+  th, td {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  </style><table class="tb2" >
+  <tr class="tb2">
+  <th class="tb2">Bill No</th>
+  <th class="tb2">Bill Date</th>
+  <th class="tb2">Bill Type</th>
+  <th class="tb2">Bill Item Note</th>
+  <th class="tb2"> Bill Total</th>
+  </tr>
  
+  <tbody>
+';
 
-    $pdf->SetFont('Arial','B',11);
-    
-    $pdf->SetXY(1,50);
+$rangeTotal=0;
 
 
-    
+$getprintresult = getprintData($startDate,$endDate,2,$conn);
+  if($getprintresult->num_rows>0){
+    while($row = mysqli_fetch_array($getprintresult,MYSQLI_ASSOC)){
+  $html.= '<tr class="tb2" >
+        <td class="tb2">'.$row['billNo'].'</td>
+        <td class="tb2">'.$row['date'].'</td>
+        <td class="tb2">'.$row['itemName'].'</td>
+        <td class="tb2">'.$row['note'].'</td>
+        <td class="tb2">Rs.'.$row['Amount'].'</td>';
 
-    
-    
-    $pdf->SetFont('Arial','B',11);
-    
-    $pdf->Ln(15);
-    $width_cell=array(15,40,40,40,40);
-    $pdf->SetFillColor(193,229,252); 
-    
-    // Header starts /// 
-    $pdf->Cell($width_cell[0],10,'',1,0,'C',true); 
-    $pdf->Cell($width_cell[1],10,'ITEM NO',1,0,'C',true); 
-    $pdf->Cell($width_cell[2],10,'ITEM NAME',1,0,'C',true); 
-    $pdf->Cell($width_cell[3],10,'DATE',1,0,'C',true); 
-    $pdf->Cell($width_cell[4],10,'ITEM TOTAL',1,1,'C',true);
+        $rangeTotal= $rangeTotal+$row['Amount'];
+    }
+  }
+      $html .=  '
+      <tr class="tb2">
+        <td class="tb2" colspan ="4">Total</td>
+      <td class="tb2">Rs.'.$rangeTotal.'</td> </tr>';
+      $html.= '
+      </tbody>';
+$html.= "</table>";
+     
 
-    //// header is over ///////
-    
-    
-    
-    $pdf->SetFont('Arial','',10);
+// Write HTML content to PDF
+$mpdf->WriteHTML($html);
 
- 
-    if($result->num_rows > 0){
-
-        while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-
-            $itemCount++;
-    $pdf->Cell($width_cell[0],10,$itemCount,1,0,'C',false); // First column of row 1 
-    $pdf->Cell($width_cell[1],10,$row['billNo'],1,0,'C',false); // Second column of row 1 
-    $pdf->Cell($width_cell[2],10,$row['itemName'],1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[3],10,$row['itemName'],1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[4],10,$row['Amount'],1,1,'C',false); // Fourth column of row 1 
-   
-    $total=$total+$row['Amount'];
-    
-}
-}
-    $pdf->Cell($width_cell[0],10,'',0,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[1],10,'',0,0,'C',false); // Fourth column of row 1
-    $pdf->Cell($width_cell[2],10,'',0,0,'C',false); // Fourth column of row 1  
-    $pdf->Cell($width_cell[3],10,'Total',1,0,'C',false); // Third column of row 1 
-    $pdf->Cell($width_cell[4],10,$total,1,1,'C',false); // Fourth column of row 1
-
-    $pdf->SetFont('Arial','B',20);
-    $pdf->Ln(30);
-    
-
-   
-    
-
-    $pdf->Output('ff'.'.pdf', 'I' );
+// Output PDF to browser
+$mpdf->Output();
 
 ?>
