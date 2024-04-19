@@ -74,9 +74,9 @@ function accessoriesPaymentItemInsert($billType,$conn)
     }
   }
 
-function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$note,$discountValue,$conn){
+function accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $valueitemqty,$note,$discountType,$discountValue,$conn){
 
-  $sqlBillItem = "INSERT INTO `accessoriesitem`(`billNo`, `ItemNo`, `itemName`, `itemQty`,`note`,`discount`) VALUES ($billID,'$itemNo1','$itemName1',$valueitemqty,'$note',$discountValue)";
+  $sqlBillItem = "INSERT INTO `accessoriesitem`(`billNo`, `ItemNo`, `itemName`, `itemQty`,`note`,`discounttype`,`discount`) VALUES ($billID,'$itemNo1','$itemName1',$valueitemqty,'$note','$discountType',$discountValue)";
 
 
   

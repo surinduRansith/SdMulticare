@@ -27,6 +27,7 @@ function  billTotal($billID , $conn){
      accessoriesitem.itemName,
      stock.SellingPrice,
      accessoriesitem.itemQty,
+     accessoriesitem.discounttype,
      accessoriesitem.discount,
      accessoriesbill.date,
      (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,
@@ -212,20 +213,40 @@ foreach($billNOArray as $index =>$value){
             while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
               $discountValue = $row['discount']; 
     
-              if( $discountValue<=0){
+              if( $row['discounttype'] =="presentage"){
+                if( $discountValue<=0){
+    
+                  $fullTotal = $row['Total']; 
+                  echo "RS. ".$fullTotal;
+                  $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';
+    
+              }else{
+          
+                  $fullTotal = $row['Total']; 
+                  $discountPrice = ($fullTotal*$discountValue)/100;
+          
+                  $fullTotal = $fullTotal-$discountPrice;
+    
+                  $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
+          }
+        }elseif( $row['discounttype'] =="cash"){
+          if( $discountValue<=0){
+    
+            $fullTotal = $row['Total']; 
+            echo "RS. ".$fullTotal;
+            $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';
   
-                $fullTotal = $row['Total']; 
-                echo "RS. ".$fullTotal;
-                $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';
+        }else{
+    
+            $fullTotal = $row['Total']; 
+            
+    
+            $fullTotal = $fullTotal-$discountValue;
   
-            }else{
-        
-                $fullTotal = $row['Total']; 
-                $discountPrice = ($fullTotal*$discountValue)/100;
-        
-                $fullTotal = $fullTotal-$discountPrice;
+            $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
+    }
   
-                $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
+  
         }
             }
           }

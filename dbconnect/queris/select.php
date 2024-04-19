@@ -119,6 +119,7 @@ function  billTotal($billID , $conn){
        accessoriesitem.itemName,
        stock.SellingPrice,
        accessoriesitem.itemQty,
+       accessoriesitem.discounttype,
        accessoriesitem.discount,
        accessoriesbill.date,
        (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,

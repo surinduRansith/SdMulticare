@@ -70,7 +70,6 @@ if(isset($_POST['sumbitUpdate'])){
         $successEvent = "Item Update Successfully";
     
     
-        $closeButton = "<button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>";
     
     
       }else{
@@ -136,10 +135,7 @@ if(isset($_POST['sumbitClose'])){
 
         <button class="btn btn-success" name="sumbitUpdate"><b> Update </b></button>
 
-        <?php 
-
-        echo $closeButton;
-?>
+        <button class="btn btn-danger" name="sumbitClose"><b> Close </b></button>
         </div>
 
 

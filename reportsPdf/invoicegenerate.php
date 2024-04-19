@@ -21,6 +21,7 @@ function  dowonloadPDF($billID , $conn){
    stock.SellingPrice,
    accessoriesitem.itemQty,
    accessoriesitem.note,
+   accessoriesitem.discounttype,
    accessoriesitem.discount,
    (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,
    SUM(stock.SellingPrice * accessoriesitem.itemQty) OVER () AS Total
@@ -131,24 +132,39 @@ $html= '<style>
                             <td class="tb2" >'.$row['itemQty'].'</td>
                             <td class="tb2" >Rs.'.$row['subTotal'].'</td> </tr>';
                             $discountValue = $row['discount'] ;
-                            
+                            if($row['discounttype']=="presentage"){
                             if( $discountValue<=0){
-                        
+                              $disctype=" ";
                                 $fullTotal = $row['Total']; 
                             }else{
-                        
+                               $disctype = "(%)";
                                 $fullTotal = $row['Total']; 
                                 $discountPrice = ($fullTotal*$discountValue)/100;
                                 
                                 $fullTotal = $fullTotal-$discountPrice;
                             }
+                          }elseif($row['discounttype']=="cash"){
+                            if( $discountValue<=0){
+                              $disctype=" ";
+                              $fullTotal = $row['Total']; 
+                          }else{
+                      
+                            $disctype = "(Cash)";
+                              $fullTotal = $row['Total']; 
+                              
+                              
+                              $fullTotal = $fullTotal-$discountValue;
+                          }
+
+
+                          }
 
                 
                         }
                     }
                     $html .=  '
                     <tr class="tb2">
-                      <td class="tb2" colspan ="5">Discount(%)</td>
+                      <td class="tb2" colspan ="5">Discount'.$disctype.'</td>
                     <td class="tb2">'.$discountValue.'</td> </tr>';
                     $html .=  '
                     <tr class="tb2">

@@ -339,7 +339,8 @@ foreach($billNOArray as $index =>$value){
   
           while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
             $discountValue = $row['discount']; 
-  
+           
+            if( $row['discounttype'] =="presentage"){
             if( $discountValue<=0){
 
               $fullTotal = $row['Total']; 
@@ -354,6 +355,26 @@ foreach($billNOArray as $index =>$value){
 
               echo "RS. ".$fullTotal;         
       }
+    }elseif( $row['discounttype'] =="cash"){
+      if( $discountValue<=0){
+
+        $fullTotal = $row['Total']; 
+        echo "RS. ".$fullTotal;
+
+    }else{
+
+        $fullTotal = $row['Total']; 
+       
+
+        $fullTotal = $fullTotal-$discountValue;
+
+        echo "RS. ".$fullTotal;         
+}
+
+
+
+
+    }
           }
         }
         echo " </td>
@@ -585,19 +606,40 @@ if($billType == 1){
       $discountValue = $row['discount']; 
       //echo $row['Total'];
 
-      if( $discountValue<=0){
+      if( $row['discounttype'] =="presentage"){
+        if( $discountValue<=0){
 
-        $fullTotal = $row['Total']; 
-       echo "RS. ".$fullTotal;
+          $fullTotal = $row['Total']; 
+          echo "RS. ".$fullTotal;
 
-    }else{
+      }else{
+  
+          $fullTotal = $row['Total']; 
+          $discountPrice = ($fullTotal*$discountValue)/100;
+  
+          $fullTotal = $fullTotal-$discountPrice;
 
-        $fullTotal = $row['Total']; 
-        $discountPrice = ($fullTotal*$discountValue)/100;
+          echo "RS. ".$fullTotal;         
+  }
+}elseif( $row['discounttype'] =="cash"){
+  if( $discountValue<=0){
 
-        $fullTotal = $fullTotal-$discountPrice;
+    $fullTotal = $row['Total']; 
+    echo "RS. ".$fullTotal;
 
-        echo "RS. ".$fullTotal;         
+}else{
+
+    $fullTotal = $row['Total']; 
+   
+
+    $fullTotal = $fullTotal-$discountValue;
+
+    echo "RS. ".$fullTotal;         
+}
+
+
+
+
 }
 
         
@@ -899,6 +941,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
         echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
         echo " <div >
         <button type='submit' name='accessoriesbillreportprint' class='btn btn-warning'>
+        <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
         Save Report
         </button>
         </div>";
@@ -974,19 +1017,40 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                   while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
                     $discountValue = $row['discount']; 
           
-                    if( $discountValue<=0){
-        
-                      $fullTotal = $row['Total']; 
-                      echo "RS. ".$fullTotal;
-        
-                  }else{
-              
-                      $fullTotal = $row['Total']; 
-                      $discountPrice = ($fullTotal*$discountValue)/100;
-              
-                      $fullTotal = $fullTotal-$discountPrice;
-        
-                      echo "RS. ".$fullTotal;         
+                    if( $row['discounttype'] =="presentage"){
+                      if( $discountValue<=0){
+          
+                        $fullTotal = $row['Total']; 
+                        echo "RS. ".$fullTotal;
+          
+                    }else{
+                
+                        $fullTotal = $row['Total']; 
+                        $discountPrice = ($fullTotal*$discountValue)/100;
+                
+                        $fullTotal = $fullTotal-$discountPrice;
+          
+                        echo "RS. ".$fullTotal;         
+                }
+              }elseif( $row['discounttype'] =="cash"){
+                if( $discountValue<=0){
+          
+                  $fullTotal = $row['Total']; 
+                  echo "RS. ".$fullTotal;
+          
+              }else{
+          
+                  $fullTotal = $row['Total']; 
+                 
+          
+                  $fullTotal = $fullTotal-$discountValue;
+          
+                  echo "RS. ".$fullTotal;         
+          }
+          
+          
+          
+          
               }
                   }
                 }
@@ -1030,6 +1094,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
           echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
           echo " <div >
           <button type='submit' name='reloadbillreportprint' class='btn btn-warning'>
+          <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
           Save Report
           </button>
         </div>";
@@ -1076,9 +1141,10 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
             echo "<P class='fs-1'> All Items Bill Report <P>";
             echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
             echo " <div >
-              <button type='submit' name='allbillreportprint' class='btn btn-warning'>
-              Save Report
-              </button>
+            <button type='submit' name='allbillreportprint' class='btn btn-warning'>
+            <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
+            Save Report
+            </button>
             </div>";
               echo "<table id='myTable' class='table table-striped table-dark'>
               <thead>
@@ -1217,19 +1283,40 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
               $discountValue = $row['discount']; 
               //echo $row['Total'];
         
-              if( $discountValue<=0){
-        
-                $fullTotal = $row['Total']; 
-               echo "RS. ".$fullTotal;
-        
-            }else{
-        
-                $fullTotal = $row['Total']; 
-                $discountPrice = ($fullTotal*$discountValue)/100;
-        
-                $fullTotal = $fullTotal-$discountPrice;
-        
-                echo "RS. ".$fullTotal;         
+              if( $row['discounttype'] =="presentage"){
+                if( $discountValue<=0){
+    
+                  $fullTotal = $row['Total']; 
+                  echo "RS. ".$fullTotal;
+    
+              }else{
+          
+                  $fullTotal = $row['Total']; 
+                  $discountPrice = ($fullTotal*$discountValue)/100;
+          
+                  $fullTotal = $fullTotal-$discountPrice;
+    
+                  echo "RS. ".$fullTotal;         
+          }
+        }elseif( $row['discounttype'] =="cash"){
+          if( $discountValue<=0){
+    
+            $fullTotal = $row['Total']; 
+            echo "RS. ".$fullTotal;
+    
+        }else{
+    
+            $fullTotal = $row['Total']; 
+           
+    
+            $fullTotal = $fullTotal-$discountValue;
+    
+            echo "RS. ".$fullTotal;         
+    }
+    
+    
+    
+    
         }
         
                 
@@ -1315,9 +1402,10 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
               echo "<P class='fs-1'>  Accesoriess Item <P>";
               echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
               echo " <div >
-                <button type='submit' name='Accesoriessitemreportprint' class='btn btn-warning'>
-                Save Report
-                </button>
+              <button type='submit' name='Accesoriessitemreportprint' class='btn btn-warning'>
+              <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
+              Save Report
+              </button>
               </div>";
                 echo "<table id='myTable' class='table table-striped table-dark'>
                 <thead>
@@ -1355,9 +1443,10 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                     echo "<P class='fs-1'>  Print & Others Report <P>";
                     echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
                     echo " <div >
-                      <button type='submit' name='printandOthersprint' class='btn btn-warning'>
-                      Save Report
-                      </button>
+                    <button type='submit' name='printandOthersprint' class='btn btn-warning'>
+                    <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
+                    Save Report
+                    </button>
                     </div>";
                       echo "<table id='myTable' class='table table-striped table-dark'>
                       <thead>

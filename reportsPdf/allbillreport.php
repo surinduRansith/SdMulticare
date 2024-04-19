@@ -27,6 +27,7 @@ function  billTotal($billID , $conn){
      accessoriesitem.itemName,
      stock.SellingPrice,
      accessoriesitem.itemQty,
+     accessoriesitem.discounttype,
      accessoriesitem.discount,
      accessoriesbill.date,
      (stock.SellingPrice * accessoriesitem.itemQty) AS subTotal,
@@ -376,6 +377,7 @@ foreach($billNOArrayAll as $index =>$value){
             while($row = mysqli_fetch_array($billTotalresult,MYSQLI_ASSOC)){
               $discountValue = $row['discount']; 
     
+              if( $row['discounttype'] =="presentage"){
               if( $discountValue<=0){
   
                 $fullTotal = $row['Total']; 
@@ -391,6 +393,25 @@ foreach($billNOArrayAll as $index =>$value){
   
                 $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
         }
+      }elseif( $row['discounttype'] =="cash"){
+        if( $discountValue<=0){
+  
+          $fullTotal = $row['Total']; 
+          echo "RS. ".$fullTotal;
+          $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';
+
+      }else{
+  
+          $fullTotal = $row['Total']; 
+          
+  
+          $fullTotal = $fullTotal-$discountValue;
+
+          $html.= '<td class="tb2">'. 'RS.'.$fullTotal.'</td>';        
+  }
+
+
+      }
         $accesoriesamount = $accesoriesamount+ $fullTotal;
             }
           }

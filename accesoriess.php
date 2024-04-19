@@ -138,14 +138,15 @@ if(isset($_POST['itemadd'])){
     $itemName1 = $stockArray[$index]['ItemName'];
     
     $quantity = $_POST['quantity'][$index];
+    $discountType = $_POST['discounttype'];
     $discountValue = $_POST['discount'];
     $total = $quantity*$stockArray[$index]['SellingPrice'];
     $note =$_POST['note'][$index];
     $fullTotal1 = $fullTotal1+intval($total);
 //echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
-     accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountValue,$conn);
-
+     accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountType,$discountValue,$conn);
+if($discountType=="presentage"){
 if($discountValue>0){
 
   $discountprice=($fullTotal1* $discountValue)/100;
@@ -156,7 +157,22 @@ if($discountValue>0){
 
   $fullTotal=$fullTotal1;
 }
+}elseif($discountType=="cash"){
 
+  if($discountValue>0){
+
+   
+  
+    $fullTotal = $fullTotal1-$discountValue;
+  
+  }else{
+  
+    $fullTotal=$fullTotal1;
+  }
+
+
+
+}
 
 }
 $submited = true;
@@ -351,9 +367,15 @@ $notetest="-";
     echo "<tr>
     <td></td>
     <td></td>
-    <td></td>
+    <td>Discount</td>
     
-    <td>Discount(%)</td>
+    <td>
+    <select class='form-select form-select-sm mb-3' aria-label='Large select example' name='discounttype' > 
+            
+        <option value='cash'>Cash</option>
+        <option  value='presentage'>Presentage(%)</option>
+        </select>
+          </div></td>
     <td><input type='number' name='discount' value='0'></td>
     <td></td>
     <td>
