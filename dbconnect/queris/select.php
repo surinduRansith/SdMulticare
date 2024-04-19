@@ -321,4 +321,16 @@ function getitemstest($startDate,$endDate,$conn){
 
     }
 
+    function customerlist($conn){
+
+        $sql = "SELECT `name`, `phonenumber`
+        FROM `customer`;";
+
+$result = mysqli_query($conn,$sql);
+        
+return $result;
+
+
+    }
+
 ?>

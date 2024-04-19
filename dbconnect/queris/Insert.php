@@ -134,6 +134,27 @@ return false;
 }
 
 
+function customerdetails($custonmerName,$phoneNumber,$billID,$conn){
+
+  $sql="SELECT `customerid`, `name`, `phonenumber`, `billNo` FROM `customer` WHERE phonenumber=$phoneNumber ";
+
+  $result = mysqli_query($conn,$sql);
+
+  if(mysqli_num_rows($result) == 0){
+
+    $sql = "INSERT INTO `customer`( `name`, `phonenumber`,`billNo`) VALUES ('$custonmerName','$phoneNumber','$billID')";
+
+      $result = mysqli_query($conn, $sql);
+
+
+  }else{
+
+    $sqlupdate = "UPDATE `customer` SET `name`='$custonmerName',`phonenumber`='$phoneNumber' WHERE phonenumber = '$phoneNumber';";
+    $result = mysqli_query($conn, $sqlupdate);
+  }
+
+}
+
 
 
 ?>

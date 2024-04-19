@@ -118,6 +118,9 @@ if(isset($_POST['itemremove'])){
 
 
 if(isset($_POST['itemadd'])){
+  $phoneNumber=$_POST['phoneNumber'];
+
+  if (preg_match("/^\d{10}$/", $phoneNumber)) {
 
   $cartListLength = sizeof($cartList); 
   $count =0;
@@ -136,7 +139,7 @@ if(isset($_POST['itemadd'])){
     
     $itemNo1= $stockArray[$index]['itemNo'];
     $itemName1 = $stockArray[$index]['ItemName'];
-    
+
     $quantity = $_POST['quantity'][$index];
     $discountType = $_POST['discounttype'];
     $discountValue = $_POST['discount'];
@@ -145,6 +148,7 @@ if(isset($_POST['itemadd'])){
     $fullTotal1 = $fullTotal1+intval($total);
 //echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
+    
      accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountType,$discountValue,$conn);
 if($discountType=="presentage"){
 if($discountValue>0){
@@ -175,14 +179,22 @@ if($discountValue>0){
 }
 
 }
+
+$custonmerName=$_POST['customerName'];
+$phoneNumber=$_POST['phoneNumber'];
+
+if(!empty($custonmerName) || !empty($phoneNumber)){
+
+  customerdetails($custonmerName,$phoneNumber,$billID,$conn);
+
+}
+
 $submited = true;
 $inValid = false;
 $successEvent = "Item Add Successfully";
-
-
-
-
 $downloadInvoice="<button type='submit' name='printinvoice' class='btn btn-warning'> Download Invoice </button>";
+
+
 }
 }else{
 
@@ -192,6 +204,12 @@ $downloadInvoice="<button type='submit' name='printinvoice' class='btn btn-warni
 
  }
 
+}
+  }else{
+
+    $submited = true;
+    $inValid = true;
+    $errorEvent = "Please Enter Valid Phone Number";
   }
 }
 
@@ -318,9 +336,17 @@ if(!empty($cartList)){
 <input type="text" class="form-control" name="billNumber" value="<?php echo $billID; ?>">
     </div>
     <div class="col">
+    <div class="col input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Customer Name</span>
+<input type="text" class="form-control" name="customerName" >
+    </div>
      
     </div>
     <div class="col">
+    <div class="col input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Phone Number</span>
+<input id="phoneInput" type="tel"  class="form-control" aria-label="Phone number" name="phoneNumber" >
+    </div>
       
     </div>
   </div>

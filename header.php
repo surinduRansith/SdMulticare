@@ -62,6 +62,12 @@ if (isset($_POST['submit'])) {
           </a>
 
         </li>
+        <li class="nav-item">
+          <a class="nav-link  text-white " href="customer.php">
+            Customer
+          </a>
+
+        </li>
 
         <?php echo $userCreateButton; ?>
        
