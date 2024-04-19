@@ -30,6 +30,7 @@ include("header.php");
     <table id='myTable' class='table table-striped table-dark'>
   <thead>
     <tr>
+      <th></th>
       <th>Customer Name</th>
       <th>Phone Number</th>
    
@@ -37,14 +38,15 @@ include("header.php");
   </thead>
   <tbody>
     <?php 
-
+    $customerCount = 0;
        $customerlistresult=customerlist($conn);
 
        if($customerlistresult->num_rows > 0){
 
         while($row = mysqli_fetch_array($customerlistresult,MYSQLI_ASSOC)){
-
+          $customerCount++;
             echo "<tr>
+            <td>".$customerCount."</td>
       <td>".$row['name']."</td>
       <td>".$row['phonenumber']."</td>
     

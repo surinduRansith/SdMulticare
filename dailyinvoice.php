@@ -138,7 +138,7 @@ if (isset($_POST["closebutton"])) {
         <br>
 
         <div>
-          <a data-bs-toggle="modal" data-bs-target="#ReloadModal" data-bs-whatever="@mdo"><img src="./assets/Images/reload.png" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
+          <a data-bs-toggle="modal" data-bs-target="#ReloadModal" data-bs-whatever="@mdo"><img src="./assets/Images/reload.png" alt="invoice" class="img-fluid rounded-5" style="width:300px; height: 300px;">
 
             <div style="padding-top: 10px; ">
               <p class="fw-bold fs-1 text-dark    ">Reload</p>
@@ -188,7 +188,7 @@ if (isset($_POST["closebutton"])) {
         <br>
 
         <div>
-          <a data-bs-toggle="modal" data-bs-target="#PrintModal" data-bs-whatever="@mdo"><img src="./assets/Images/298915599_380665014220845_614254535053325149_n.png" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
+          <a data-bs-toggle="modal" data-bs-target="#PrintModal" data-bs-whatever="@mdo"><img src="./assets/Images/298915599_380665014220845_614254535053325149_n.png" alt="invoice" class="img-fluid rounded-5" style="width:300px; height: 300px;">
 
             <div style="padding-top: 10px; ">
               <p class="fw-bold fs-1 text-dark    ">Print & Others</p>
@@ -241,7 +241,7 @@ if (isset($_POST["closebutton"])) {
         <br>
 
         <div>
-          <a href="accesoriess.php" style="text-decoration:none"><img src="./assets/Images/accessories.jpg" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
+          <a href="accesoriess.php" style="text-decoration:none"><img src="./assets/Images/accessories.jpg" alt="invoice" class=" rounded-5 img-fluid" style="width:300px; height: 300px;">
 
             <div style="padding-top: 10px; ">
               <p class="fw-bold fs-1 text-dark    ">Accessories</p>

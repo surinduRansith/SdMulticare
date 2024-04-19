@@ -202,11 +202,11 @@ if(isset($_POST['userdeleteid'])){
         <div class='modal-dialog'>
           <div class='modal-content'>
             <div class='modal-header'>
-              <h1 class='modal-title text-dark fs-5' id='exampleModalLabel'>Item Delete</h1>
+              <h1 class='modal-title text-dark fs-5' id='exampleModalLabel'>User Delete</h1>
               <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
             </div>
             <div class='modal-body'>
-              // <b class='text-dark'>Do you want to delete this Item ".$row['id']."?</b>
+               <b class='text-dark'>Do you want to delete this User ".$row['id']."?</b>
             <div class='modal-footer'>
               <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
               <button type='button' class='btn btn-danger'><a style='text-decoration:none' href = './crud/delete.php?userid=".$row['id']."' class='text-light'>Delete</a></button>

@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
         </li>
         <li class="nav-item">
           <a class="nav-link  text-white " href="customer.php">
-            Customer
+            Customer Details
           </a>
 
         </li>

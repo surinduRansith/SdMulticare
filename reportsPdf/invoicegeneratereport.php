@@ -43,8 +43,19 @@ return $result;
 
 }
 }
+function billdate($billID,$conn){
+
+  $sql ="SELECT `billNo`, `date` FROM `accessoriesbill` WHERE billNo=$billID";
+
+  $result = mysqli_query($conn,$sql);
+
+return $result;
+}
+
+$billdate =  billdate($billID,$conn);
 
 $itemList = dowonloadPDF($billID , $conn);
+
 
 $itemCount =0;
 $fullTotal=0;
@@ -77,7 +88,23 @@ $html= '<style>
 <td>'.$companyImage.'</td>
 </tr>
 <tr >
-<td><h3>Bill Number :- '.$billID .'</h3>
+<td><h3>Bill Number :- '.$billID .'</h3>';
+
+if($billdate->num_rows > 0){
+
+  while($row = mysqli_fetch_array($billdate,MYSQLI_ASSOC)){
+
+    $html.='<td><h3>Bill Date:- '.$row['date'].'</h3>';
+
+  }
+}
+
+
+
+$html.='</tr>
+<tr >
+<td><h3>Customer Name :-  ....................................</h3></td>
+<td><h3>Phone Number :-  ......................</h3></td>
 </tr>
 </table><br><br>';
 

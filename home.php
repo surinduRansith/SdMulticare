@@ -27,27 +27,36 @@ include("header.php");
 
 
             <div class="col" href="#">
-                <a href="dailyinvoice.php" style="text-decoration:none"><img src="./assets/Images/invoice.jpg" alt="invoice" class="img-fluid" style="width:300px; height: 300px;">
+                <a href="dailyinvoice.php" style="text-decoration:none"><img src="./assets/Images/invoice.jpg" alt="invoice" class="img-fluid rounded-5" style="width:250px; height: 250px;">
 
                     <div style="padding-top: 10px;">
-                        <p class="fw-bold fs-1 text-dark">Daily Invoice</p>
+                        <p class="fw-bold fs-2 text-dark">Daily Invoice</p>
                     </div>
                 </a>
             </div>
 
             <div class="col">
-                <a href="report.php" style="text-decoration:none"> <img src="./assets/Images/report.jpg" alt="report" class="img-fluid" style="width:300px; height: 300px;">
+                <a href="report.php" style="text-decoration:none"> <img src="./assets/Images/report.jpg" alt="report" class="img-fluid rounded-5" style="width:250px; height: 250px;">
 
                     <div style="padding-top: 10px;">
-                        <p class="fw-bold fs-1  text-dark ">Invoice Reports</p>
+                        <p class="fw-bold fs-2  text-dark ">Reports</p>
                     </div>
                 </a>
             </div>
             <div class="col">
-                <a href="stocks.php" style="text-decoration:none"> <img src="./assets/Images/items.jpg" alt="report" class="img-fluid" style="width:300px; height: 300px;">
+                <a href="stocks.php" style="text-decoration:none"> <img src="./assets/Images/items.jpg" alt="report" class="img-fluid rounded-5" style="width:250px; height: 250px;">
 
                     <div style="padding-top: 10px;">
-                        <p class="fw-bold fs-1  text-dark  ">Stocks</p>
+                        <p class="fw-bold fs-2  text-dark  ">Stocks</p>
+                    </div>
+                </a>
+            </div>
+           
+            <div class="col">
+                <a href="quote.php" style="text-decoration:none"> <img src="./assets/Images/quote.png" alt="report" class="img-fluid rounded-5" style="width:250px; height: 250px;">
+
+                    <div style="padding-top: 10px;">
+                        <p class="fw-bold fs-2  text-dark  ">Quote</p>
                     </div>
                 </a>
             </div>
