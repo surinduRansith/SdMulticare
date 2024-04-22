@@ -333,4 +333,16 @@ return $result;
 
     }
 
+    function customerbillList($phoneNumber,$conn){
+
+        $sql ="SELECT cb.`customerbillid`, cb.`customerid`, cb.`billNo`, c.`name`, c.`phonenumber` 
+        FROM `customerbill` AS cb
+        INNER JOIN `customer` AS c ON c.`customerid` = cb.`customerid` WHERE C.phonenumber=$phoneNumber";
+
+$result = mysqli_query($conn,$sql);
+        
+return $result;
+
+    }
+
 ?>

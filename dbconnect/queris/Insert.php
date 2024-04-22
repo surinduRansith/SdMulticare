@@ -134,23 +134,38 @@ return false;
 }
 
 
-function customerdetails($custonmerName,$phoneNumber,$billID,$conn){
+function customerdetails($custonmerName,$phoneNumber,$billID,$CustomerID,$conn){
 
-  $sql="SELECT `customerid`, `name`, `phonenumber`, `billNo` FROM `customer` WHERE phonenumber=$phoneNumber ";
+  $sql="SELECT `customerid`, `name`, `phonenumber` FROM `customer` WHERE phonenumber=$phoneNumber";
 
-  $result = mysqli_query($conn,$sql);
+  $resultSelect = mysqli_query($conn,$sql);
 
-  if(mysqli_num_rows($result) == 0){
+  if(mysqli_num_rows($resultSelect) == 0){
 
-    $sql = "INSERT INTO `customer`( `name`, `phonenumber`,`billNo`) VALUES ('$custonmerName','$phoneNumber','$billID')";
+    $sql = "INSERT INTO `customer`( `name`, `phonenumber`) VALUES ('$custonmerName','$phoneNumber')";
 
-      $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
+
+    $sqlBill = "INSERT INTO `customerbill`( `customerid`, `billNo`) VALUES ('$CustomerID','$billID')";
+
+      $resultbill = mysqli_query($conn, $sqlBill);
 
 
   }else{
 
-    $sqlupdate = "UPDATE `customer` SET `name`='$custonmerName',`phonenumber`='$phoneNumber' WHERE phonenumber = '$phoneNumber';";
+    $sqlupdate = "UPDATE `customer` SET `phonenumber`='$phoneNumber' WHERE phonenumber = '$phoneNumber';";
     $result = mysqli_query($conn, $sqlupdate);
+
+    while($row = mysqli_fetch_array($resultSelect, MYSQLI_ASSOC)){
+
+      $CustomerID=$row['customerid'];
+    
+      
+     }
+
+    $sqlBill = "INSERT INTO `customerbill`( `customerid`, `billNo`) VALUES ('$CustomerID','$billID')";
+    
+    $resultbill = mysqli_query($conn, $sqlBill);
   }
 
 }

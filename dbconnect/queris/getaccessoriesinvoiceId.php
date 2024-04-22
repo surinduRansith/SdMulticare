@@ -15,4 +15,18 @@ $result = mysqli_query($conn,$sql);
 
 }
 
+function getcustomerId($conn){
+
+    $sql ="SELECT Table_schema,Table_Name,Auto_increment
+    FROM information_schema.TABLES
+    WHERE TABLE_SCHEMA = 'sdmulticarehouse'
+    
+    AND TABLE_NAME = 'customer';";
+    
+    $result = mysqli_query($conn,$sql);
+    
+        return $result;
+    
+    }
+
 ?>

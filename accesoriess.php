@@ -11,6 +11,8 @@ include("../sd_multicare/dbconnect/queris/getaccessoriesinvoiceId.php");
 include("../sd_multicare/dbconnect/queris/updateItemData.php");
 
 $result = getaccessoriesinvoiceId($conn);
+
+$resultid = getcustomerId($conn);
      
 if($result->num_rows>0){
 
@@ -21,9 +23,20 @@ if($result->num_rows>0){
   
  }
 
-
-
 }
+
+if($resultid->num_rows>0){
+
+  while($row = mysqli_fetch_array($resultid, MYSQLI_ASSOC)){
+ 
+   $CustomerID =  intval($row['Auto_increment']);
+ 
+   
+  }
+ 
+ 
+ 
+ }
 $fullTotal=0;
 $quantity = 0;
 $submited = true;
@@ -185,7 +198,7 @@ $phoneNumber=$_POST['phoneNumber'];
 
 if(!empty($custonmerName) || !empty($phoneNumber)){
 
-  customerdetails($custonmerName,$phoneNumber,$billID,$conn);
+  customerdetails($custonmerName,$phoneNumber,$billID,$CustomerID,$conn);
 
 }
 
