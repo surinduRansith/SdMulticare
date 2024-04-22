@@ -208,51 +208,56 @@ if($_SESSION['userrole']=="admin"){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <title>Invoice Report</title>
 </head>
+
 <body class="bg-secondary">
     <div>
-    <?php
+        <?php
     
     ?>
     </div>
-<br>
-<form method="post">
-<div class="container text-center">
-<div class="row">
-<div class="col-3 ">
-<div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1">Start Date</span>
-  <input type="date" class="form-control"  name="startDate" value="<?php echo $startDate; ?>">
-</div>
-</div>
-<div class="col-3">
-<div class="input-group mb-3">
-  <span class="input-group-text" id="basic-addon1">End Date</span>
-  <input type="date" class="form-control"  name="endDate" value="<?php echo $endDate; ?>">
-</div>
-</div>
-<div class="col-4">
-<select class="form-select form-select mb-3" name="reportType" aria-label="Large select example">
-  <option selected>Select Report Types</option>
-  <option value="0">Reload</option>
-  <option value="1">Accesoriess Bill</option>
-  <option value="2">All Item Bill</option>
-  <option value="3">Accesoriess Items</option>
-  <option value="4">Print & Others</option>
-</select>
-</div>
-<div class="col-2">
-<button type="submit" class="btn btn-primary" name="search" >search</button>
-</div>
-</div>
-<div class="row">
-<?php
+    <br>
+    <form method="post">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-3 ">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Start Date</span>
+                        <input type="date" class="form-control" name="startDate" value="<?php echo $startDate; ?>">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">End Date</span>
+                        <input type="date" class="form-control" name="endDate" value="<?php echo $endDate; ?>">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <select class="form-select form-select mb-3" name="reportType" aria-label="Large select example">
+                        <option selected>Select Report Types</option>
+                        <option value="0">Reload</option>
+                        <option value="1">Accesoriess Bill</option>
+                        <option value="2">All Item Bill</option>
+                        <option value="3">Accesoriess Items</option>
+                        <option value="4">Print & Others</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary" name="search">search</button>
+                </div>
+            </div>
+            <div class="row">
+                <?php
 $fullTotal=0;
 $discountValue = 0;
 $rangeTotal=0;
@@ -832,104 +837,110 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
 }
 ?>
 
-</tbody>
-</table>
-</div>
-</div>
-</form>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script>
-  $(document).ready( function () {
+$(document).ready(function() {
     $('#myTable').DataTable({
 
-      "lengthMenu": [ 50,100,200]
+        "lengthMenu": [50, 100, 200]
 
     });
 
     $('#myTablerelod').DataTable({
 
-"lengthMenu": [ 50,100,200]
+        "lengthMenu": [50, 100, 200]
 
+    });
 });
-  });
 </script>
+
 </html>
 <?php
         if ($submited) {
           if ($inValid) {
         ?>
-            <script>
-              swal({
-                title: "<?php echo $errorEvent ?>",
-                // text: "You clicked the button!",
-                icon: "warning",
-                button: "ok",
-              });
-            </script>
-          <?php } else { ?>
-            <script>
-              swal({
-                title: "<?php echo $successEvent ?>",
-                // text: "You clicked the button!",
-                icon: "success",
-                button: "ok",
-              });
-            </script>
-        <?php }
+<script>
+swal({
+    title: "<?php echo $errorEvent ?>",
+    // text: "You clicked the button!",
+    icon: "warning",
+    button: "ok",
+});
+</script>
+<?php } else { ?>
+<script>
+swal({
+    title: "<?php echo $successEvent ?>",
+    // text: "You clicked the button!",
+    icon: "success",
+    button: "ok",
+});
+</script>
+<?php }
         } 
         
       }elseif($_SESSION['userrole']=="user"){
 ?>
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        
-            <title>Invoice Report</title>
-        </head>
-        <body class="bg-secondary">
-            <div>
-            <?php
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <title>Invoice Report</title>
+</head>
+
+<body class="bg-secondary">
+    <div>
+        <?php
             
             ?>
-            </div>
-        <br>
-        <form method="post">
+    </div>
+    <br>
+    <form method="post">
         <div class="container text-center">
-        <div class="row">
-        <div class="col-3 ">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Start Date</span>
-          <input type="date" class="form-control"  name="startDate" value="<?php echo $startDate; ?>">
-        </div>
-        </div>
-        <div class="col-3">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">End Date</span>
-          <input type="date" class="form-control"  name="endDate" value="<?php echo $endDate; ?>">
-        </div>
-        </div>
-        <div class="col-4">
-        <select class="form-select form-select mb-3" name="reportType" aria-label="Large select example">
-          <option selected>Select Report Types</option>
-          <option value="0">Reload</option>
-          <option value="1">Accesoriess Bill</option>
-          <option value="2">All Item Bill</option>
-          <option value="3">Accesoriess Items</option>
-          <option value="4">Print & Others</option>
-        </select>
-        </div>
-        <div class="col-2">
-        <button type="submit" class="btn btn-primary" name="search" >search</button>
-        </div>
-        </div>
-        <div class="row">
-        <?php
+            <div class="row">
+                <div class="col-3 ">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Start Date</span>
+                        <input type="date" class="form-control" name="startDate" value="<?php echo $startDate; ?>">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">End Date</span>
+                        <input type="date" class="form-control" name="endDate" value="<?php echo $endDate; ?>">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <select class="form-select form-select mb-3" name="reportType" aria-label="Large select example">
+                        <option selected>Select Report Types</option>
+                        <option value="0">Reload</option>
+                        <option value="1">Accesoriess Bill</option>
+                        <option value="2">All Item Bill</option>
+                        <option value="3">Accesoriess Items</option>
+                        <option value="4">Print & Others</option>
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary" name="search">search</button>
+                </div>
+            </div>
+            <div class="row">
+                <?php
         $fullTotal=0;
         $discountValue = 0;
         $rangeTotal=0;
@@ -1508,54 +1519,55 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
              } 
         }
         ?>
-        
-        </tbody>
-        </table>
+
+                </tbody>
+                </table>
+            </div>
         </div>
-        </div>
-        </form>
-        </body>
-        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-        <script>
-          $(document).ready( function () {
-            $('#myTable').DataTable({
-        
-              "lengthMenu": [ 50,100,200]
-        
-            });
-        
-            $('#myTablerelod').DataTable({
-        
-        "lengthMenu": [ 50,100,200]
-        
-        });
-          });
-        </script>
-        </html>
-        <?php
+    </form>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#myTable').DataTable({
+
+        "lengthMenu": [50, 100, 200]
+
+    });
+
+    $('#myTablerelod').DataTable({
+
+        "lengthMenu": [50, 100, 200]
+
+    });
+});
+</script>
+
+</html>
+<?php
                 if ($submited) {
                   if ($inValid) {
                 ?>
-                    <script>
-                      swal({
-                        title: "<?php echo $errorEvent ?>",
-                        // text: "You clicked the button!",
-                        icon: "warning",
-                        button: "ok",
-                      });
-                    </script>
-                  <?php } else { ?>
-                    <script>
-                      swal({
-                        title: "<?php echo $successEvent ?>",
-                        // text: "You clicked the button!",
-                        icon: "success",
-                        button: "ok",
-                      });
-                    </script>
-                <?php }
+<script>
+swal({
+    title: "<?php echo $errorEvent ?>",
+    // text: "You clicked the button!",
+    icon: "warning",
+    button: "ok",
+});
+</script>
+<?php } else { ?>
+<script>
+swal({
+    title: "<?php echo $successEvent ?>",
+    // text: "You clicked the button!",
+    icon: "success",
+    button: "ok",
+});
+</script>
+<?php }
                 } 
                 
 

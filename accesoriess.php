@@ -260,20 +260,25 @@ if(isset($_POST['clearInvoice'])){
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
+    <link rel="stylesheet" href="style.css">
     <title>Stocks</title>
 </head>
+
 <body class="bg-secondary">
 
-<div class='container'>
-<br>
-<form method = "post">
-        <?php
+    <div class='container'>
+        <br>
+        <form method="post">
+            <?php
 
         
 echo "<table id='myTable' class='table table-striped table-dark'>";
@@ -334,52 +339,53 @@ echo "<tbody>";
 
 
 ?>
-</form>
+        </form>
 
-<?php 
+        <?php 
 if(!empty($cartList)){
 ?>
-  <div class="container text-center">
-<form method="post">
+        <div class="container text-center">
+            <form method="post">
 
-  <div class="row align-items-start">
-    <div class="col input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Bill No</span>
+                <div class="row align-items-start">
+                    <div class="col input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Bill No</span>
 
-<input type="text" class="form-control" name="billNumber" value="<?php echo $billID; ?>">
-    </div>
-    <div class="col">
-    <div class="col input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Customer Name</span>
-<input type="text" class="form-control" name="customerName" >
-    </div>
-     
-    </div>
-    <div class="col">
-    <div class="col input-group mb-3">
-    <span class="input-group-text" id="basic-addon1">Phone Number</span>
-<input id="phoneInput" type="tel"  class="form-control" aria-label="Phone number" name="phoneNumber" >
-    </div>
-      
-    </div>
-  </div>
+                        <input type="text" class="form-control" name="billNumber" value="<?php echo $billID; ?>">
+                    </div>
+                    <div class="col">
+                        <div class="col input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Customer Name</span>
+                            <input type="text" class="form-control" name="customerName">
+                        </div>
 
-  <table id="myTable" class="table table-striped table-dark">
-<thead>
-<tr>
-<th >Item Code</th>
-<th >Item Name</th>
-<th >Item Type</th>
-<th >Selling Price</th>
-<th >Quantity</th>
-<th>Note</th>
-<th></th>
+                    </div>
+                    <div class="col">
+                        <div class="col input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Phone Number</span>
+                            <input id="phoneInput" type="tel" class="form-control" aria-label="Phone number"
+                                name="phoneNumber">
+                        </div>
 
-</tr>
+                    </div>
+                </div>
 
-</thead>
-<tbody>
-<?php
+                <table id="myTable" class="table table-striped table-dark">
+                    <thead>
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>Item Type</th>
+                            <th>Selling Price</th>
+                            <th>Quantity</th>
+                            <th>Note</th>
+                            <th></th>
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <?php
 $notetest="-";
   foreach($cartList as $index)
     echo "<tr>
@@ -439,61 +445,62 @@ $notetest="-";
     echo "</table>";
     
     ?>
-   
-    <button type="submit" name="itemadd" class="btn btn-success"> Add Bill </button>
-   
-    <?php  
+
+                        <button type="submit" name="itemadd" class="btn btn-success"> Add Bill </button>
+
+                        <?php  
 
 echo $downloadInvoice;
     ?>
-     <button  type='submit' name='clearInvoice' class='btn btn-danger' > Clear Invoice</button>
-    
-</form>
-<?php
+                        <button type='submit' name='clearInvoice' class='btn btn-danger'> Clear Invoice</button>
+
+            </form>
+            <?php
 }
 ?>
+        </div>
     </div>
-</div>
-  
-   
+
+
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-  $(document).ready( function () {
-    $('#myTable').DataTable({
+    <script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
 
-      "lengthMenu": [ 3 ]
+            "lengthMenu": [3]
 
+        });
+
+        $('#cartTable').DataTable();
     });
-
-    $('#cartTable').DataTable();
-  });
-</script>
+    </script>
 
 </body>
+
 </html>
 <?php
         if ($submited) {
           if ($inValid) {
         ?>
-            <script>
-              swal({
-                title: "<?php echo $errorEvent ?>",
-                // text: "You clicked the button!",
-                icon: "warning",
-                button: "ok",
-              });
-            </script>
-          <?php } else { ?>
-            <script>
-              swal({
-                title: "<?php echo $successEvent ?>",
-                // text: "You clicked the button!",
-                icon: "success",
-                button: "ok",
-              });
-            </script>
-        <?php }
+<script>
+swal({
+    title: "<?php echo $errorEvent ?>",
+    // text: "You clicked the button!",
+    icon: "warning",
+    button: "ok",
+});
+</script>
+<?php } else { ?>
+<script>
+swal({
+    title: "<?php echo $successEvent ?>",
+    // text: "You clicked the button!",
+    icon: "success",
+    button: "ok",
+});
+</script>
+<?php }
         } ?>

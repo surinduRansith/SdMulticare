@@ -1,4 +1,3 @@
-
 <?php
 
 function insertStockData($conn){
@@ -173,5 +172,3 @@ function customerdetails($custonmerName,$phoneNumber,$billID,$CustomerID,$conn){
 
 
 ?>
-
-

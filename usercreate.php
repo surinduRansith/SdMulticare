@@ -100,75 +100,78 @@ if(isset($_POST['userdeleteid'])){
 
 
     ?>
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
     <title>User Create</title>
 </head>
 
 <body class="bg-secondary">
- 
-<div class="row">
-<div class=" col-5 container">
-    <form  method="post">
-    <div class="input-group mb-3 pt-2">
-  <h2> User Create </h2>
-</div>
-    
-        <br>
-        <div class="input-group mb-3">
-  <input type="text" class="form-control disable" placeholder="Enter User Name" name="userName">
-</div>
-<div class="input-group mb-3">
-  <input type="password" class="form-control" placeholder="Enter password" name="password">
-</div>
- <div class=" input-group mb-3">
-        <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="role" > 
-            
-        <option value="admin">admin</option>
-        <option  value="user">user</option>
-        </select>
-          </div>
 
-        <button class="btn btn-success" name="sumbitCreate"><b> Create </b></button>
+    <div class="row">
+        <div class=" col-5 container">
+            <form method="post">
+                <div class="input-group mb-3 pt-2">
+                    <h2> User Create </h2>
+                </div>
 
-        <?php 
+                <br>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control disable" placeholder="Enter User Name" name="userName">
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Enter password" name="password">
+                </div>
+                <div class=" input-group mb-3">
+                    <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="role">
+
+                        <option value="admin">admin</option>
+                        <option value="user">user</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-success" name="sumbitCreate"><b> Create </b></button>
+
+                <?php 
 
         echo $closeButton;
 ?>
 
 
 
-        <br><br>
+                <br><br>
 
-       
-        
-            
-          
-    </form>
-    </div>
 
-    <div class=" col-6 container pt-3">
-    <div class="input-group mb-3 pt-2">
-  <h2> User Table </h2>
-</div>  
-<form  method="post">
-    <table id='myTable' class='table table-striped table-dark'>
-  <thead>
-    <tr>
-      <th>User ID</th>
-      <th>User Name</th>
-      <th>User Role</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php 
+
+
+
+            </form>
+        </div>
+
+        <div class=" col-6 container pt-3">
+            <div class="input-group mb-3 pt-2">
+                <h2> User Table </h2>
+            </div>
+            <form method="post">
+                <table id='myTable' class='table table-striped table-dark'>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                            <th>User Role</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
 
        $userLogins= getuserLogin($conn);
 
@@ -221,18 +224,18 @@ if(isset($_POST['userdeleteid'])){
     }
 
 ?>
-    
-    
-  </tbody>
-</table>
-    
 
 
-</form>
+                    </tbody>
+                </table>
+
+
+
+            </form>
+        </div>
     </div>
-</div>
 
- 
+
 
 
 
@@ -246,36 +249,31 @@ if(isset($_POST['userdeleteid'])){
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-  $(document).ready( function () {
+$(document).ready(function() {
     $('#myTable').DataTable();
-  });
+});
 </script>
 <?php
 
         if ($submited) {
           if ($inValid) {
         ?>
-            <script>
-              swal({
-                title: "<?php echo $errorEvent ?>",
-                // text: "You clicked the button!",
-                icon: "warning",
-                button: "ok",
-              });
-            </script>
-          <?php } else { ?>
-            <script>
-              swal({
-                title: "<?php echo $successEvent ?>",
-                // text: "You clicked the button!",
-                icon: "success",
-                button: "ok",
-              });
-            </script>
-        <?php }
+<script>
+swal({
+    title: "<?php echo $errorEvent ?>",
+    // text: "You clicked the button!",
+    icon: "warning",
+    button: "ok",
+});
+</script>
+<?php } else { ?>
+<script>
+swal({
+    title: "<?php echo $successEvent ?>",
+    // text: "You clicked the button!",
+    icon: "success",
+    button: "ok",
+});
+</script>
+<?php }
         } ?>
-
-
-
-
-
