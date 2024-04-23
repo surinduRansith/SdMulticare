@@ -16,9 +16,10 @@ if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
 }
 function getItemCountofsale($startDate,$endDate,$conn){
 
-    $sql = "SELECT ai.ItemNo,ai.itemName,ab.date, sum(ai.itemQty) AS item_count
+    $sql = "SELECT ai.ItemNo,s.itemName,ab.date, sum(ai.itemQty) AS item_count
 FROM accessoriesbill ab
 INNER JOIN accessoriesitem ai ON ab.billNo = ai.billNo
+INNER JOIN stock s ON ai.ItemNo = s.itemNo 
 where ab.date BETWEEN '".$startDate."' AND '".$endDate."'
 GROUP BY ai.ItemNo 
 ";

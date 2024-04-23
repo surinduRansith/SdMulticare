@@ -23,7 +23,7 @@ function  billTotal($billID , $conn){
   $sql = "SELECT
   accessoriesitem.billNo,
       accessoriesitem.ItemNo,
-     accessoriesitem.itemName,
+     stock.ItemName,
      stock.SellingPrice,
      accessoriesitem.itemQty,
      accessoriesitem.discounttype,
@@ -40,7 +40,7 @@ function  billTotal($billID , $conn){
 accessoriesitem.billNo=$billID
     
   GROUP BY
-     accessoriesitem.ItemNo, accessoriesitem.itemName, stock.SellingPrice, accessoriesitem.itemQty,
+     accessoriesitem.ItemNo, stock.ItemName, stock.SellingPrice, accessoriesitem.itemQty,
      accessoriesitem.discount LIMIT 1;";
 
   $result = mysqli_query($conn,$sql);
@@ -63,8 +63,10 @@ function accessoriesbill($startDate,$endDate,$reportType,$conn){
 
     function getitems($startDate,$endDate,$billID,$conn){
 
-        $sql = "SELECT ab.billNo,ai.itemName,ai.itemQty,ai.note,ab.date FROM accessoriesitem ai 
+        $sql = "SELECT ab.billNo,s.ItemName,ai.itemQty,ai.note,ab.date 
+        FROM accessoriesitem ai 
         INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
+        INNER JOIN stock s ON ai.ItemNo = s.itemNo 
         WHERE ab.date BETWEEN '".$startDate."' AND '".$endDate."' AND ab.billNo = $billID;";
         
         $result = mysqli_query($conn,$sql);
@@ -173,7 +175,7 @@ foreach($billNOArray as $index =>$value){
 
             if($value['billNo']==$row['billNo']){
 
-                $itemNames .= $row['itemName'] . '<br>';
+                $itemNames .= $row['ItemName'] . '<br>';
 
             }else{
 

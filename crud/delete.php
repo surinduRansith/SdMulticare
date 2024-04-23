@@ -26,23 +26,34 @@ if (isset($_GET['billid'] )){
 
     $billID = $_GET['billid'];
 
-    $sql = "DELETE FROM `accessoriesitem` WHERE  billNo= $billID;";
 
-$result = mysqli_query($conn, $sql);
+    $sqlcustomer = "DELETE FROM `customerbill` WHERE  billNo=$billID;";
+
+$result = mysqli_query($conn, $sqlcustomer);
 
 if ($result){
 
-    $sql = "DELETE FROM `accessoriesbill` WHERE billNo=$billID;";
+   
 
-    $result = mysqli_query($conn, $sql);
+    $sqlitem = "DELETE FROM `accessoriesitem` WHERE  billNo= $billID;";
+
+    $result = mysqli_query($conn, $sqlitem);
 
     if($result){
 
-     header('Location: /sd_multicare/report.php');
- 
-        exit();
+        $sqlbill = "DELETE FROM `accessoriesbill` WHERE billNo=$billID;";
 
-    }
+        $result = mysqli_query($conn, $sqlbill);
+
+        if($result){
+    
+         header('Location: /sd_multicare/report.php');
+     
+            exit();
+    
+        }
+
+   }
 }
 }
 

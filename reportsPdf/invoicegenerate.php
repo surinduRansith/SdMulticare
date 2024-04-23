@@ -17,7 +17,7 @@ function  dowonloadPDF($billID , $conn){
  
     $sql = "SELECT
     accessoriesitem.ItemNo,
-   accessoriesitem.itemName,
+   stock.ItemName,
    stock.SellingPrice,
    accessoriesitem.itemQty,
    accessoriesitem.note,
@@ -32,7 +32,7 @@ JOIN
 WHERE
    accessoriesitem.billNo =$billID
 GROUP BY
-   accessoriesitem.ItemNo, accessoriesitem.itemName, stock.SellingPrice, accessoriesitem.itemQty,
+   accessoriesitem.ItemNo, stock.ItemName, stock.SellingPrice, accessoriesitem.itemQty,
    accessoriesitem.discount;";
 
 
@@ -42,6 +42,22 @@ return $result;
 
 
 }
+}
+
+function getCustomerDetails($billID,$conn){
+
+  $sql = "SELECT c.`customerid`, c.`name`, c.`phonenumber`, cb.billNo
+  FROM `customer` AS c
+  INNER JOIN `customerbill` AS cb ON c.`customerid` = cb.`customerid`
+  WHERE cb.billNo=$billID
+  ";
+
+$result = mysqli_query($conn,$sql);
+
+return $result;
+
+
+
 }
 
 function billdate($billID,$conn){
@@ -56,6 +72,8 @@ return $result;
 $billdate =  billdate($billID,$conn);
 
 $itemList = dowonloadPDF($billID , $conn);
+
+$customerDetails =getCustomerDetails($billID,$conn);
 
 $itemCount =0;
 $fullTotal=0;
@@ -103,8 +121,19 @@ if($billdate->num_rows > 0){
 
 $html.='</tr>
 <tr >
-<td><h3>Customer Name :-  ....................................</h3></td>
-<td><h3>Phone Number :-  ......................</h3></td>
+<td>';
+
+if($customerDetails->num_rows > 0){
+
+  while($row = mysqli_fetch_array($customerDetails,MYSQLI_ASSOC)){
+
+    $html.='<h3>Customer Name :- '.$row['name'].'</h3></td>
+    <td><h3>Phone Number :-  '.$row['phonenumber'].'</h3></td>';
+
+  }
+}
+ 
+ $html.='
 </tr>
 </table><br><br>';
 
@@ -134,7 +163,7 @@ $html.='</tr>
   
   </style><table class="tb2" >
   <tr class="tb2">
-  <th class="tb2">ITEM NO/th>
+  <th class="tb2">ITEM NO</th>
   <th class="tb2">ITEM NAME</th>
   <th class="tb2">SELING PRICE</th>
   <th class="tb2"> NOTE</th>
@@ -153,7 +182,7 @@ $html.='</tr>
 
                 $html .=  '<tr class="tb2">
                             <td class="tb2" >'.$row['ItemNo'].'</td>
-                            <td class="tb2" >'. $row['itemName'].'</td>
+                            <td class="tb2" >'. $row['ItemName'].'</td>
                             <td class="tb2" >Rs.'.$row['SellingPrice'].'</td>
                             <td class="tb2" >'.$row['note'].'</td>
                             <td class="tb2" >'.$row['itemQty'].'</td>

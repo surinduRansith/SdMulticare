@@ -162,7 +162,7 @@ if(isset($_POST['itemadd'])){
 //echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
     
-     accesoriesBillItemList($billID,$itemNo1 ,$itemName1 , $quantity,$note,$discountType,$discountValue,$conn);
+     accesoriesBillItemList($billID,$itemNo1, $quantity,$note,$discountType,$discountValue,$conn);
 if($discountType=="presentage"){
 if($discountValue>0){
 

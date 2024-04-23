@@ -168,7 +168,7 @@ if(isset($_POST['search'])){
     
         $accesoriesitemArray []  = array(
           'ItemNo' => $row['ItemNo'],
-          'itemName' => $row['itemName'],
+          'itemName' => $row['ItemName'],
           'date'=> $row['date'],
           'item_count'=> $row['item_count']
       );
@@ -301,7 +301,7 @@ foreach($billNOArray as $index =>$value){
     
     while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
       
-      echo $row['itemName']."<br>";
+      echo $row['ItemName']."<br>";
      
     }
   }
@@ -523,7 +523,7 @@ foreach($billNOArray as $index =>$value){
        
        while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
          
-         echo $row['itemName']."<br>";
+         echo $row['ItemName']."<br>";
         
        }
      }
@@ -984,7 +984,7 @@ swal({
             
             while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
               
-              echo $row['itemName']."<br>";
+              echo $row['ItemName']."<br>";
              
             }
           }
@@ -1206,7 +1206,7 @@ swal({
                
                while($row = mysqli_fetch_array($resultitems,MYSQLI_ASSOC)){
                  
-                 echo $row['itemName']."<br>";
+                 echo $row['ItemName']."<br>";
                 
                }
              }
