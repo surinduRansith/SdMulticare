@@ -61,7 +61,6 @@ if(isset($_POST['sumbitUpdate'])){
       $successEvent = "Item Update Successfully";
 
 
-      $closeButton = "<button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>";
 
  
     }
@@ -122,11 +121,9 @@ if(isset($_POST['sumbitClose'])){
   <input type="number" class="form-control" placeholder="QTY"  name="qty" value="<?php echo $getItemQty?>">
 </div>
         <button class="btn btn-success" name="sumbitUpdate"><b> Update </b></button>
+        <button class='btn btn-danger' name='sumbitClose'><b> Close </b></button>
 
-        <?php 
-
-        echo $closeButton;
-?>
+       
         </div>
 
 

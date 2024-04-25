@@ -17,6 +17,7 @@ if(isset($_POST['deleteinvoiceaccesories'])){
   $billID= $_POST['deleteinvoiceaccesories'];
   
   header("Location: /sd_multicare/crud/delete.php?billid=$billID");
+  
 
 }
 if(isset($_POST['deleteinvoicereload'])){
