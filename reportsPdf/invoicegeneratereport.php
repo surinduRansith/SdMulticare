@@ -1,8 +1,8 @@
 <?php 
 require_once '../assets/vendor/autoload.php';
 $servername = "localhost";
-$username  = "root";
-$password = "";
+$username  = "sdMulticare";
+$password = "sdmulti@123";
 $dbname = "sdmulticarehouse";
 
 
@@ -190,6 +190,7 @@ if($customerDetails->num_rows > 0){
                             if($row['discounttype']=="presentage"){
                               if( $discountValue<=0){
                                 $disctype=" ";
+                                $discvaluetype=" ";
                                   $fullTotal = $row['Total']; 
                               }else{
                                  $disctype = "(%)";
@@ -206,7 +207,7 @@ if($customerDetails->num_rows > 0){
                         
                               $disctype = "(Cash)";
                                 $fullTotal = $row['Total']; 
-                                
+                                $discvaluetype="RS. ";
                                 
                                 $fullTotal = $fullTotal-$discountValue;
                             }
@@ -219,7 +220,7 @@ if($customerDetails->num_rows > 0){
                     $html .=  '
                     <tr class="tb2">
                       <td class="tb2" colspan ="5">Discount'.$disctype.'</td>
-                    <td class="tb2">'.$discountValue.'</td> </tr>';
+                    <td class="tb2">'. $discvaluetype.' '.$discountValue.'</td> </tr>';
                     $html .=  '
                     <tr class="tb2">
                       <td class="tb2" colspan ="5">Total</td>

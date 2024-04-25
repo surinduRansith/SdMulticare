@@ -14,7 +14,7 @@ if (isset($_POST["submit"])) {
     } else {
 
         $userName = trim($_POST["username"]);
-        $password = trim($_POST["password"]);
+        $password = md5(trim($_POST["password"]));
 
 
         $sql = "Select * from userlogin where username = '" . $userName . "' and password='" . $password . "'";

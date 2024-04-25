@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username  = "root";
-$password = "";
+$username  = "sdMulticare";
+$password = "sdmulti@123";
 $dbname = "sdmulticarehouse";
 
 

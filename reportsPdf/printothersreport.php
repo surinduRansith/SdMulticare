@@ -1,8 +1,8 @@
 <?php
 require_once '../assets/vendor/autoload.php';
 $servername = "localhost";
-$username  = "root";
-$password = "";
+$username  = "sdMulticare";
+$password = "sdmulti@123";
 $dbname = "sdmulticarehouse";
 
 

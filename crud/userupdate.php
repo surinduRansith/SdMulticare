@@ -56,7 +56,7 @@ if(isset($_POST['sumbitUpdate'])){
 
     echo $id;
     $username = $_POST['username'];
-    $passWord = $_POST['password'];
+    $passWord = md5($_POST['password']);
     $userRole = $_POST['role'];
 
     $userupdateresult =userLoginUpdate($id,$username,$passWord,$userRole,$conn);

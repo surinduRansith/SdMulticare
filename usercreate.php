@@ -15,7 +15,7 @@ $Answer ="";
 if(isset($_POST['sumbitCreate'])){
 
     $userName = $_POST['userName'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
     $userRole = $_POST['role'];
 
     if(empty($userName)|| empty($password)){
