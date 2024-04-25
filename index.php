@@ -17,7 +17,7 @@ if (isset($_POST["submit"])) {
         $password = md5(trim($_POST["password"]));
 
 
-        $sql = "Select * from userlogin where username = '" . $userName . "' and password='" . $password . "'";
+        $sql = "Select `id`, `username`, `password`, `role` from userlogin where username = '" . $userName . "' and password='" . $password . "'";
 
 
         $result = mysqli_query($conn, $sql);
@@ -25,9 +25,10 @@ if (isset($_POST["submit"])) {
 
                 while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 
-
+                    $userRole = $row['role'];
+                    $userAcountName = $row['username'];
+                    
             header('Location: home.php');
-            $userRole = $row['role'];
                 }
         } else {
             $setusername = $userName;
@@ -37,6 +38,8 @@ if (isset($_POST["submit"])) {
     session_start();
     $_SESSION['username'] = $userName;
     $_SESSION['userrole'] =$userRole;
+    $_SESSION['userroleName'] =$userAcountName;
+
 }
 
 
