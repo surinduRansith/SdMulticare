@@ -3,6 +3,7 @@ $error = "";
 $setusername = "";
 $userName = "";
 $userRole = "";
+$userAcountName = "";
 
 include("../sd_multicare/dbconnect/dbconnect.php");
 

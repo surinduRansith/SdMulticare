@@ -219,6 +219,7 @@ if($customerDetails->num_rows > 0){
                 
                         }
                     }
+                    
                     $html .=  '
                     <tr class="tb2">
                       <td class="tb2" colspan ="5">Discount'.$disctype.'</td>
