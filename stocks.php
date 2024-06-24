@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("../sd_multicare/dbconnect/dbconnect.php");
 include("../sd_multicare/dbconnect/queris/Insert.php");
 include("../sd_multicare/dbconnect/queris/select.php");
@@ -7,72 +7,66 @@ include("../sd_multicare/dbconnect/queris/select.php");
 
 
 $WarningAlertforEmpty = false;
-$itemAddsuccess= false;
+$itemAddsuccess = false;
 $submited = false;
 
 
 
 if (isset($_POST["submitStock"])) {
-  $WarningAlertforEmpty=true;
-  $submited = true;
-  $itemNO= trim($_POST['itemNo']);
-  $itemName = trim($_POST['itemName']);
-  $unitCost = trim($_POST['unitCost']);
-  $sellingPrice = trim($_POST['sellingPrice']);
-  $qty = trim($_POST['qty']);
-
-  $itemAddsuccess=empty($itemNO)|| empty($itemName) ||empty($unitCost) || empty($sellingPrice) || empty($qty) && !is_numeric($unitCost)|| !is_numeric($sellingPrice);
-
-  if (!$itemAddsuccess ){
-  
-    $type = $_POST['data'];
-   
-
-    $result = addStockItem($itemNO,$itemName,$type,$unitCost,$sellingPrice,$qty,$conn,$itemAddsuccess);
-
-    if($result>0){
-
-          $submited = true;
-         $itemAddsuccess=true;
-         $successEvent = "Successfully data added";
-    }else{
-
-      $errorEvent = "Already add this item No";
-    }
-    
-  }else{
-    $submited=false;
     $WarningAlertforEmpty = true;
-    $errorEvent = "Please fill the inputs";
+    $submited = true;
+    $itemNO = trim($_POST['itemNo']);
+    $itemName = trim($_POST['itemName']);
+    $unitCost = trim($_POST['unitCost']);
+    $sellingPrice = trim($_POST['sellingPrice']);
+    $qty = trim($_POST['qty']);
 
-  }
+    $itemAddsuccess = empty($itemNO) || empty($itemName) || empty($unitCost) || empty($sellingPrice) || empty($qty) && !is_numeric($unitCost) || !is_numeric($sellingPrice);
 
- 
+    if (!$itemAddsuccess) {
 
-  }
-
-
+        $type = $_POST['data'];
 
 
-  if(isset($_POST['submitClose'])){
+        $result = addStockItem($itemNO, $itemName, $type, $unitCost, $sellingPrice, $qty, $conn, $itemAddsuccess);
+
+        if ($result > 0) {
+
+            $submited = true;
+            $itemAddsuccess = true;
+            $successEvent = "Successfully data added";
+        } else {
+
+            $errorEvent = "Already add this item No";
+        }
+    } else {
+        $submited = false;
+        $WarningAlertforEmpty = true;
+        $errorEvent = "Please fill the inputs";
+    }
+}
+
+
+
+
+if (isset($_POST['submitClose'])) {
 
 
     $itemName = "";
     $unitCost = "";
     $sellingPrice = "";
     $qty = "";
-
-  } 
-
-
-
- 
+}
 
 
 
 
 
-   
+
+
+
+
+
 
 
 
@@ -86,11 +80,9 @@ if (isset($_POST["submitStock"])) {
 <html lang="en">
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="shortcut icon" type="x-icon" href="assets/images/sdlogo.jpeg">
     <title>Stocks</title>
 </head>
@@ -100,10 +92,10 @@ if (isset($_POST["submitStock"])) {
 
         <?php
 
-    include("header.php");
-    
+        include("header.php");
 
-    ?>
+
+        ?>
     </div>
     <br>
     <div class="container text-center">
@@ -162,8 +154,7 @@ if (isset($_POST["submitStock"])) {
                                 <input type="text" class="form-control" placeholder="Item Name" name="itemName">
                             </div>
                             <div class=" input-group mb-3">
-                                <select class="form-select form-select-sm mb-3" aria-label="Large select example"
-                                    name="data">
+                                <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="data">
                                     <option value="Mobile">Mobile Accessories</option>
                                     <option value="Computer">Computer Accessories</option>
                                 </select>
@@ -174,8 +165,7 @@ if (isset($_POST["submitStock"])) {
                             </div>
                             <div class="input-group mb-3">
 
-                                <input type="double" class="form-control" placeholder="Selling Price"
-                                    name="sellingPrice">
+                                <input type="double" class="form-control" placeholder="Selling Price" name="sellingPrice">
                             </div>
 
                             <div class="input-group mb-3">
@@ -189,8 +179,7 @@ if (isset($_POST["submitStock"])) {
 
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="submitClose" class="btn btn-secondary"
-                                data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="submitClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" name="submitStock" class="btn btn-primary">Add Stock</button>
                         </div>
                     </form>
@@ -210,19 +199,19 @@ if (isset($_POST["submitStock"])) {
 
         <?php
 
-$successEvent;
-$errorEvent;
+        $successEvent;
+        $errorEvent;
 
 
 
-?>
+        ?>
         <script>
-        swal({
-            title: "<?php echo $errorEvent ?>",
-            // text: "You clicked the button!",
-            icon: "warning",
-            button: "ok",
-        });
+            swal({
+                title: "<?php echo $errorEvent ?>",
+                // text: "You clicked the button!",
+                icon: "warning",
+                button: "ok",
+            });
         </script>
 
 
@@ -236,66 +225,67 @@ $errorEvent;
     <?php
 
 
-  include("../sd_multicare/stockTable/stockTable.php");
+    include("../sd_multicare/stockTable/stockTable.php");
 
 
-?>
+    ?>
 
 </body>
 
 </html>
-<?php 
+<?php
 
-if($WarningAlertforEmpty){
+if ($WarningAlertforEmpty) {
 ?>
 
-<script>
-swal({
-    title: "<?php echo $errorEvent ?>",
-    // text: "You clicked the button!",
-    icon: "warning",
-    button: "ok",
-});
-</script>
+    <script>
+        swal({
+            title: "<?php echo $errorEvent ?>",
+            // text: "You clicked the button!",
+            icon: "warning",
+            button: "ok",
+        });
+    </script>
 
 <?php
 }
 ?>
 
 <?php
-if($submited){
-if(!$itemAddsuccess){
+if ($submited) {
+    if (!$itemAddsuccess) {
 
-  ?>
-<script>
-swal({
-    title: "<?php echo $errorEvent ?>",
-    // text: "You clicked the button!",
-    icon: "warning",
-    button: "ok",
-});
-</script>
-
-<?php
-}else{
 ?>
+        <script>
+            swal({
+                title: "<?php echo $errorEvent ?>",
+                // text: "You clicked the button!",
+                icon: "warning",
+                button: "ok",
+            });
+        </script>
+
+    <?php
+    } else {
+    ?>
 
 
 
-<script>
-swal({
-    title: "<?php echo $successEvent ?>",
-    // text: "You clicked the button!",
-    icon: "success",
-    button: "ok",
-});
-</script>
+        <script>
+            swal({
+                title: "<?php echo $successEvent ?>",
+                // text: "You clicked the button!",
+                icon: "success",
+                button: "ok",
+            });
+        </script>
 
 <?php
 
 
 
-}}
+    }
+}
 
 
 
