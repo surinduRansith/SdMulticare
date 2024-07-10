@@ -57,10 +57,10 @@ function reloadDataAdd($billId,$reloadType, $amount, $itemType, $conn)
 
 
 
-function accessoriesPaymentItemInsert($billType,$conn)
+function accessoriesPaymentItemInsert($billType,$billDate,$conn)
 {
 
-  $sqlTotalBill = "INSERT INTO `accessoriesbill`(`billtype`) VALUES ('$billType')";
+  $sqlTotalBill = "INSERT INTO `accessoriesbill`(`billtype`,`date`) VALUES ('$billType','$billDate')";
 
 
 

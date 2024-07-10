@@ -21,6 +21,7 @@ $errorEvent;
 $note = "-";
 if (isset($_POST["submitreload"])) {
   $submited = true;
+  $billDate= $_POST['billDate'];
   $inValid = empty($_POST["data"]) || empty(trim($_POST["reloadAmount"]));
   if (!$inValid) {
 
@@ -38,7 +39,7 @@ if (isset($_POST["submitreload"])) {
       $amount = $_POST["reloadAmount"];
       $itemType = 'reload';
       if ($amount > 0) {
-        accessoriesPaymentItemInsert(0,$conn);
+        accessoriesPaymentItemInsert(0,$billDate,$conn);
       
         reloadDataAdd($billID,$reloadType, $amount, $itemType, $conn);
     $submited = true;
@@ -56,6 +57,7 @@ if (isset($_POST["submitreload"])) {
 }
 
 if (isset($_POST["submitprint"])) {
+    $billDate= $_POST['billDate'];
   $submited = true;
   $inValid = empty($_POST["dataprint"]) || empty(trim($_POST["printAmount"]));
   if (!$inValid) {
@@ -75,7 +77,7 @@ if (isset($_POST["submitprint"])) {
       $note = $_POST['printOtherNote'];
       if ($amount > 0) {
         
-        accessoriesPaymentItemInsert(2,$conn);
+        accessoriesPaymentItemInsert(2,$billDate,$conn);
          insertPrintBill($billID,$itemName,$note,$amount,$conn);
     $submited = true;
     $inValid = false;
@@ -162,6 +164,12 @@ if (isset($_POST["closebutton"])) {
                                 <div class="modal-body">
 
                                     <form method="post">
+                                    <div class="col input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Date</span>
+                            <input id="date" type="date" class="form-control" aria-label="Date"
+                                name="billDate" value="<?php echo date('Y-m-d'); ?>" >
+                        </div>
+
                                         <div class="mb-3">
                                             <select class="form-select form-select-sm mb-3"
                                                 aria-label="Large select example" name="data">
@@ -218,6 +226,13 @@ if (isset($_POST["closebutton"])) {
                                 <div class="modal-body">
 
                                     <form method="post">
+
+                                    <div class="col input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Date</span>
+                            <input id="date" type="date" class="form-control" aria-label="Date"
+                                name="billDate" value="<?php echo date('Y-m-d'); ?>" >
+                        </div>
+
                                         <div class="mb-3">
                                             <select class="form-select form-select-sm mb-3"
                                                 aria-label="Large select example" name="dataprint">

@@ -128,10 +128,14 @@ if(isset($_POST['itemremove'])){
   unset($cartList[array_search($removeItem, $cartList)]);
 }
 
+$billDate="";
 
 
 if(isset($_POST['itemadd'])){
   $phoneNumber=$_POST['phoneNumber'];
+  $billDate= $_POST['billDate'];
+
+
 
   if (preg_match("/^\d{10}$/", $phoneNumber)) {
 
@@ -145,7 +149,7 @@ if(isset($_POST['itemadd'])){
     $count=$count+1;
     if($count == $cartListLength){
 
-  accessoriesPaymentItemInsert(1,$conn);
+  accessoriesPaymentItemInsert(1,$billDate,$conn);
 
 
   foreach($cartList as $value =>$index){
@@ -358,6 +362,14 @@ if(!empty($cartList)){
                     </div>
                     <div class="col">
                         <div class="col input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Date</span>
+                            <input id="date" type="date" class="form-control" aria-label="Date"
+                                name="billDate" value="<?php echo date('Y-m-d'); ?>" >
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <div class="col input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Customer Name</span>
                             <input type="text" class="form-control" name="customerName">
                         </div>
@@ -371,6 +383,7 @@ if(!empty($cartList)){
                         </div>
 
                     </div>
+                    
                 </div>
 
                 <table id="myTable" class="table table-striped table-dark">
@@ -456,6 +469,7 @@ $notetest="-";
                         <?php  
 
 echo $downloadInvoice;
+
     ?>
                         <button type='submit' name='clearInvoice' class='btn btn-danger'> Clear Invoice</button>
 </div>
