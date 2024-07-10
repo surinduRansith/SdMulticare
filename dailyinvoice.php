@@ -179,7 +179,8 @@ if (isset($_POST["closebutton"])) {
                                                 <option value="Airtel">Airtel</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="col input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Amount</span>
                                             <input type="float" name="reloadAmount" class="form-control "
                                                 placeholder="Please enter the Amount">
 
@@ -240,12 +241,14 @@ if (isset($_POST["closebutton"])) {
                                                 <option value="Other">Other</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="col input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Note</span>
                                             <input type="text" name="printOtherNote" class="form-control "
                                                 placeholder="Please enter the Note">
 
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="col input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Amount</span>
                                             <input type="float" name="printAmount" class="form-control "
                                                 placeholder="Please enter the Amount">
 
