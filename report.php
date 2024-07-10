@@ -535,6 +535,7 @@ foreach($billNOArray as $index =>$value){
       $itemBillNo=$value['billNo'];
       $reloadbillresult = reloadBillitems($startDate,$endDate, $itemBillNo,0,$conn);
       $getprintresult = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
+      $getprintresultBillType = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
       $resultreload = reloadBill($startDate,$endDate,0,$conn);
       $resultPrint = getprintData($startDate,$endDate,2,$conn);
       $billTotalresult =  billTotal($value['billNo'], $conn);
@@ -552,7 +553,17 @@ foreach($billNOArray as $index =>$value){
               echo "Accessories";
             }elseif($billType == 2){
 
-              echo "Print & Others";
+              if($getprintresultBillType ->num_rows > 0){
+  
+                while($row = mysqli_fetch_array($getprintresultBillType ,MYSQLI_ASSOC)){
+                  
+                  echo $row['itemName'];
+
+                }
+              }
+
+           
+                
             }
 
            echo  "</td>";
@@ -1244,6 +1255,7 @@ swal({
               $itemBillNo=$value['billNo'];
               $reloadbillresult = reloadBillitems($startDate,$endDate, $itemBillNo,0,$conn);
               $getprintresult = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
+              $getprintresultBillType = getprintDatalist($startDate,$endDate,$itemBillNo,2,$conn);
               $resultreload = reloadBill($startDate,$endDate,0,$conn);
               $resultPrint = getprintData($startDate,$endDate,2,$conn);
               $billTotalresult =  billTotal($value['billNo'], $conn);
@@ -1261,7 +1273,14 @@ swal({
                       echo "Accessories";
                     }elseif($billType == 2){
         
-                      echo "Print & Others";
+                      if($getprintresultBillType ->num_rows > 0){
+  
+                        while($row = mysqli_fetch_array($getprintresultBillType ,MYSQLI_ASSOC)){
+                          
+                          echo $row['itemName'];
+        
+                        }
+                      }
                     }
         
                    echo  "</td>";
