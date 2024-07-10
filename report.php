@@ -223,9 +223,7 @@ if($_SESSION['userrole']=="admin"){
 
 <body class="bg-secondary">
     <div>
-        <?php
-    
-    ?>
+
     </div>
     <br>
     <form method="post">
@@ -259,6 +257,7 @@ if($_SESSION['userrole']=="admin"){
             </div>
             <div class="row">
                 <?php
+
 $fullTotal=0;
 $discountValue = 0;
 $rangeTotal=0;
@@ -393,11 +392,30 @@ foreach($billNOArray as $index =>$value){
          </button>
         </td>
         <td >
-        <button type='submit' name='deleteinvoiceaccesories' class='btn btn-danger' value='".$value['billNo']."'>
+        <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#exampleModal".$value['billNo']."'>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='currentColor' class='w-6 h-6'>
   <path fill-rule='evenodd' d='M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z' clip-rule='evenodd' />
 </svg>
          </button>
+
+    
+     <div class='modal fade' id='exampleModal".$value['billNo']."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+       <div class='modal-dialog'>
+         <div class='modal-content'>
+           <div class='modal-header'>
+             <h1 class='modal-title text-dark fs-5' id='exampleModalLabel'>Item Delete</h1>
+             <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+           </div>
+           <div class='modal-body'>
+             // <b class='text-dark'>Do you want to delete this Bill Number ".$value['billNo']."?</b>
+           <div class='modal-footer'>
+             <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+             <button type='submit' name='deleteinvoiceaccesories' class='btn btn-danger' value='".$value['billNo']."'>Yes</button>
+           </div>
+         </div>
+       </div>
+     </div>
+
         </td>
         ";
        echo " </tr>";
@@ -448,11 +466,32 @@ foreach($billNOArray as $index =>$value){
           <td>".$value['itemName']."</td>
           <td>Rs. ".$value['itemAmount']."</td>
           <td >
-          <button type='submit' name='deleteinvoicereload' class='btn btn-danger' value='".$value['billNo']."'>
-          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='currentColor' class='w-6 h-6'>
-          <path fill-rule='evenodd' d='M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z' clip-rule='evenodd' />
-        </svg>
-           </button>
+         
+
+           <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#exampleModal".$value['billNo']."'>
+           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='currentColor' class='w-6 h-6'>
+     <path fill-rule='evenodd' d='M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z' clip-rule='evenodd' />
+   </svg>
+            </button>
+   
+       
+        <div class='modal fade' id='exampleModal".$value['billNo']."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+          <div class='modal-dialog'>
+            <div class='modal-content'>
+              <div class='modal-header'>
+                <h1 class='modal-title text-dark fs-5' id='exampleModalLabel'>Item Delete</h1>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+              </div>
+              <div class='modal-body'>
+                // <b class='text-dark'>Do you want to delete this Bill Number ".$value['billNo']."?</b>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                <button type='submit' name='deleteinvoicereload' class='btn btn-danger' value='".$value['billNo']."'>Yes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+   
           </td>
           </tr>";}
         echo "
@@ -809,11 +848,37 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                     echo "</td>";
                    echo " <td>".$value['amount']."</td>
                    <td >
-          <button type='submit' name='deleteinvoiceprintOthers' class='btn btn-danger' value='".$value['ItemNo']."'>
+          <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#exampleModal".$value['ItemNo']."'>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='currentColor' class='w-6 h-6'>
           <path fill-rule='evenodd' d='M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z' clip-rule='evenodd' />
         </svg>
            </button>
+
+     
+      <div class='modal fade' id='exampleModal".$value['ItemNo']."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+        <div class='modal-dialog'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <h1 class='modal-title text-dark fs-5' id='exampleModalLabel'>Item Delete</h1>
+              <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+            </div>
+            <div class='modal-body'>
+              // <b class='text-dark'>Do you want to delete this Bill Number ".$value['ItemNo']."?</b>
+            <div class='modal-footer'>
+              <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+              <button type='submit' name='deleteinvoiceprintOthers' class='btn btn-danger' value='".$value['ItemNo']."'>Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
           </td>";
                    
                    echo " </tr>";
