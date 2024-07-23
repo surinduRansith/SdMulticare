@@ -57,6 +57,15 @@ include("header.php");
                     </div>
                 </a>
             </div>
+            <div class="col">
+                <a href="qutation.php" style="text-decoration:none"> <img src="./assets/Images/quote.png" alt="report"
+                        class="img-fluid rounded-5" style="width:250px; height: 250px;">
+
+                    <div style="padding-top: 10px;">
+                        <p class="fw-bold fs-2  text-dark  ">Qutation</p>
+                    </div>
+                </a>
+            </div>
         </div>
 
 

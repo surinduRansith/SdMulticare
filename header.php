@@ -73,7 +73,12 @@ if (isset($_POST['submit'])) {
                     </a>
 
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link  text-white " href="qutation.php">
+                       Qutation
+                    </a>
 
+                </li>
                 <?php echo $userCreateButton; ?>
 
 
