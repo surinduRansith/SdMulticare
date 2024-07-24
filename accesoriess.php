@@ -45,7 +45,9 @@ $fullTotal1=0;
 $downloadInvoice="";
 $clearInvoice = "";
 $closeButton = "";
+$subTotal = 0;
 $stockdata = insertStockData($conn);
+$discountValue=0;
 
 $stockArray = array();
 $cartList = array();
@@ -163,6 +165,7 @@ if(isset($_POST['itemadd'])){
     $total = $quantity*$stockArray[$index]['SellingPrice'];
     $note =$_POST['note'][$index];
     $fullTotal1 = $fullTotal1+intval($total);
+    $subTotal = $subTotal+intval($total);
 //echo $_POST['note'][$index];
      itemQtyUpdate($itemNo1,$quantity,$conn);
     
@@ -430,6 +433,20 @@ $notetest="-";
     echo "<tr>
     <td></td>
     <td></td>
+    <td></td>
+    <td>Sub Total</td>
+    <td>Rs. ".$subTotal."</td>
+    <td></td>
+    <td>
+    
+    </td>
+
+</tr>";
+
+
+    echo "<tr>
+    <td></td>
+    <td></td>
     <td>Discount</td>
     
     <td>
@@ -439,7 +456,7 @@ $notetest="-";
         <option  value='presentage'>Presentage(%)</option>
         </select>
           </div></td>
-    <td><input type='number' name='discount' value='0'></td>
+    <td><input type='number' name='discount' value='".$discountValue."'></td>
     <td></td>
     <td>
     

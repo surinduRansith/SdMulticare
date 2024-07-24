@@ -78,6 +78,7 @@ $customerDetails =getCustomerDetails($billID,$conn);
 $itemCount =0;
 $fullTotal=0;
 $discountValue = 0;
+$subTotal= 0;
 
 
         $mobileNumber = "0705161216,0763030377";
@@ -90,7 +91,20 @@ $discountValue = 0;
 use Mpdf\Mpdf;
 
 // Instantiate Mpdf object
-$mpdf = new Mpdf();
+$mpdf = new Mpdf([
+  'format' => 'A4',
+  'margin_bottom' => 15, // Adjust as needed
+]);
+
+$mpdf->SetFooter('
+<footer>
+<div style="text-align: center; padding: 10px; background-color: #f1f1f1;">
+    <p style="color:red">All sales are final. No refunds will be issued for any payments made</p>
+    <p>Thank you for considering our services!</p>
+    <p>For any inquiries, please contact us.</p>
+</div>
+</footer>
+');
 
 // HTML content for PDF
 $html= '<style>
@@ -135,11 +149,15 @@ if($customerDetails->num_rows > 0){
  
  $html.='
 </tr>
-</table><br><br>';
+</table>';
 
+$html.='<div class="text"><h1 >Invoice</h1></div>';
 
   $html.= '<head>
   <style>
+  .text{
+    text-align: center;
+  }
   .tb2{
     border:1px solid black;
     border-collapse: collapse;
@@ -188,13 +206,18 @@ if($customerDetails->num_rows > 0){
                             <td class="tb2" >'.$row['itemQty'].'</td>
                             <td class="tb2" >Rs.'.$row['subTotal'].'</td> </tr>';
                             $discountValue = $row['discount'] ;
+
+                            $subTotal=$row['Total'];
                             if($row['discounttype']=="presentage"){
                             if( $discountValue<=0){
                               $disctype=" ";
                                 $fullTotal = $row['Total']; 
+                                
                             }else{
                                $disctype = "(%)";
                                 $fullTotal = $row['Total']; 
+
+                                
                                 $discountPrice = ($fullTotal*$discountValue)/100;
                                 
                                 $fullTotal = $fullTotal-$discountPrice;
@@ -219,6 +242,11 @@ if($customerDetails->num_rows > 0){
                 
                         }
                     }
+
+                    $html .=  '
+                    <tr class="tb2">
+                      <td class="tb2" colspan ="5">Sub Total</td>
+                    <td class="tb2">'. $subTotal.'</td> </tr>';
                     
                     $html .=  '
                     <tr class="tb2">
@@ -233,7 +261,7 @@ if($customerDetails->num_rows > 0){
                     </tbody>';
               $html.= "</table>";
 
-              $html .=  ' </style><h2 style="text-align: center;"> Thank you Come Again ! </h2>';
+
 
 
 

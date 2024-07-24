@@ -50,9 +50,14 @@ $mpdf->SetFooter('
 ');
 
 // HTML content for PDF
+
+
 $html= '<style>
 .tb1 {
   border-style: none;
+}
+.text{
+  text-align: center;
 }
 </style><table class="tb1">
 <tr >
@@ -61,9 +66,12 @@ $html= '<style>
 <h3> '.$Email.' </h3>
 <h3>'.$mobileNumber.' </h3></td>
 <td>'.$companyImage.'</td>
-</tr>
+</tr>';
+
+
+$html.='<tr >
 <tr >
-<td><h3>Bill Number :- '.$quoteNumber .'</h3>';
+<td><h3>Quotation Number :- '.$quoteNumber .'</h3>';
 
  $html.='<td><h3>Date:- '.date('Y-m-d').'</h3>';
 
@@ -80,7 +88,9 @@ $html.='</tr>
  
  $html.='
 </tr>
-</table><br><br>';
+</table>';
+
+$html.='<div class="text"><h1 >Quotation</h1></div>';
 
 
   $html.= '<head>
