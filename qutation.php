@@ -46,6 +46,8 @@ $downloadInvoice="";
 $clearInvoice = "";
 $closeButton = "";
 $stockdata = insertStockData($conn);
+$subTotal=0;
+$discountValue=0;
 
 
 $stockArray = array();
@@ -163,6 +165,7 @@ if(isset($_POST['itemadd'])){
     $total = $quantity*$stockArray[$index]['SellingPrice'];
     $note =$_POST['note'][$index];
     $fullTotal1 = $fullTotal1+intval($total);
+    $subTotal = $subTotal+intval($total);
 //echo $_POST['note'][$index];
     // itemQtyUpdate($itemNo1,$quantity,$conn);
     
@@ -234,7 +237,7 @@ if(isset($_POST['itemadd'])){
   if($quoteNb>0){
 
   $itemNoarry = array();
-  $fullTotal1 = 0; 
+  
   $custonmerName=$_POST['customerName'];
 $phoneNumber=$_POST['phoneNumber'];
   foreach($cartList as $index) {
@@ -252,7 +255,8 @@ $phoneNumber=$_POST['phoneNumber'];
           'sellingprice'=>$stockArray[$index]['SellingPrice'],
           'total' => $total,
           'note' => $_POST['note'][$index],
-          'fulltotal' => $fullTotal1,
+          'subtotal'=> $subTotal,
+          'fulltotal' => $fullTotal,
           'quoteNumber' =>$quoteNb,
           'customerName' =>$custonmerName,
           'customerNumber' =>$phoneNumber
@@ -459,11 +463,26 @@ $notetest="-";
 
     </tr>";
 
+   
+
     foreach($cartList as $index){
 
       echo "<input type='hidden' name='cartList[]' value='$index'>";
 
     }
+
+    echo "<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Sub Total</td>
+    <td>Rs. ".$subTotal."</td>
+    <td></td>
+    <td>
+    
+    </td>
+
+</tr>";
 
     echo "<tr>
     <td></td>
@@ -477,7 +496,7 @@ $notetest="-";
         <option  value='presentage'>Presentage(%)</option>
         </select>
           </div></td>
-    <td><input type='number' name='discount' value='0'></td>
+    <td><input type='number' name='discount' value='".$discountValue."'></td>
     <td></td>
     <td>
     
@@ -527,7 +546,7 @@ $notetest="-";
     $(document).ready(function() {
         $('#myTable').DataTable({
 
-            "lengthMenu": [3,5,10]
+            "lengthMenu": [5,10]
 
         });
 

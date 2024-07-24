@@ -129,7 +129,12 @@ if (is_array($itemNoArray)) {
                             <td class="tb2" >'.htmlspecialchars($item['note']).'</td>
                             <td class="tb2" >'.htmlspecialchars($item['itemqty']).'</td>
                             <td class="tb2" >Rs.'.htmlspecialchars($item['total']).'</td> </tr>';
-  }}    
+  }} 
+
+  $html .=  '
+                    <tr class="tb2">
+                      <td class="tb2" colspan ="5">Sub Total</td>
+                    <td class="tb2">'. htmlspecialchars($item['subtotal']).'</td> </tr>';
                     $html .=  '
                     <tr class="tb2">
                       <td class="tb2" colspan ="5">Discount</td>

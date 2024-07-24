@@ -489,7 +489,7 @@ echo $downloadInvoice;
     $(document).ready(function() {
         $('#myTable').DataTable({
 
-            "lengthMenu": [3,5,10]
+            "lengthMenu": [10]
 
         });
 
