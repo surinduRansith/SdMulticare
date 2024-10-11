@@ -178,7 +178,7 @@ $html.='<div class="text"><h1 >Invoice</h1></div>';
   
   </style><table class="tb2" >
   <tr class="tb2">
-  <th class="tb2">ITEM NO/th>
+  <th class="tb2">ITEM NO</th>
   <th class="tb2">ITEM NAME</th>
   <th class="tb2">SELING PRICE</th>
   <th class="tb2"> NOTE</th>
@@ -195,13 +195,13 @@ $html.='<div class="text"><h1 >Invoice</h1></div>';
             while($row = mysqli_fetch_array($itemList,MYSQLI_ASSOC)){
        
 
-                $html .=  '<tr class="tb2">
-                            <td class="tb2" >'.$row['ItemNo'].'</td>
-                            <td class="tb2" >'. $row['ItemName'].'</td>
-                            <td class="tb2" >Rs.'.$row['SellingPrice'].'</td>
-                            <td class="tb2" >'.$row['note'].'</td>
-                            <td class="tb2" >'.$row['itemQty'].'</td>
-                            <td class="tb2" >Rs.'.$row['subTotal'].'</td> </tr>';
+                $html .=  '<tr >
+                            <td  >'.$row['ItemNo'].'</td>
+                            <td  >'. $row['ItemName'].'</td>
+                            <td  >Rs.'.$row['SellingPrice'].'</td>
+                            <td  >'.$row['note'].'</td>
+                            <td  >'.$row['itemQty'].'</td>
+                            <td  >Rs.'.$row['subTotal'].'</td> </tr>';
                             $discountValue = $row['discount'] ;
                             $subTotal=$row['Total'];
                             if($row['discounttype']=="presentage"){

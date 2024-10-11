@@ -89,6 +89,16 @@ if(isset($_POST['printandOthersprint'])){
 
 
 }
+if(isset($_POST['temperdGlasList'])){
+
+  $startDate = $_POST['startDate'];
+  $endDate = $_POST['endDate']; 
+
+  $url = "/sd_multicare/reportsPdf/temperdGlasList.php?startdate=$startDate&enddate= $endDate";
+  echo "<script>window.open('$url', '_blank');</script>";
+
+
+}
 
 
 include("header.php");
@@ -99,6 +109,7 @@ $billNOArrayAll = array();
 $reloadBillArray = array();
 $accesoriesitemArray = array();
 $printOthersArray = array();
+$allitemqtylist = array();
 $accesoriesamount=0;
 $reportType;
 $submited = "";
@@ -194,6 +205,22 @@ if(isset($_POST['search'])){
     
     }
   } 
+}elseif($_POST['reportType']==5){
+  
+  $allitemList = getAllItemListNote($startDate,$endDate,$conn);
+  if($allitemList->num_rows > 0){
+
+    while($row = mysqli_fetch_array($allitemList,MYSQLI_ASSOC)){
+
+      $allitemqtylist []  = array(
+        'ItemNo' => $row['ItemNo'],
+        'itemName' => $row['ItemName'],
+        'ItemQty' => $row['itemQty'],
+        'note'=> $row['note']);
+    }
+    
+  }
+  //print_r($allitemqtylist);
 }
 }else{
   $submited = true;
@@ -249,6 +276,7 @@ if($_SESSION['userrole']=="admin"){
                         <option value="2">All Item Bill</option>
                         <option value="3">Accesoriess Items</option>
                         <option value="4">Print & Others</option>
+                        <option value="5">Note Include Item Report</option>
                     </select>
                 </div>
                 <div class="col-2">
@@ -909,7 +937,47 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                 echo "
                 </tbody>
                 </table>";
-                }   
+                } elseif($_POST['reportType']=="5"){
+
+                  echo "<P class='fs-1'>  Note Include Item Report <P>";
+            echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+            echo " <div >
+            <button type='submit' name='temperdGlasList' class='btn btn-warning'>
+            <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
+            Save Report
+            </button>
+            </div>";
+
+                  echo "<table id='myTable' class='table table-striped table-dark'>";
+                  echo "<thead>
+                  <tr>
+                  <th >Bill No</th>
+                  <th >Item Name</th>
+                  <th >Item Qty</th>
+                  <th>Bill Note</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  ";
+
+              
+              foreach($allitemqtylist as $index => $value){
+                if($value['note']!="-"){
+                echo "<tr>
+                <td>".$value['ItemNo']."</td>
+                <td>".$value['itemName']."</td>
+                <td>".$value['ItemQty']."</td>
+                 <td>".$value['note']."</td>
+               
+                  <tr >";
+                }
+              }
+              echo "</tbody>
+              </table>";
+
+              
+                
+              }    
      } 
 }
 ?>
@@ -1010,6 +1078,7 @@ swal({
                         <option value="2">All Item Bill</option>
                         <option value="3">Accesoriess Items</option>
                         <option value="4">Print & Others</option>
+                        <option value="5">Note Include Item Report</option>
                     </select>
                 </div>
                 <div class="col-2">
@@ -1600,9 +1669,49 @@ swal({
                         echo "
                         </tbody>
                         </table>";
-                        }   
+                        }elseif($_POST['reportType']=="5"){
+
+                          echo "<P class='fs-1'>  Note Include Item Report <P>";
+                          echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
+                          echo " <div >
+                          <button type='submit' name='temperdGlasList' class='btn btn-warning'>
+                          <img src='./assets/Images/printreport.png' alt='invoice' class='img-fluid' style='width:35px; height: 35px;'>
+                          Save Report
+                          </button>
+                          </div>";
+              
+                                echo "<table id='myTable' class='table table-striped table-dark'>";
+                                echo "<thead>
+                                <tr>
+                                <th >Bill No</th>
+                                <th >Item Name</th>
+                                <th >Item Qty</th>
+                                <th>Bill Note</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                ";
+              
+                            
+                            foreach($allitemqtylist as $index => $value){
+                              if($value['note']!="-"){
+                              echo "<tr>
+                              <td>".$value['ItemNo']."</td>
+                              <td>".$value['itemName']."</td>
+                              <td>".$value['ItemQty']."</td>
+                               <td>".$value['note']."</td>
+                             
+                                <tr >";
+                              }
+                            }
+                            echo "</tbody>
+                            </table>";
+                        
+                      }  
              } 
         }
+
+    
         ?>
 
                 </tbody>
@@ -1610,6 +1719,66 @@ swal({
             </div>
         </div>
     </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>

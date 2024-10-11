@@ -521,14 +521,14 @@ $notetest="-";
     
     ?>
 <div class="container text-center">
-                        <button type="submit" name="itemadd" class="btn btn-success"> Add Bill </button>
+                        <button type="submit" name="itemadd" class="btn btn-success"> Generate Quote </button>
 
                         <?php  
 
 //echo $downloadInvoice;
 
     ?>
-                        <button type='submit' name='clearInvoice' class='btn btn-danger'> Clear Invoice</button>
+                        <button type='submit' name='clearInvoice' class='btn btn-danger'> Clear Quote</button>
 </div>
             </form>
             <?php

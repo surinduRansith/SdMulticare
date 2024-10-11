@@ -336,16 +336,19 @@ return $result;
 
     }
 
-//     function customerbillList($phoneNumber,$conn){
+function getAllItemListNote($startDate,$endDate,$conn){
 
-//         $sql ="SELECT cb.`customerbillid`, cb.`customerid`, cb.`billNo`, c.`name`, c.`phonenumber` 
-//         FROM `customerbill` AS cb
-//         INNER JOIN `customer` AS c ON c.`customerid` = cb.`customerid` WHERE C.phonenumber=$phoneNumber";
+    $sql = "SELECT ab.billNo,ai.ItemNo,s.ItemName,ai.itemQty,ai.note,ab.date 
+    FROM accessoriesitem ai 
+    INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
+    INNER JOIN stock s ON ai.ItemNo = s.itemNo 
+    where ab.date BETWEEN '".$startDate."' AND '".$endDate."'";
 
-// $result = mysqli_query($conn,$sql);
-        
-// return $result;
+    $result= mysqli_query($conn,$sql);
 
-//     }
+    return $result;
+}
+
+
 
 ?>
