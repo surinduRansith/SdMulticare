@@ -276,7 +276,7 @@ if($_SESSION['userrole']=="admin"){
                         <option value="2">All Item Bill</option>
                         <option value="3">Accesoriess Items</option>
                         <option value="4">Print & Others</option>
-                        <option value="5">Note Include Item Report</option>
+                        <option value="5">Temperd Glass Report</option>
                     </select>
                 </div>
                 <div class="col-2">
@@ -939,7 +939,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                 </table>";
                 } elseif($_POST['reportType']=="5"){
 
-                  echo "<P class='fs-1'>  Note Include Item Report <P>";
+                  echo "<P class='fs-1'>  Temperd Glass Report <P>";
             echo "<P class='fs-3'> ".$startDate." To ".$endDate." <P>";
             echo " <div >
             <button type='submit' name='temperdGlasList' class='btn btn-warning'>
@@ -1078,7 +1078,7 @@ swal({
                         <option value="2">All Item Bill</option>
                         <option value="3">Accesoriess Items</option>
                         <option value="4">Print & Others</option>
-                        <option value="5">Note Include Item Report</option>
+                        <option value="5">Temperd Glass Report</option>
                     </select>
                 </div>
                 <div class="col-2">

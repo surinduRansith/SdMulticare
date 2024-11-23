@@ -21,6 +21,9 @@ function getItemCountofsale($startDate,$endDate,$conn){
     INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
     INNER JOIN stock s ON ai.ItemNo = s.itemNo 
     where ab.date BETWEEN '".$startDate."' AND '".$endDate."' 
+    AND ai.ItemNo = 'SPD-002'
+    OR ai.ItemNo = 'TM-000'
+    OR ai.ItemNo = 'TM-002'  ;
 ";
     
     $result = mysqli_query($conn,$sql);
@@ -33,7 +36,7 @@ function getItemCountofsale($startDate,$endDate,$conn){
 
 
     $companyName ="SD Multicare House Report";
-    $reportType = "Note Include Item Report";
+    $reportType = "Temperd Glass Report";
     $companyImage = "<img src='../assets/Images/sdlogo.jpeg'  style='width:150px; height: 150px;'>";
 
 // Import Mpdf class
