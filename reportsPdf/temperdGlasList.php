@@ -16,14 +16,26 @@ if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
 }
 function getItemCountofsale($startDate,$endDate,$conn){
 
-    $sql = "SELECT ab.billNo,ai.ItemNo,s.ItemName,ai.itemQty,ai.note,ab.date 
-    FROM accessoriesitem ai 
-    INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
-    INNER JOIN stock s ON ai.ItemNo = s.itemNo 
-    where ab.date BETWEEN '".$startDate."' AND '".$endDate."' 
-    AND ai.ItemNo = 'SPD-002'
-    OR ai.ItemNo = 'TM-000'
-    OR ai.ItemNo = 'TM-002'  ;
+    $sql = "SELECT 
+    ab.billNo, 
+    ai.ItemNo, 
+    s.ItemName, 
+    ai.itemQty, 
+    ai.note, 
+    ab.date 
+FROM 
+    accessoriesitem ai 
+INNER JOIN 
+    accessoriesbill ab ON ai.billNo = ab.billNo
+INNER JOIN 
+    stock s ON ai.ItemNo = s.itemNo 
+WHERE 
+    ab.date BETWEEN '".$startDate."' AND '".$endDate."' 
+    AND (
+        ai.ItemNo = 'SPD-002' 
+        OR ai.ItemNo = 'TM-000' 
+        OR ai.ItemNo = 'TM-002'
+    );  
 ";
     
     $result = mysqli_query($conn,$sql);
@@ -90,6 +102,7 @@ $html= '<style>
    <th >Item Name</th>
    <th >Item Qty</th>
    <th>Bill Note</th>
+   <th>Bill Date</th>
   </tr>
  
   <tbody>
@@ -117,6 +130,7 @@ $html= '<style>
                             <td class="tb2" >'.$row['ItemName'].'</td>
                             <td class="tb2" >'.$row['itemQty'].'</td>
                              <td class="tb2" >'.$row['note'].'</td>
+                             <td class="tb2" >'.$row['date'].'</td>
                          </tr> ';
                 }
                          

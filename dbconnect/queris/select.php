@@ -338,14 +338,26 @@ return $result;
 
 function getAllItemListNote($startDate,$endDate,$conn){
 
-    $sql = "SELECT ab.billNo,ai.ItemNo,s.ItemName,ai.itemQty,ai.note,ab.date 
-    FROM accessoriesitem ai 
-    INNER JOIN accessoriesbill ab ON ai.billNo=ab.billNo
-    INNER JOIN stock s ON ai.ItemNo = s.itemNo 
-    where ab.date BETWEEN '".$startDate."' AND '".$endDate."'
-    AND ai.ItemNo = 'SPD-002'
-    OR ai.ItemNo = 'TM-000'
-    OR ai.ItemNo = 'TM-002'  ;";
+    $sql = "SELECT 
+    ab.billNo, 
+    ai.ItemNo, 
+    s.ItemName, 
+    ai.itemQty, 
+    ai.note, 
+    ab.date 
+FROM 
+    accessoriesitem ai 
+INNER JOIN 
+    accessoriesbill ab ON ai.billNo = ab.billNo
+INNER JOIN 
+    stock s ON ai.ItemNo = s.itemNo 
+WHERE 
+    ab.date BETWEEN '".$startDate."' AND '".$endDate."' 
+    AND (
+        ai.ItemNo = 'SPD-002' 
+        OR ai.ItemNo = 'TM-000' 
+        OR ai.ItemNo = 'TM-002'
+    ); ";
 
     $result= mysqli_query($conn,$sql);
 

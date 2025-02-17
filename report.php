@@ -216,7 +216,8 @@ if(isset($_POST['search'])){
         'ItemNo' => $row['ItemNo'],
         'itemName' => $row['ItemName'],
         'ItemQty' => $row['itemQty'],
-        'note'=> $row['note']);
+        'note'=> $row['note'],
+        'date'=> $row['date']);
     }
     
   }
@@ -955,6 +956,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                   <th >Item Name</th>
                   <th >Item Qty</th>
                   <th>Bill Note</th>
+                  <th>Bill Date</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -968,6 +970,7 @@ $accesoriesamount = $accesoriesamount+ $fullTotal;
                 <td>".$value['itemName']."</td>
                 <td>".$value['ItemQty']."</td>
                  <td>".$value['note']."</td>
+                 <td>".$value['date']."</td>
                
                   <tr >";
                 }
@@ -1687,6 +1690,7 @@ swal({
                                 <th >Item Name</th>
                                 <th >Item Qty</th>
                                 <th>Bill Note</th>
+                                <th>Bill Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -1700,6 +1704,7 @@ swal({
                               <td>".$value['itemName']."</td>
                               <td>".$value['ItemQty']."</td>
                                <td>".$value['note']."</td>
+                               <td>".$value['date']."</td>
                              
                                 <tr >";
                               }
