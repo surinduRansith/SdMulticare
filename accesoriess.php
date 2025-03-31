@@ -538,14 +538,7 @@ swal({
     button: "ok",
 });
 </script>
-<script>
-document.getElementById("test").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Prevents default form submission behavior
-        document.getElementById("testid").click(); // Clicks the "Add" button
-    }
-});
-</script>
+
 <script>
 document.getElementById("invoiceForm").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
