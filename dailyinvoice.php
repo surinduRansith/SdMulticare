@@ -163,34 +163,32 @@ if (isset($_POST["closebutton"])) {
                                 </div>
                                 <div class="modal-body">
 
-                                    <form method="post">
-                                    <div class="col input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Date</span>
-                            <input id="date" type="date" class="form-control" aria-label="Date"
-                                name="billDate" value="<?php echo date('Y-m-d'); ?>" >
-                        </div>
+                                <form method="post" id="reloadForm">
+    <div class="col input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Date</span>
+        <input id="date" type="date" class="form-control" aria-label="Date" name="billDate"
+            value="<?php echo date('Y-m-d'); ?>">
+    </div>
 
-                                        <div class="mb-3">
-                                            <select class="form-select form-select-sm mb-3"
-                                                aria-label="Large select example" name="data">
-                                                <option value="Dialog">Dialog</option>
-                                                <option value="Mobitel">Mobitel</option>
-                                                <option value="Hutch">Hutch</option>
-                                                <option value="Airtel">Airtel</option>
-                                            </select>
-                                        </div>
-                                        <div class="col input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Amount</span>
-                                            <input type="float" name="reloadAmount" class="form-control "
-                                                placeholder="Please enter the Amount">
+    <div class="mb-3">
+        <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="data">
+            <option value="Dialog">Dialog</option>
+            <option value="Mobitel">Mobitel</option>
+            <option value="Hutch">Hutch</option>
+            <option value="Airtel">Airtel</option>
+        </select>
+    </div>
 
-                                        </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
-                                        name="closebutton">Close</button>
-                                    <button type="submit" name="submitreload" class="btn btn-primary">Add</button>
-                                    </form>
+    <div class="col input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Amount</span>
+        <input type="number" name="reloadAmount" class="form-control" placeholder="Please enter the Amount" id="amountInput">
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closebutton">Close</button>
+        <button type="submit" name="submitreload" class="btn btn-primary" id="submitButton">Add</button>
+    </div>
+</form>
                                 </div>
                             </div>
                         </div>
@@ -226,39 +224,35 @@ if (isset($_POST["closebutton"])) {
                                 </div>
                                 <div class="modal-body">
 
-                                    <form method="post">
+                                <form method="post" id="printForm">
 
-                                    <div class="col input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Date</span>
-                            <input id="date" type="date" class="form-control" aria-label="Date"
-                                name="billDate" value="<?php echo date('Y-m-d'); ?>" >
-                        </div>
+<div class="col input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Date</span>
+    <input id="date" type="date" class="form-control" aria-label="Date" name="billDate" value="<?php echo date('Y-m-d'); ?>">
+</div>
 
-                                        <div class="mb-3">
-                                            <select class="form-select form-select-sm mb-3"
-                                                aria-label="Large select example" name="dataprint">
-                                                <option value="Print">Print</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="col input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Note</span>
-                                            <input type="text" name="printOtherNote" class="form-control "
-                                                placeholder="Please enter the Note">
+<div class="mb-3">
+    <select class="form-select form-select-sm mb-3" aria-label="Large select example" name="dataprint">
+        <option value="Print">Print</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
 
-                                        </div>
-                                        <div class="col input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">Amount</span>
-                                            <input type="float" name="printAmount" class="form-control "
-                                                placeholder="Please enter the Amount">
+<div class="col input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Note</span>
+    <input type="text" name="printOtherNote" class="form-control" placeholder="Please enter the Note">
+</div>
 
-                                        </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
-                                        name="closebutton">Close</button>
-                                    <button type="submit" name="submitprint" class="btn btn-primary">Add</button>
-                                    </form>
+<div class="col input-group mb-3">
+    <span class="input-group-text" id="basic-addon1">Amount</span>
+    <input type="number" name="printAmount" class="form-control" placeholder="Please enter the Amount">
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="closebutton">Close</button>
+    <button type="submit" name="submitprint" class="btn btn-primary" id="submitButtonPrint">Add</button>
+</div>
+</form>
                                 </div>
                             </div>
                         </div>
@@ -308,6 +302,24 @@ if (isset($_POST["closebutton"])) {
                 </script>
                 <?php }
         } ?>
+
+<script>
+document.getElementById("printForm").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevents form from submitting automatically
+        document.getElementById("submitButtonPrint").click(); // Clicks the "Add" button
+    }
+});
+</script>
+
+<script>
+document.getElementById("reloadForm").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Prevents default form submission behavior
+        document.getElementById("submitButton").click(); // Clicks the "Add" button
+    }
+});
+</script>
 </body>
 
 </html>
